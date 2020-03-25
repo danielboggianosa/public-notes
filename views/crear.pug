@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh", crossorigin="anonymous")
+        title Notas APP
+    body
+        .container
+        h1 Crear nueva Nota
+        .card.shwdow.m-4
+            .card-body
+                form(action="", method="POST")
+                    input.form-control.mb-4(type="text", name="titulo", placeholder="Título")
+                    textarea.form-control.mb-4(name="contenido", cols="30", rows="10", placeholder="Contenido de la nota")
+                    button.btn.btn-success(type="submit") Publicar
+            
