@@ -4,14 +4,56 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh", crossorigin="anonymous")
+        script(src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous")
         title Notas APP
     body
         .container
-        h1 Crear nueva Nota
-        .card.shwdow.m-4
-            .card-body
-                form(action="", method="POST")
-                    input.form-control.mb-4(type="text", name="titulo", placeholder="Título")
-                    textarea.form-control.mb-4(name="contenido", cols="30", rows="10", placeholder="Contenido de la nota")
-                    button.btn.btn-success(type="submit") Publicar
+            nav.navbar.navbar-expand.bg-light
+                ul.navbar-nav
+                    li.nav-item
+                        a.nav-link(href="/") Notas
+                    li.nav-item 
+                        a.nav-link(href="/crear") Crear
+            h1 Crear nueva Nota
             
+            p.alert.alert-success.d-none#success
+            .card.shwdow
+                .card-body
+                    form#nuevaNota
+                        input.form-control.mb-4(type="text", name="titulo", placeholder="Título")
+                        span.text-secondary.small Para escribir un enlace debes anteponer "a::". Ejemplo: "a::http://google.com"
+                        textarea.form-control.mb-4(name="contenido", cols="30", rows="10", placeholder="Contenido de la nota", required="true")
+                        button.btn.btn-success#buttonForm(type="submit") Publicar
+    footer
+        script.
+            $(document).ready(()=>$("input[name='titulo']").focus())
+            var success = false
+            $("#nuevaNota").on('submit', (e)=>{
+                e.preventDefault()
+                var data = {                
+                    titulo: $("input[name='titulo']").val(),
+                    contenido: $("textarea[name='contenido']").val(),
+                }
+                
+                console.log(data)
+                $.ajax({
+                    url:"/api/notas",
+                    type: "POST",
+                    data: data,
+                    success: (res)=>{
+                        console.log(res)
+                        $("#success").html(res.message)
+                        $("#success").toggleClass('d-none')
+                        if(res.success)
+                            location.replace('/')
+                    }
+                })
+            })
+            //- $("textarea[name='contenido']").change((e)=>{
+            //-     var value = e.target.value
+            //-     var tag = value.split('::')[0]
+            //-     var link = value.split('::')[1]
+            //-     if(tag=='a')
+            //-         $("textarea[name='contenido']").val('<a href="'+link+'">'+link+'</a>')
+            //- })
+                

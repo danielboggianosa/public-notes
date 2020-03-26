@@ -19,24 +19,35 @@ class IndexController {
         return __awaiter(this, void 0, void 0, function* () {
             const { titulo, contenido } = req.body;
             let raw = fs_1.default.readFileSync('notes.json');
-            let notas = JSON.parse(raw);
+            let json = JSON.parse(raw);
+            let notas = json.notas;
+            json.lastId++;
             let newNote = {
+                id: json.lastId,
                 titulo: titulo,
                 contenido: contenido,
-                createdAt: new Date(),
-                expires: "24h"
+                createdAt: new Date()
             };
-            notas.notas.push(newNote);
-            fs_1.default.writeFileSync('notes.json', notas);
-            res.render('index', notas);
+            notas.push(newNote);
+            let write = JSON.stringify(json);
+            fs_1.default.writeFileSync('notes.json', write);
+            res.json({ success: true, message: "Nota Creada" });
         });
     }
     //READ
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             let raw = fs_1.default.readFileSync('notes.json');
-            let notas = JSON.parse(raw);
-            res.render('index', notas);
+            let json = JSON.parse(raw);
+            let notas = json.notas;
+            notas.forEach((n, index) => {
+                let creado = new Date(n.createdAt).getHours();
+                let now = new Date().getHours();
+                if ((now - creado) > 24)
+                    notas.splice(index, 1);
+            });
+            notas.reverse();
+            res.render('index', json);
         });
     }
     //READ
@@ -54,9 +65,23 @@ class IndexController {
         });
     }
     //DELTE
-    delte(req, res) {
+    delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.json({ message: 'Accediendo al método BORRAR' });
+            const { index } = req.params;
+            let raw = fs_1.default.readFileSync('notes.json');
+            let json = JSON.parse(raw);
+            let notas = json.notas;
+            let end = false;
+            for (let i = 0; i < notas.length; i++) {
+                // console.log(notas[i].id,i,index)
+                if (notas[i]['id'] == index) {
+                    notas.splice(i, 1);
+                    let write = JSON.stringify(json);
+                    fs_1.default.writeFileSync('notes.json', write);
+                    res.json({ success: true });
+                    break;
+                }
+            }
         });
     }
 }

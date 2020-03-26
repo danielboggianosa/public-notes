@@ -8,23 +8,34 @@ class IndexController{
     public async create(req:Request, res:Response): Promise<void>{
         const {titulo, contenido} = req.body
         let raw:any = fs.readFileSync('notes.json')
-        let notas = JSON.parse(raw)
+        let json = JSON.parse(raw)
+        let notas = json.notas
+        json.lastId++
         let newNote = {
+            id:json.lastId,
             titulo: titulo,
             contenido: contenido,
-            createdAt: new Date(),
-            expires: "24h"
+            createdAt: new Date()
         }
-        notas.notas.push(newNote)
-        fs.writeFileSync('notes.json', notas)
-        res.render('index',notas)
+        notas.push(newNote)
+        let write = JSON.stringify(json)
+        fs.writeFileSync('notes.json', write)
+        res.json({success:true,message:"Nota Creada"})
     }
     
     //READ
     public async read(req:Request, res:Response): Promise<void>{
         let raw:any = fs.readFileSync('notes.json')
-        let notas = JSON.parse(raw)
-        res.render('index',notas)
+        let json = JSON.parse(raw)
+        let notas = json.notas
+        notas.forEach((n:any, index:number)=>{
+            let creado = new Date(n.createdAt).getHours()
+            let now = new Date().getHours()
+            if((now - creado) > 24)
+                notas.splice(index, 1)
+        })
+        notas.reverse();
+        res.render('index',json)
     }
 
     //READ
@@ -40,8 +51,22 @@ class IndexController{
     }
     
     //DELTE
-    public async delte(req:Request, res:Response): Promise<void>{
-        res.json({message: 'Accediendo al método BORRAR'});
+    public async delete(req:Request, res:Response): Promise<void>{
+        const {index} = req.params
+        let raw:any = fs.readFileSync('notes.json')
+        let json = JSON.parse(raw)
+        let notas = json.notas;
+        let end = false
+        for(let i=0;i<notas.length;i++){
+            // console.log(notas[i].id,i,index)
+            if(notas[i]['id'] == index){
+                notas.splice(i,1)
+                let write = JSON.stringify(json)
+                fs.writeFileSync('notes.json', write)
+                res.json({success:true})
+                break
+            }
+        }
     }
 
 
