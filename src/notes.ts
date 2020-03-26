@@ -17,7 +17,7 @@ class Server {
     }
 
     config(){
-        this.app.set('port', 4500);
+        this.app.set('port', 4600);
         this.app.set('view engine', 'pug');
         this.app.use(morgan('dev'));
         this.app.use(cors());

@@ -16,7 +16,7 @@ class Server {
         // this.db_config()
     }
     config() {
-        this.app.set('port', 4500);
+        this.app.set('port', 4600);
         this.app.set('view engine', 'pug');
         this.app.use(morgan_1.default('dev'));
         this.app.use(cors_1.default());
