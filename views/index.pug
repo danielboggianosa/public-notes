@@ -16,6 +16,15 @@ html(lang="en")
                     li.nav-item 
                         a.nav-link(href="/crear") Crear
             h1 Notas
+            input.form-control#buscar(type="search", name="buscar", placeholder="Filtrar")
+            textarea.d-none#notas=JSON.stringify(notas)
+            script.
+                $("#buscar").keyup((e)=>{
+                    let value = e.target.value
+                    let notas = eval($("#notas").val())
+                    notas.filter(n=>n.titulo.toLowerCase().includes(value.toLowerCase()))
+                    console.log(notas)
+                })
             if notas.length == 0
                 i.fa.fa-plus
                 a.btn.btn-link(href="/crear") Crear una nota
@@ -55,3 +64,4 @@ html(lang="en")
                 }
             })
         })
+        
