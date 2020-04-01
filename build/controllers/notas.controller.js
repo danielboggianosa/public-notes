@@ -13,24 +13,43 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
-class IndexController {
+class NotasController {
     //CREATE
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { titulo, contenido } = req.body;
+            let raw = fs_1.default.readFileSync('notes.json');
+            let json = JSON.parse(raw);
+            let notas = json.notas;
+            json.lastId++;
+            let newNote = {
+                id: json.lastId,
+                titulo: titulo,
+                contenido: contenido,
+                createdAt: new Date()
+            };
+            notas.push(newNote);
+            let write = JSON.stringify(json, null, "\t");
+            fs_1.default.writeFileSync('notes.json', write);
+            res.json({ success: true, message: "Nota Creada" });
         });
     }
     //READ
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.render('index');
-        });
-    }
-    //READ
-    crear(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
+            const { buscar } = req.params;
             let raw = fs_1.default.readFileSync('notes.json');
-            let notas = JSON.parse(raw);
-            res.render('crear', notas);
+            let json = JSON.parse(raw);
+            let notas = json.notas;
+            json.notas.forEach((n, notas) => {
+                let creado = new Date(n.createdAt).getHours();
+                let now = new Date().getHours();
+                if ((now - creado) > 24)
+                    json.notas.splice(notas, 1);
+            });
+            if (buscar)
+                json.notas = notas.reverse().filter((n) => n.titulo.toLowerCase().includes(buscar.toLowerCase()) || n.contenido.toLowerCase().includes(buscar.toLowerCase()));
+            res.json(json.notas);
         });
     }
     //UPDATE
@@ -46,19 +65,18 @@ class IndexController {
             let raw = fs_1.default.readFileSync('notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
-            let end = false;
             for (let i = 0; i < notas.length; i++) {
-                // console.log(notas[i].id,i,index)
+                // console.log(notas[i].id,i,notas)
                 if (notas[i]['id'] == index) {
                     notas.splice(i, 1);
                     let write = JSON.stringify(json);
                     fs_1.default.writeFileSync('notes.json', write);
-                    res.json({ success: true });
+                    res.json({ success: true, notas: json.notas });
                     break;
                 }
             }
         });
     }
 }
-const indexController = new IndexController();
-exports.default = indexController;
+const notasController = new NotasController();
+exports.default = notasController;

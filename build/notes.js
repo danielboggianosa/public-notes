@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
+const notas_routes_1 = __importDefault(require("./routes/notas.routes"));
 // import notes from ('./notes.json');
 class Server {
     constructor() {
@@ -25,6 +26,7 @@ class Server {
     }
     routes() {
         this.app.use('/', index_routes_1.default);
+        this.app.use('/api/notas/', notas_routes_1.default);
     }
     start() {
         this.app.listen(this.app.get('port'), () => console.log('Servidor en el puerto', this.app.get('port')));

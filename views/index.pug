@@ -1,67 +1,90 @@
-<!DOCTYPE html>
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        link(href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh", crossorigin="anonymous")
-        script(src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous")
-        link(href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", rel="stylesheet", integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN", crossorigin="anonymous")
-        title Notas APP
-    body
-        .container
-            nav.navbar.navbar-expand
-                ul.navbar-nav
-                    li.nav-item
-                        a.nav-link(href="/") Notas
-                    li.nav-item 
-                        a.nav-link(href="/crear") Crear
-            h1 Notas
-            input.form-control#buscar(type="search", name="buscar", placeholder="Filtrar")
-            textarea.d-none#notas=JSON.stringify(notas)
-            script.
-                $("#buscar").keyup((e)=>{
-                    let value = e.target.value
-                    let notas = eval($("#notas").val())
-                    notas.filter(n=>n.titulo.toLowerCase().includes(value.toLowerCase()))
-                    console.log(notas)
-                })
-            if notas.length == 0
-                i.fa.fa-plus
-                a.btn.btn-link(href="/crear") Crear una nota
-            .row
-                each nota in notas
-                    .col-sm-6.p-1
-                        .card.shadow
-                            .card-header
-                                h5=nota.titulo
-                                    button.btn.float-right(id="delete_"+nota.id)
-                                        i.fa.fa-trash
-                            .card-body
-                                -var tag = nota.contenido.split('::')[0]
-                                if tag == 'a'
-                                    -var enlace = nota.contenido.split('::')[1]
-                                    a(href=enlace)=enlace
-                                else if tag == 'li'
-                                    -var lista = nota.contenido.split('li::')
-                                    ul.list-group
-                                        each item in lista
-                                            if item
-                                                li.list-group-item=item
-                                else
-                                    p=nota.contenido
-                            .card-footer
-                                -var creado=new Date(nota.createdAt)
-                                p.small=creado
+extends templates/public
+block content
+    h1 Notas
+    .input-group.mb-2.row
+        .input-group.prepend
+            .input-group-text
+                i.fa.fa-search
+        input.form-control#buscar(type="search", name="buscar", placeholder="Filtrar", onkeyup="notas.obtener(this.value)")
+            
+    .row#notas
+
     script.
-        $("[id*='delete_']").click((e)=>{
-            let index = e.currentTarget.id.split('_')[1]
-            $.ajax({
-                url:"/delete/"+index,
-                type:"DELETE",
-                success: (res)=>{
-                    if(res.success)
-                        location.reload()
+        class Notas {
+
+            notas
+
+            constructor(){
+                this.obtener()
+            }
+
+            _render(){
+                $('#notas').html('')
+                this.notas.reverse().forEach(n=>{
+                    $('#notas').append(`
+                        <div class="col-sm-6 p-1">
+                            <div class="card shadow">
+                                <div class="card-header">
+                                    <h5>${n.titulo}
+                                        <button class="btn float-right" onclick="notas.delete(${n.id})">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    ${this.processText(n.contenido)}
+                                </div>
+                                <div class="card-footer">
+                                    ${new Date(n.createdAt)}
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                })
+            }
+            
+            obtener(value=""){
+                $.ajax({
+                    url:"/api/notas/"+value,
+                    type:"GET",
+                    success: res=>{
+                        this.notas = res
+                        this._render()
+                    }
+                })
+            }
+
+            delete(value){
+                $.ajax({
+                    url:"/api/notas/"+value,
+                    type:"DELETE",
+                    success: (res)=>{
+                        if(res.success)
+                            this.notas = res.notas
+                        this._render()
+                    }
+                })
+            } 
+
+            processText(texto){
+                let tag = texto.split('::')[0]
+                switch(tag){
+                    case 'a':
+                        let enlace = texto.split('a::')[1]
+                        return `<a href="${enlace}">${enlace}</a>`
+                        break;
+                    case 'li':
+                        let lista=""
+                        texto.split('li::').forEach(li=>{
+                            if(li)
+                                lista +='<li class="list-group-item">'+this.processText(li)+'</li>'
+                        })
+                        let ul = '<ul class="list-group">'+lista+'</ul>'
+                        return ul
+                        break;
+                    default:
+                        return `${texto}`
                 }
-            })
-        })
-        
+            }           
+        }
+        const notas = new Notas()
