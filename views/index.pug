@@ -32,6 +32,12 @@ html(lang="en")
                                 if tag == 'a'
                                     -var enlace = nota.contenido.split('::')[1]
                                     a(href=enlace)=enlace
+                                else if tag == 'li'
+                                    -var lista = nota.contenido.split('li::')
+                                    ul.list-group
+                                        each item in lista
+                                            if item
+                                                li.list-group-item=item
                                 else
                                     p=nota.contenido
                             .card-footer
