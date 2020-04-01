@@ -1,0 +1,138 @@
+<main id="primary" class="site-main post-37624 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/privacy/" title="Privacy">Privacy</a></span> <span class="sep">/</span> <span class="trail-end">Adding the Personal Data Exporter to Your Plugin</span>
+		</div>
+		
+			
+<h1>Adding the Personal Data Exporter to Your Plugin</h1>
+
+
+<p>In WordPress 4.9.6, new tools were added to make compliance easier with laws like the European Union&#x2019;s General Data Protection Regulation, or GDPR for short. Among the tools added is a Personal Data Export tool which supports exporting all the personal data for a given user in a ZIP file. In addition to the personal data stored in things like WordPress comments, plugins can also hook into the exporter feature to export the personal data they collect, whether it be in something like postmeta or even an entirely new Custom Post Type (CPT).</p>
+<p>The &#x201C;key&#x201D; for all the exports is the user&#x2019;s email address &#x2013; this was chosen because it supports exporting personal data for both full-fledged registered users and also unregistered users (e.g. like a logged out commenter).</p>
+<p>However, since assembling a personal data export could be an intensive process and will likely contain sensitive data, we don&#x2019;t want to just generate it and email it to the requestor without confirming the request, so the admin-facing user interface starts all requests by having the admin enter the username or email address making the request and then sends then a link to click to confirm their request.</p>
+<p>Once a request has been confirmed, the admin can generate and download or directly email the personal data export ZIP file for the user, or do the export anyways if the need arises.  Inside the ZIP file the user receives, they will find a &#x201C;mini website&#x201D; with an index HTML page containing their personal data organized in groups (e.g. a group for comments, etc. )</p>
+<p>Whether the admin downloads the personal data export ZIP file or sends it directly to the requestor, the way the personal data export is assembled is identical &#x2013; and relies on hooking &#x201C;exporter&#x201D; callbacks to do the dirty work of collecting all the data for the export. When the admin clicks on the download or email link, an AJAX loop begins that iterates over all the exporters registered in the system, one at a time. In addition to exporters built into core, plugins can register their own exporter callbacks.</p>
+<p>The exporter callback interface is designed to be as simple as possible. A exporter callback receives the email address we are working with and a page parameter as well. The page parameter (which starts at 1) is used to avoid plugins potentially causing timeouts by attempting to export all the personal data they&#x2019;ve collected at once. A well behaved plugin will limit the amount of data it attempts to erase per page (e.g. 100 posts, 200 comments, etc.)</p>
+<p>The exporter callback replies with whatever data it has for that email address and page and whether it is done or not. If a exporter callback reports that it is not done, it will be called again (in a separate request) with the page parameter incremented by 1. Exporter callbacks are expected to return an array of items for the export. Each item contains an a group identifier for the group of which<br>
+the item is a part (e.g. comments, posts, orders, etc.), an optional group label (translated), an item identifier (e.g. comment-133) and then an array of name, value pairs containing the data to be exported for that item.</p>
+<p>It is noteworthy that the value could be a media path, in which case a link to the media file will be added to the index HTML page in the export.</p>
+<p>When all the exporters have been called to completion, WordPress first assembles an &#x201C;index&#x201D; HTML document that serves as the heart of the export report. If a plugin reports additional data for an item that WordPress or another plugin has already added, all the data for that item will be presented together.</p>
+<p>Exports are cached on the server for 3 days and then deleted.</p>
+<p>A plugin can register one or more exporters, but most plugins will only need one. Let&#x2019;s work on a hypothetical plugin which adds location data for the commenter to comments.</p>
+<p>First, let&#x2019;s assume the plugin has used `add_comment_meta` to add location data using `meta_key`s of `latitude` and `longitude`</p>
+<p>The first thing the plugin needs to do is to create an exporter function that accepts an email address and a page, e.g.:</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>function my_plugin_exporter( $email_address, $page = 1 ) {
+  $number = 500; // Limit us to avoid timing out
+  $page = (int) $page;
+
+  $export_items = array();
+
+  $comments = get_comments(
+    array(
+      &apos;author_email&apos; =&gt; $email_address,
+      &apos;number&apos; =&gt; $number,
+      &apos;paged&apos; =&gt; $page,
+      &apos;order_by&apos; =&gt; &apos;comment_ID&apos;,
+      &apos;order&apos; =&gt; &apos;ASC&apos;,
+    )
+  );
+
+  foreach ( (array) $comments as $comment ) {
+    $latitude = get_comment_meta( $comment-&gt;comment_ID, &apos;latitude&apos;, true );
+    $longitude = get_comment_meta( $comment-&gt;comment_ID, &apos;longitude&apos;, true );
+
+    // Only add location data to the export if it is not empty
+    if ( ! empty( $latitude ) ) {
+      // Most item IDs should look like postType-postID
+      // If you don&apos;t have a post, comment or other ID to work with,
+      // use a unique value to avoid having this item&apos;s export
+      // combined in the final report with other items of the same id
+      $item_id = &quot;comment-{$comment-&gt;comment_ID}&quot;;
+
+      // Core group IDs include &apos;comments&apos;, &apos;posts&apos;, etc.
+      // But you can add your own group IDs as needed
+      $group_id = &apos;comments&apos;;
+
+      // Optional group label. Core provides these for core groups.
+      // If you define your own group, the first exporter to
+      // include a label will be used as the group label in the
+      // final exported report
+      $group_label = __( &apos;Comments&apos; );
+
+      // Plugins can add as many items in the item data array as they want
+      $data = array(
+        array(
+          &apos;name&apos; =&gt; __( &apos;Commenter Latitude&apos; ),
+          &apos;value&apos; =&gt; $latitude
+        ),
+        array(
+          &apos;name&apos; =&gt; __( &apos;Commenter Longitude&apos; ),
+          &apos;value&apos; =&gt; $longitude
+        )
+      );
+
+      $export_items[] = array(
+        &apos;group_id&apos; =&gt; $group_id,
+        &apos;group_label&apos; =&gt; $group_label,
+        &apos;item_id&apos; =&gt; $item_id,
+        &apos;data&apos; =&gt; $data,
+      );
+    }
+  }
+
+  // Tell core if we have more comments to work on still
+  $done = count( $comments ) &lt; $number;
+  return array(
+    &apos;data&apos; =&gt; $export_items,
+    &apos;done&apos; =&gt; $done,
+  );
+}
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p>The next thing the plugin needs to do is to register the callback by filtering the exporter array using the `wp_privacy_personal_data_exporters` filter.</p>
+<p>When registering you provide a friendly name for the export (to aid in debugging &#x2013; this friendly name is not shown to anyone at this time) and the callback, e.g.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>function register_my_plugin_exporter( $exporters ) {
+  $exporters[&apos;my-plugin-slug&apos;] = array(
+    &apos;exporter_friendly_name&apos; =&gt; __( &apos;Comment Location Plugin&apos; ),
+    &apos;callback&apos; =&gt; &apos;my_plugin_exporter&apos;,
+  );
+  return $exporters;
+}
+
+add_filter(
+  &apos;wp_privacy_personal_data_exporters&apos;,
+  &apos;register_my_plugin_exporter&apos;,
+  10
+);
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p>And that&#x2019;s all there is to it! Your plugin will now provide data for the export!</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/privacy/suggesting-text-for-the-site-privacy-policy/" rel="previous"><span class="meta-nav">&#x2190;</span> Policy Content</a><a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-eraser-to-your-plugin/" rel="next">Personal Data Erasure <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

@@ -1,0 +1,122 @@
+<main id="primary" class="site-main post-10908 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/plugin-basics/" title="Plugin Basics">Plugin Basics</a></span> <span class="sep">/</span> <span class="trail-end">Header Requirements</span>
+		</div>
+		
+			
+<h1>Header Requirements</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#minimum-fields">Minimum Fields</a></li>
+<li><a href="#header-fields">Header Fields</a></li>
+<li><a href="#notes">Notes</a></li></ul>
+</div>
+
+<p>As described in <a href="https://developer.wordpress.org/plugins/plugin-basics/#getting-started">Getting Started</a>, the main PHP file should include header comment what tells WordPress that a file is a plugin and provides information about the plugin.</p>
+
+
+
+<h2 class="toc-heading" id="minimum-fields" tabindex="-1">Minimum Fields <a href="#minimum-fields" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Minimum Fields</span></a></h2>
+
+
+
+<p>At a minimum, a header comment must contain the <strong>Plugin Name</strong>:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+/**
+ * Plugin Name: YOUR PLUGIN NAME
+ */
+</pre>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="header-fields" tabindex="-1">Header Fields <a href="#header-fields" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Header Fields</span></a></h2>
+
+
+
+<p>Available header fields:</p>
+
+
+
+<ul><li> <strong>Plugin Name:</strong> (<em>required</em>) The name of your plugin, which will be displayed in the Plugins list in the WordPress Admin.</li><li><strong>Plugin URI:</strong> The home page of the plugin, which should be a unique URL, preferably on your own website. This <em>must be unique</em> to your plugin. You cannot use a WordPress.org URL here.</li><li><strong>Description:</strong> A short description of the plugin, as displayed in the Plugins section in the WordPress Admin. Keep this description to fewer than 140 characters.</li><li><strong>Version:</strong> The current version number of the plugin, such as 1.0 or 1.0.3. </li><li><strong>Requires at least:</strong> The lowest WordPress version that the plugin will work on.</li><li><strong>Requires PHP:</strong> The minimum required PHP version.</li><li><strong>Author:</strong> The name of the plugin author. Multiple authors may be listed using commas.</li><li><strong>Author URI:</strong> The author&#x2019;s website or profile on another website, such as WordPress.org.</li><li><strong>License:</strong> The short name (slug) of the plugin&#x2019;s license (e.g. GPLv2). More information about licensing can be found in the <a href="https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/#1-plugins-must-be-compatible-with-the-gnu-general-public-license">WordPress.org guidelines</a>.</li><li><strong>License URI:</strong> A link to the full text of the license (e.g. <a href="https://www.gnu.org/licenses/gpl-2.0.html">https://www.gnu.org/licenses/gpl-2.0.html</a>).</li><li><strong>Text Domain:</strong> The <a href="https://www.gnu.org/software/gettext/">gettext</a> text domain of the plugin. More information can be found in the <a href="https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#text-domains">Text Domain</a> section of the <a href="https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/">How to Internationalize your Plugin</a> page.</li><li><strong>Domain Path:</strong> The domain path lets WordPress know where to find the translations. More information can be found in the <a href="https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/#domain-path">Domain Path</a> section of the <a href="https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/">How to Internationalize your Plugin</a> page.</li><li><strong>Network: </strong>Whether the plugin can only be activated network-wide. Can only be set to <em>true</em>, and should be left out when not needed.</li></ul>
+
+
+
+<p>A valid PHP file with a header comment might look like this:</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>&lt;?php
+/**
+ * Plugin Name:       My Basics Plugin
+ * Plugin URI:        https://example.com/plugins/the-basics/
+ * Description:       Handle the basics with this plugin.
+ * Version:           1.10.3
+ * Requires at least: 5.2
+ * Requires PHP:      7.2
+ * Author:            John Smith
+ * Author URI:        https://author.example.com/
+ * License:           GPL v2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       my-basics-plugin
+ * Domain Path:       /languages
+ */
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p>Here&#x2019;s another example which allows file-level PHPDoc DocBlock as well as WordPress plugin file headers:</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>&lt;?php
+/**
+ * Plugin Name
+ *
+ * @package           PluginPackage
+ * @author            Your Name
+ * @copyright         2019 Your Name or Company Name
+ * @license           GPL-2.0-or-later
+ *
+ * @wordpress-plugin
+ * Plugin Name:       Plugin Name
+ * Plugin URI:        https://example.com/plugin-name
+ * Description:       Description of the plugin.
+ * Version:           1.0.0
+ * Requires at least: 5.2
+ * Requires PHP:      7.2
+ * Author:            Your Name
+ * Author URI:        https://example.com
+ * Text Domain:       plugin-slug
+ * License:           GPL v2 or later
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ */
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="notes" tabindex="-1">Notes <a href="#notes" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Notes</span></a></h2>
+
+
+<div class="callout callout-alert"><span class="screen-reader-text">Alert:</span> When assigning a version number to your project, keep in mind that WordPress uses the PHP version_compare() function to compare plugin version numbers. Therefore, before you release a new version of your plugin, you should make sure that this PHP function considers the new version to be &#x201C;greater&#x201D; than the old one.  For example, 1.02 is actually greater than 1.1.</div>
+
+
+
+<p></p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/plugin-basics/" rel="previous"><span class="meta-nav">&#x2190;</span> Plugin Basics</a><a href="https://developer.wordpress.org/plugins/plugin-basics/including-a-software-license/" rel="next">Including a Software License <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

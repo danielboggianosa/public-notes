@@ -1,0 +1,283 @@
+<main id="primary" class="site-main post-11088 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/users/" title="Users">Users</a></span> <span class="sep">/</span> <span class="trail-end">Working with User Metadata</span>
+		</div>
+		
+			
+<h1>Working with User Metadata</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#introduction">Introduction</a></li>
+<li><a href="#manipulating-user-metadata">Manipulating User Metadata</a>
+<ul>
+<li><a href="#via-a-form-field">via a Form Field</a>
+<ul>
+<li><a href="#show_user_profile-hook"><code>show_user_profile</code> hook</a></li>
+<li><a href="#edit_user_profile-hook"><code>edit_user_profile</code> hook</a></li>
+<li><a href="#example-form-field">Example Form Field</a>
+</li></ul></li>
+<li><a href="#programmatically">Programmatically</a>
+<ul>
+<li><a href="#add">Add</a></li>
+<li><a href="#update">Update</a></li>
+<li><a href="#delete">Delete</a></li>
+<li><a href="#get">Get</a></li></ul>
+</li></ul></li></ul></div>
+
+<h2 class="toc-heading" id="introduction" tabindex="-1">Introduction <a href="#introduction" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Introduction</span></a></h2>
+
+
+
+<p>WordPress&#x2019; <code>users</code> table was designed to contain only the essential information about the user.</p>
+
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> <br>
+As of WP 4.7 the table contains: <code>ID</code>, <code>user_login</code>, <code>user_pass</code>, <code>user_nicename</code>, <code>user_email</code>, <code>user_url</code>, <code>user_registered</code>, <code>user_activation_key</code>, <code>user_status</code> and <code>display_name</code>.<br>
+</div>
+
+
+
+<p>Because of this, to store additional data, the <code>usermeta</code> table was introduced, which can store any arbitrary amount of data about a user.</p>
+
+
+
+<p>Both tables are tied together using one-to-many relationship based on the <code>ID</code> in the <code>users</code> table.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="manipulating-user-metadata" tabindex="-1">Manipulating User Metadata <a href="#manipulating-user-metadata" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Manipulating User Metadata</span></a></h2>
+
+
+
+<p>There are two main ways for manipulating User Metadata.</p>
+
+
+
+<ol><li>A form field in the user&#x2019;s profile screen.</li><li>Programmatically, via a function call.</li></ol>
+
+
+
+<h3 class="toc-heading" id="via-a-form-field" tabindex="-1">via a Form Field <a href="#via-a-form-field" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">via a Form Field</span></a></h3>
+
+
+
+<p>The form field option is suitable for cases where the user will have access to the WordPress admin area, in which he will be able to view and edit profiles.</p>
+
+
+
+<p>Before we dive into an example, it&#x2019;s important to understand the hooks involved in the process and why they are there.</p>
+
+
+
+<h4 class="toc-heading" id="show_user_profile-hook" tabindex="-1"><code>show_user_profile</code> hook <a href="#show_user_profile-hook" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text"><code>show_user_profile</code> hook</span></a></h4>
+
+
+
+<p>This action hook is fired whenever a user edits <strong>it&#x2019;s own</strong> user profile.</p>
+
+
+
+<p><strong>Remember,</strong> a user that doesn&#x2019;t have the capability of editing his own profile won&#x2019;t fire this hook.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="edit_user_profile-hook" tabindex="-1"><code>edit_user_profile</code> hook <a href="#edit_user_profile-hook" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text"><code>edit_user_profile</code> hook</span></a></h4>
+
+
+
+<p>This action hook is fired whenever a user edits a user profile of <strong>somebody else</strong>.</p>
+
+
+
+<p><strong>Remember,</strong> a user that doesn&#x2019;t have the capability for editing 3rd party profiles won&#x2019;t fire this hook.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="example-form-field" tabindex="-1">Example Form Field <a href="#example-form-field" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example Form Field</span></a></h4>
+
+
+
+<p>In the example below we will be adding a birthday field to the all profile screens. Saving it to the database on profile updates.</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>&lt;?php
+/**
+ * The field on the editing screens.
+ *
+ * @param $user WP_User user object
+ */
+function wporg_usermeta_form_field_birthday( $user )
+{
+    ?&gt;
+    &lt;h3&gt;It&apos;s Your Birthday&lt;/h3&gt;
+    &lt;table class=&quot;form-table&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;
+                &lt;label for=&quot;birthday&quot;&gt;Birthday&lt;/label&gt;
+            &lt;/th&gt;
+            &lt;td&gt;
+                &lt;input type=&quot;date&quot;
+                       class=&quot;regular-text ltr&quot;
+                       id=&quot;birthday&quot;
+                       name=&quot;birthday&quot;
+                       value=&quot;&lt;?= esc_attr( get_user_meta( $user-&gt;ID, &apos;birthday&apos;, true ) ) ?&gt;&quot;
+                       title=&quot;Please use YYYY-MM-DD as the date format.&quot;
+                       pattern=&quot;(19[0-9][0-9]|20[0-9][0-9])-(1[0-2]|0[1-9])-(3[01]|[21][0-9]|0[1-9])&quot;
+                       required&gt;
+                &lt;p class=&quot;description&quot;&gt;
+                    Please enter your birthday date.
+                &lt;/p&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;?php
+}
+ 
+/**
+ * The save action.
+ *
+ * @param $user_id int the ID of the current user.
+ *
+ * @return bool Meta ID if the key didn&apos;t exist, true on successful update, false on failure.
+ */
+function wporg_usermeta_form_field_birthday_update( $user_id )
+{
+    // check that the current user have the capability to edit the $user_id
+    if ( ! current_user_can( &apos;edit_user&apos;, $user_id ) ) {
+        return false;
+    }
+ 
+    // create/update user meta for the $user_id
+    return update_user_meta(
+        $user_id,
+        &apos;birthday&apos;,
+        $_POST[&apos;birthday&apos;]
+    );
+}
+ 
+// Add the field to user&apos;s own profile editing screen.
+add_action(
+    &apos;show_user_profile&apos;,
+    &apos;wporg_usermeta_form_field_birthday&apos;
+);
+ 
+// Add the field to user profile editing screen.
+add_action(
+    &apos;edit_user_profile&apos;,
+    &apos;wporg_usermeta_form_field_birthday&apos;
+);
+ 
+// Add the save action to user&apos;s own profile editing screen update.
+add_action(
+    &apos;personal_options_update&apos;,
+    &apos;wporg_usermeta_form_field_birthday_update&apos;
+);
+ 
+// Add the save action to user profile editing screen update.
+add_action(
+    &apos;edit_user_profile_update&apos;,
+    &apos;wporg_usermeta_form_field_birthday_update&apos;
+);
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="programmatically" tabindex="-1">Programmatically <a href="#programmatically" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Programmatically</span></a></h3>
+
+
+
+<p>This option is suitable for cases where you&#x2019;re building a custom user area and/or plan to disable access to the WordPress admin area.</p>
+
+
+
+<p>The functions available for manipulating User Metadata are: <code><a href="/reference/functions/add_user_meta/">add_user_meta()</a></code>, <code><a href="/reference/functions/update_user_meta/">update_user_meta()</a></code>, <code><a href="/reference/functions/delete_user_meta/">delete_user_meta()</a></code> and <code><a href="/reference/functions/get_user_meta/">get_user_meta()</a></code>.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="add" tabindex="-1">Add <a href="#add" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Add</span></a></h4>
+
+
+<pre class="brush: php; title: ; notranslate" title>add_user_meta(
+    int $user_id,
+    string $meta_key,
+    mixed $meta_value,
+    bool $unique = false
+);
+</pre>
+
+
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/add_user_meta/">add_user_meta()</a></code> for full explanation about the used parameters.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="update" tabindex="-1">Update <a href="#update" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Update</span></a></h4>
+
+
+<pre class="brush: php; title: ; notranslate" title>update_user_meta(
+    int $user_id,
+    string $meta_key,
+    mixed $meta_value,
+    mixed $prev_value = &apos;&apos;
+);
+</pre>
+
+
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/update_user_meta/">update_user_meta()</a></code> for full explanation about the used parameters.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="delete" tabindex="-1">Delete <a href="#delete" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Delete</span></a></h4>
+
+
+<pre class="brush: php; title: ; notranslate" title>delete_user_meta(
+    int $user_id,
+    string $meta_key,
+    mixed $meta_value = &apos;&apos;
+);
+</pre>
+
+
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/delete_user_meta/">delete_user_meta()</a></code> for full explanation about the used parameters.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="get" tabindex="-1">Get <a href="#get" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Get</span></a></h4>
+
+
+<pre class="brush: php; title: ; notranslate" title>get_user_meta(
+    int $user_id,
+    string $key = &apos;&apos;,
+    bool $single = false
+);
+</pre>
+
+
+<p>Please refer to the Function Reference about <code><a href="/reference/functions/get_user_meta/">get_user_meta()</a></code> for full explanation about the used parameters.</p>
+
+
+
+<p>Please note, if you pass only the <code>$user_id</code>, the function will retrieve all Metadata as an associative array.</p>
+
+
+
+<p>You can render User Metadata anywhere in your plugin or theme.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/users/working-with-users/" rel="previous"><span class="meta-nav">&#x2190;</span> Working with Users</a><a href="https://developer.wordpress.org/plugins/users/roles-and-capabilities/" rel="next">Roles and Capabilities <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

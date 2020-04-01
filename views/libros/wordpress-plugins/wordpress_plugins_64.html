@@ -1,0 +1,122 @@
+<main id="primary" class="site-main post-11166 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/cron/" title="Cron">Cron</a></span> <span class="sep">/</span> <span class="trail-end">Simple Testing of WP-Cron</span>
+		</div>
+		
+			
+<h1>Simple Testing of WP-Cron</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#create-the-plugin-file">Create the plugin file</a></li>
+<li><a href="#view-all-currently-scheduled-tasks">View all currently scheduled tasks</a></li>
+<li><a href="#testing-the-code">Testing the code</a></li></ul>
+</div>
+
+<p>In this tutorial we will be creating a plugin to show all the currently scheduled WPCron tasks. In order to test this we will load the <code>wp-cron.php</code> file directly in our browser and output data to the display (otherwise we would have to perform some other action, maybe in the database, as the output is typically not shown on the site). </p>
+
+
+
+<p>So let&#x2019;s run through the initial steps to get this setup quickly.</p>
+
+
+
+<h2 class="toc-heading" id="create-the-plugin-file" tabindex="-1">Create the plugin file <a href="#create-the-plugin-file" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Create the plugin file</span></a></h2>
+
+
+
+<p>In the <code>wp-content/plugins</code> folder create a new folder called <code>my-wp-cron-test</code> and, inside this folder, a new file called <code>my-wp-cron-test.php</code>.</p>
+
+
+
+<p>Open the PHP file for editing and insert the following lines:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+/*
+Plugin Name: My WP-Cron Test
+*/
+
+</pre>
+
+
+<p>This text will setup the plugin for display and activation in the Plugins menu. Find the new plugin there, and activate it.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="view-all-currently-scheduled-tasks" tabindex="-1">View all currently scheduled tasks <a href="#view-all-currently-scheduled-tasks" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">View all currently scheduled tasks</span></a></h2>
+
+
+
+<p>WordPress has an undocumented function, <a href="https://developer.wordpress.org/reference/functions/_get_cron_array/">_get_cron_array()</a>, that returns an array of all currently scheduled tasks. We are going to <code>var_dump</code> to show all the scheduled tasks. </p>
+
+
+
+<p>Put the following code in the PHP file:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>echo &apos;&lt;pre&gt;&apos;; print_r( _get_cron_array() ); echo &apos;&lt;/pre&gt;&apos;;
+</pre>
+
+
+<p>You can also put this code into an easy-to-call function like this:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>function bl_print_tasks() {
+    echo &apos;&lt;pre&gt;&apos;; print_r( _get_cron_array() ); echo &apos;&lt;/pre&gt;&apos;;
+}
+bl_print_tasks();
+</pre>
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> Remember, the &#x201C;bl_&#x201D; part of the function name is a <i>function prefix</i>. You can learn why prefixes are important <a href="https://developer.wordpress.org/plugins/plugin-basics/best-practices/#prefix-everything">here</a>. </div>
+
+
+
+<p>The finished file looks like this:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+/*
+Plugin Name: My WP-Cron Test
+*/
+
+function bl_print_tasks() {
+    echo &apos;&lt;pre&gt;&apos;; print_r( _get_cron_array() ); echo &apos;&lt;/pre&gt;&apos;;
+}
+bl_print_tasks();
+</pre>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="testing-the-code" tabindex="-1">Testing the code <a href="#testing-the-code" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Testing the code</span></a></h2>
+
+
+
+<p>Open your browser and point it to <code>YOUR_SITE_URL/wp-cron.php</code>. You&#x2019;ll see listed all the scheduled tasks for you installation.</p>
+
+
+
+<p>This works because every time WordPress loads a page, it initializes all installed plugins by loading the main file for each plugin and running what it finds inside. In our case, the plugin is doing only one thing: showing the list of scheduled tasks.</p>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> If you have installed WordPress into a subfolder, you&#x2019;ll need to add that subfolder to the URL. This is something you would have to do intentionally, so if you don&#x2019;t know what this means, you can probably ignore this :)</p>
+</div>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/" rel="previous"><span class="meta-nav">&#x2190;</span> Hooking WP-Cron Into the System Task Scheduler</a><a href="https://developer.wordpress.org/plugins/internationalization/" rel="next">Internationalization <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

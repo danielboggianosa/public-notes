@@ -1,0 +1,129 @@
+<main id="primary" class="site-main post-11210 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/security/" title="Plugin Security">Plugin Security</a></span> <span class="sep">/</span> <span class="trail-end">Data Validation</span>
+		</div>
+		
+			
+<h1>Data Validation</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#validating-the-data">Validating the Data</a>
+<ul>
+<li><a href="#built-in-php-functions">Built-in PHP functions</a></li>
+<li><a href="#core-wordpress-functions">Core WordPress functions</a></li>
+<li><a href="#custom-php-and-javascript-functions">Custom PHP and JavaScript functions</a>
+</li></ul></li>
+<li><a href="#example-1">Example 1</a></li>
+<li><a href="#example-2">Example 2</a></li></ul>
+</div>
+<p>Data validation is the process of analyzing the data against a predefined pattern (or patterns) with a definitive result: valid or invalid.</p>
+<p>Usually this applies to data coming from external sources such as user input and calls to web services via API.</p>
+<p>Simple examples of data validation:</p>
+<ul>
+<li>Check that required fields have not been left blank</li>
+<li>Check that an entered phone number only contains numbers and punctuation</li>
+<li>Check that an entered postal code is a valid postal code</li>
+<li>Check that a quantity field is greater than 0</li>
+</ul>
+<p><strong>Data validation should be performed as early as possible.</strong> That means validating the data before performing any actions.</p>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+Validation can be performed by using JavaScript on the front end and by using PHP on the back end.</p>
+</div>
+<h2 class="toc-heading" id="validating-the-data" tabindex="-1">Validating the Data <a href="#validating-the-data" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Validating the Data</span></a></h2>
+<p>There are at least three ways: built-in PHP functions, core WordPress functions, and custom functions you write.</p>
+<h3 class="toc-heading" id="built-in-php-functions" tabindex="-1">Built-in PHP functions <a href="#built-in-php-functions" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Built-in PHP functions</span></a></h3>
+<p>Basic validation is doable using many built-in PHP functions, including these:</p>
+<ul>
+<li><code><a href="//php.net/isset">isset()</a></code> and <code><a href="//php.net/empty">empty()</a></code> for checking whether a variable exists and isn&#x2019;t blank</li>
+<li><code><a href="//php.net/mb_strlen">mb_strlen()</a></code> or <code><a href="//php.net/strlen">strlen()</a></code> for checking that a string has the expected number of characters</li>
+<li><code><a href="//php.net/preg_match">preg_match()</a></code>, <code><a href="//php.net/strpos">strpos()</a></code> for checking for occurrences of certain strings in other strings</li>
+<li><code><a href="//php.net/count">count()</a></code> for checking how many items are in an array</li>
+<li><code><a href="//php.net/in_array">in_array()</a></code> for checking whether something exists in an array</li>
+</ul>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="core-wordpress-functions" tabindex="-1">Core WordPress functions <a href="#core-wordpress-functions" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Core WordPress functions</span></a></h3>
+<p>WordPress provides many useful functions that help validate different kinds of data. Here are several examples:</p>
+<ul>
+<li><code><a href="/reference/functions/is_email/">is_email()</a></code> will validate whether an email address is valid.</li>
+<li><code><a href="/reference/functions/term_exists/">term_exists()</a></code> checks whether a tag, category, or other taxonomy term exists.</li>
+<li><code><a href="/reference/functions/username_exists/">username_exists()</a></code> checks if username exists.</li>
+<li><code><a href="/reference/functions/validate_file/">validate_file()</a></code> will validate that an entered file path is a real path (but not whether the file exists).</li>
+</ul>
+<p>Check the <a href="/reference/">WordPress code reference</a> for more functions like these.<br>
+Search for functions with names like these: <code>*_exists()</code>, <code>*_validate()</code>, and&#xA0;<code>is_*()</code>. Not all of these are validation functions, but many are helpful.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="custom-php-and-javascript-functions" tabindex="-1">Custom PHP and JavaScript functions <a href="#custom-php-and-javascript-functions" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Custom PHP and JavaScript functions</span></a></h3>
+<p>You can write your own PHP and JavaScript functions and include them in your plugin.&#xA0;When writing a validation function, you&#x2019;ll want to name&#xA0;it like a question (examples:&#xA0;is_phone, is_available, is_us_zipcode).</p>
+<p>The function should return a boolean, either true or false, depending on whether the data is valid or not. This will allow using the function as a condition.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="example-1" tabindex="-1">Example 1 <a href="#example-1" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example 1</span></a></h2>
+<p>Let&#x2019;s say you have an U.S. zip code input field that a user submits.</p>
+<pre class="brush: xml; title: ; notranslate" title>&lt;input id=&quot;wporg_zip_code&quot; type=&quot;text&quot; maxlength=&quot;10&quot; name=&quot;wporg_zip_code&quot;&gt;</pre>
+<p>The text field allows up to 10 characters of input with no limitations on the types of characters that can be used. Users could enter something valid like <code>1234567890</code> or something invalid (and evil) like <code>eval()</code>.</p>
+<p>The <code>maxlength</code> attribute on our <code>input</code> field is only enforced by the browser, so you still need to validate the length of the input on the server. If you don&#x2019;t, an attacker could alter the maxlength value.</p>
+<p>By using validation we can ensure we&#x2019;re accepting only valid zip codes.</p>
+<p>First you need to write a function to validate a U.S. zip codes:</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+function is_us_zip_code($zip_code)
+{
+    // scenario 1: empty
+    if (empty($zip_code)) {
+        return false;
+    }
+
+    // scenario 2: more than 10 characters
+    if (strlen(trim($zip_code)) &gt; 10) {
+        return false;
+    }
+
+    // scenario 3: incorrect format
+    if (!preg_match(&apos;/^\d{5}(\-?\d{4})?$/&apos;, $zip_code)) {
+        return false;
+    }
+
+    // passed successfully
+    return true;
+}
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p>When processing the form, your code should check the <code>wporg_zip_code</code> field and perform the action based on the result:</p>
+<pre class="brush: php; title: ; notranslate" title>if (isset($_POST[&apos;wporg_zip_code&apos;]) &amp;&amp; is_us_zip_code($_POST[&apos;wporg_zip_code&apos;])) {
+    // your action
+}
+</pre>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="example-2" tabindex="-1">Example 2 <a href="#example-2" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example 2</span></a></h2>
+<p>Say you&#x2019;re going to query the database for some posts, and you want to give the user the ability to sort the query results.</p>
+<p>This example code checks an incoming sort key (stored in the &#x201C;orderby&#x201D;&#xA0;input parameter) for validity by comparing it against an array of allowed sort keys using the built-in PHP function&#xA0;<a href="//php.net/in_array"><code>in_array</code></a>. This prevents the user from passing in malicious data and potentially compromising the website.</p>
+<p>Before checking the incoming sort key against the array, the key&#xA0;is passed into the built-in WordPress function&#xA0;<a href="https://codex.wordpress.org/Function_Reference/sanitize_key"><code>sanitize_key</code></a>. This function ensures, among other things, that the key is in lowercase (<a href="//php.net/in_array"><code>in_array</code></a> performs a <em>case-sensitive</em> search).</p>
+<p>Passing &#x201C;true&#x201D; into the third parameter of&#xA0;<a href="//php.net/in_array"><code>in_array</code></a> enables strict type checking, which tells the function to not only compare values but value&#xA0;<em><a href="http://php.net/manual/en/language.types.php">types</a></em>&#xA0;as well. This allows the code to be certain that the incoming sort key is a string and not some other data type.</p>
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+$allowed_keys = [&apos;author&apos;, &apos;post_author&apos;, &apos;date&apos;, &apos;post_date&apos;];
+
+$orderby = sanitize_key($_POST[&apos;orderby&apos;]);
+
+if (in_array($orderby, $allowed_keys, true)) {
+    // modify the query to sort by the orderby key
+}
+</pre>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/security/checking-user-capabilities/" rel="previous"><span class="meta-nav">&#x2190;</span> Checking User Capabilities</a><a href="https://developer.wordpress.org/plugins/security/securing-input/" rel="next">Securing Input <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

@@ -17,45 +17,41 @@ class IndexController {
     //CREATE
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { titulo, contenido } = req.body;
-            let raw = fs_1.default.readFileSync('notes.json');
-            let json = JSON.parse(raw);
-            let notas = json.notas;
-            json.lastId++;
-            let newNote = {
-                id: json.lastId,
-                titulo: titulo,
-                contenido: contenido,
-                createdAt: new Date()
-            };
-            notas.push(newNote);
-            let write = JSON.stringify(json);
-            fs_1.default.writeFileSync('notes.json', write);
-            res.json({ success: true, message: "Nota Creada" });
         });
     }
     //READ
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let raw = fs_1.default.readFileSync('notes.json');
-            let json = JSON.parse(raw);
-            let notas = json.notas;
-            notas.forEach((n, index) => {
-                let creado = new Date(n.createdAt).getHours();
-                let now = new Date().getHours();
-                if ((now - creado) > 24)
-                    notas.splice(index, 1);
-            });
-            notas.reverse();
-            res.render('index', json);
+            res.render('index');
         });
     }
     //READ
-    crearForm(req, res) {
+    libros(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let raw = fs_1.default.readFileSync('notes.json');
-            let notas = JSON.parse(raw);
-            res.render('crear', notas);
+            res.render('libros');
+        });
+    }
+    //READ
+    libro(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, pagina } = req.params;
+            let raw = fs_1.default.readFileSync('data/libros.json');
+            let json = JSON.parse(raw);
+            let libros = json.libros;
+            for (let i = 0; i < libros.length; i++) {
+                let libro = libros[i];
+                if (libro['id'] == id) {
+                    let contenido = fs_1.default.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`, 'utf8');
+                    res.render(`libros/index`, { pagina: contenido });
+                    break;
+                }
+            }
+        });
+    }
+    //READ
+    crear(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            res.render('crear');
         });
     }
     //UPDATE
@@ -68,7 +64,7 @@ class IndexController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { index } = req.params;
-            let raw = fs_1.default.readFileSync('notes.json');
+            let raw = fs_1.default.readFileSync('data/notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
             let end = false;
@@ -77,7 +73,7 @@ class IndexController {
                 if (notas[i]['id'] == index) {
                     notas.splice(i, 1);
                     let write = JSON.stringify(json);
-                    fs_1.default.writeFileSync('notes.json', write);
+                    fs_1.default.writeFileSync('data/notes.json', write);
                     res.json({ success: true });
                     break;
                 }

@@ -9,11 +9,10 @@ class IndexRoutes{
     }
 
     config(){
-        this.router.post('/api/notas', indexController.create)
         this.router.get('/', indexController.read)
-        this.router.get('/crear', indexController.crearForm)
-        this.router.put('/', indexController.update)
-        this.router.delete('/delete/:index', indexController.delete)
+        this.router.get('/crear', indexController.crear)
+        this.router.get('/libros', indexController.libros)
+        this.router.get('/libros/:id/:pagina', indexController.libro)
     }
 }
 const indexRoutes = new IndexRoutes();

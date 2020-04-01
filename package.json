@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -w",
-    "dev": "nodemon build/notes.js --ignore notes.json"
+    "dev": "nodemon build/notes.js --ignore data/notes.json"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "highlight.js": "^9.18.1",
     "pug": "^2.0.4",
     "typescript": "^3.8.3"
   },

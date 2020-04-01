@@ -1,0 +1,159 @@
+<main id="primary" class="site-main post-10944 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/hooks/" title="Hooks">Hooks</a></span> <span class="sep">/</span> <span class="trail-end">Custom Hooks</span>
+		</div>
+		
+			
+<h1>Custom Hooks</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#create-a-hook">Create a Hook</a></li>
+<li><a href="#add-a-callback-to-the-hook">Add a Callback to the Hook</a></li>
+<li><a href="#naming-conflicts">Naming Conflicts</a></li>
+<li><a href="#examples">Examples</a>
+<ul>
+<li><a href="#extensible-action-settings-form">Extensible Action: Settings Form</a></li>
+<li><a href="#extensible-filter-custom-post-type">Extensible Filter: Custom Post Type</a>
+</li></ul></li>
+<li><a href="#external-resources">External Resources</a></li></ul>
+</div>
+
+<p><strong>An important, but often overlooked practice is using custom hooks in your plugin so that other developers can extend and modify it.</strong></p>
+
+
+
+<p>Custom hooks are created and called in the same way that WordPress Core hooks are.</p>
+
+
+
+<h2 class="toc-heading" id="create-a-hook" tabindex="-1">Create a Hook <a href="#create-a-hook" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Create a Hook</span></a></h2>
+
+
+
+<p>To create a custom hook, use <a href="https://developer.wordpress.org/reference/functions/do_action/">do_action()</a> for <a href="https://developer.wordpress.org/plugins/hooks/actions/">Actions</a> and <a href="https://developer.wordpress.org/reference/functions/apply_filters/">apply_filters()</a> for <a href="https://developer.wordpress.org/plugins/hooks/filters/">Filters</a>.</p>
+
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> <br>
+We recommend using <a href="https://developer.wordpress.org/reference/functions/apply_filters/">apply_filters()</a> on any text that is output to the browser. Particularly on the frontend.<p></p>
+<p>This makes it easier for plugins to be modified according to the user&#x2019;s needs.<br>
+</p></div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="add-a-callback-to-the-hook" tabindex="-1">Add a Callback to the Hook <a href="#add-a-callback-to-the-hook" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Add a Callback to the Hook</span></a></h2>
+
+
+
+<p>To add a callback function to a custom hook, use <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a> for <a href="https://developer.wordpress.org/plugins/hooks/actions/">Actions</a> and <a href="https://developer.wordpress.org/reference/functions/add_filter/">add_filter()</a> for <a href="https://developer.wordpress.org/plugins/hooks/filters/">Filters</a>.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="naming-conflicts" tabindex="-1">Naming Conflicts <a href="#naming-conflicts" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Naming Conflicts</span></a></h2>
+
+
+
+<p>Since any plugin can create a custom hook, it&#x2019;s important to prefix your hook names to avoid collisions with other plugins.</p>
+
+
+
+<p>For example, a filter named <code>email_body</code> would be less useful because it&#x2019;s likely that another developer will choose that same name. If the user installs both plugins, it could lead to bugs that are difficult to track down.</p>
+
+
+
+<p>Naming the function <code>wporg_email_body</code> (where <code>wporg_</code> is a unique prefix for your plugin) would avoid any collisions.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="examples" tabindex="-1">Examples <a href="#examples" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Examples</span></a></h2>
+
+
+
+<h3 class="toc-heading" id="extensible-action-settings-form" tabindex="-1">Extensible Action: Settings Form <a href="#extensible-action-settings-form" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Extensible Action: Settings Form</span></a></h3>
+
+
+
+<p>If your plugin adds a settings form to the Administrative Panels, you can use Actions to allow other plugins to add their own settings to it.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>
+    Foo: 
+    Bar: 
+   &lt;?php
+    do_action( &apos;wporg_after_settings_page_html&apos; );
+}
+</pre>
+
+
+
+<p>Now another plugin can register a callback function for the <code>wporg_after_settings_page_html</code> hook and inject new settings:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>
+    New 1: 
+    &lt;?php
+}
+add_action( &apos;wporg_after_settings_page_html&apos;, &apos;myprefix_add_settings&apos; );
+</pre>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="extensible-filter-custom-post-type" tabindex="-1">Extensible Filter: Custom Post Type <a href="#extensible-filter-custom-post-type" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Extensible Filter: Custom Post Type</span></a></h3>
+
+
+
+<p>In this example, when the new post type is registered, the parameters that define it are passed through a filter, so another plugin can change them before the post type is created.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+function wporg_create_post_type()
+{
+    $post_type_params = [/* ... */];
+
+    register_post_type(
+        &apos;post_type_slug&apos;,
+        apply_filters( &apos;wporg_post_type_params&apos;, $post_type_params )
+    );
+}
+</pre>
+
+
+
+<p>Now another plugin can register a callback function for the <code>wporg_post_type_params</code> hook and change post type parameters:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php 
+function myprefix_change_post_type_params( $post_type_params ) {     		 
+	$post_type_params[&apos;hierarchical&apos;] = true;
+	return $post_type_params;
+} 
+add_filter( &apos;wporg_post_type_params&apos;, &apos;myprefix_change_post_type_params&apos; );
+</pre>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="external-resources" tabindex="-1">External Resources <a href="#external-resources" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">External Resources</span></a></h2>
+
+
+
+<ul><li><a href="http://wordpress.tv/2012/08/27/michael-fields-extendable-extensions/">Extendable Extensions</a> by Michael Fields</li><li><a href="http://wordpress.tv/2010/12/03/brandon-dove-the-pluggable-plugin/">The Pluggable Plugin</a> by Brandon Dove</li><li><a href="http://willnorris.com/2009/06/wordpress-plugin-pet-peeve-3-not-being-extensible">WordPress Plugin Pet Peeves #3: Not Being Extensible</a> by Will Norris</li></ul>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/hooks/filters/" rel="previous"><span class="meta-nav">&#x2190;</span> Filters</a><a href="https://developer.wordpress.org/plugins/hooks/advanced-topics/" rel="next">Advanced Topics <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

@@ -1,0 +1,106 @@
+<main id="primary" class="site-main post-11029 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/settings/" title="Settings">Settings</a></span> <span class="sep">/</span> <span class="trail-end">Options API</span>
+		</div>
+		
+			
+<h1>Options API</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#where-options-are-stored">Where Options are Stored?</a></li>
+<li><a href="#how-options-are-stored">How Options are Stored?</a>
+<ul>
+<li><a href="#single-value">Single Value</a></li>
+<li><a href="#array-of-values">Array of Values</a>
+</li></ul></li>
+<li><a href="#function-reference">Function Reference</a></li></ul>
+</div>
+<p>The Options API, added in WordPress 1.0, allows creating, reading, updating and deleting of WordPress options. In combination with the <a href="https://developer.wordpress.org/plugins/settings/settings-api/">Settings API</a> it allows controlling of options defined in settings pages.</p>
+<h2 class="toc-heading" id="where-options-are-stored" tabindex="-1">Where Options are Stored? <a href="#where-options-are-stored" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Where Options are Stored?</span></a></h2>
+<p>Options are stored in the <code>{$wpdb-&gt;prefix}_options</code> table. <code>$wpdb-&gt;prefix</code> is defined by the <code>$table_prefix</code> variable set in the <code>wp-config.php</code> file.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="how-options-are-stored" tabindex="-1">How Options are Stored? <a href="#how-options-are-stored" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How Options are Stored?</span></a></h2>
+<p>Options may be stored in the WordPress database in one of two ways: as a single value or as an array of values.</p>
+<h3 class="toc-heading" id="single-value" tabindex="-1">Single Value <a href="#single-value" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Single Value</span></a></h3>
+<p>When saved as a single value, the option name refers to a single value.</p>
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+// add a new option
+add_option(&apos;wporg_custom_option&apos;, &apos;hello world!&apos;);
+// get an option
+$option = get_option(&apos;wporg_custom_option&apos;);
+</pre>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="array-of-values" tabindex="-1">Array of Values <a href="#array-of-values" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Array of Values</span></a></h3>
+<p>When saved as an array of values, the option name refers to an array, which itself may be comprised key/value pairs.</p>
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+// array of options
+$data_r = [&apos;title&apos; =&gt; &apos;hello world!&apos;, 1, false];
+// add a new option
+add_option(&apos;wporg_custom_option&apos;, $data_r);
+// get an option
+$options_r = get_option(&apos;wporg_custom_option&apos;);
+// output the title
+echo esc_html($options_r[&apos;title&apos;]);
+</pre>
+<p>If you are working with a large number of related options, storing them as an array can have a positive impact on overall performance.</p>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+Accessing data as individual options may result in many individual database transactions, and as a rule, database transactions are expensive operations (in terms of time and server resources). When you store or retrieve an array of options, it happens in a single transaction, which is ideal.</p>
+</div>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="function-reference" tabindex="-1">Function Reference <a href="#function-reference" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Function Reference</span></a></h2>
+<table>
+<tbody>
+<tr>
+<th>Add Option</th>
+<th>Get Option</th>
+<th>Update Option</th>
+<th>Delete Option</th>
+</tr>
+<tr>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/add_option/">add_option()</a></tt>
+        </td>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/get_option/">get_option()</a></tt>
+        </td>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/update_option/">update_option()</a></tt>
+        </td>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/delete_option/">delete_option()</a></tt>
+        </td>
+</tr>
+<tr>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/add_site_option/">add_site_option()</a></tt>
+        </td>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/get_site_option/">get_site_option()</a></tt>
+        </td>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/update_site_option/">update_site_option()</a></tt>
+        </td>
+<td>
+            <tt><a href="https://developer.wordpress.org/reference/functions/delete_site_option/">delete_site_option()</a></tt>
+        </td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/settings/using-settings-api/" rel="previous"><span class="meta-nav">&#x2190;</span> Using Settings API</a><a href="https://developer.wordpress.org/plugins/settings/custom-settings-page/" rel="next">Custom Settings Page <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

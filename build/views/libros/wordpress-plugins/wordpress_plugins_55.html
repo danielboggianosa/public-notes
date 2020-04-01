@@ -1,0 +1,70 @@
+<main id="primary" class="site-main post-11616 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/javascript/" title="JavaScript">JavaScript</a></span> <span class="sep">/</span> <span class="trail-end">jQuery</span>
+		</div>
+		
+			
+<h1>jQuery</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#using-jquery">Using jQuery</a>
+<ul>
+<li><a href="#selector-and-event">Selector and Event</a></li></ul>
+</li></ul></div>
+<h2 class="toc-heading" id="using-jquery" tabindex="-1">Using jQuery <a href="#using-jquery" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Using jQuery</span></a></h2>
+<p>Your jQuery script runs on the user&#x2019;s browser after your WordPress webpage is received. A basic jQuery statement has two parts: a selector that determines which HTML elements the code applies to, and an action or event, which determines what the code does or what it reacts to. The basic event statement looks like this:</p>
+<pre class="brush: jscript; title: ; notranslate" title>jQuery.(selector).event(function);</pre>
+<p>When an event, such as a mouse click, occurs in an HTML element selected by the selector, the function that is defined inside the final set of parentheses is executed.</p>
+<p>All the following code examples are based on this HTML page content. Assume it appears on your plugin&#x2019;s admin settings screen, defined by the file <code>myplugin_settings.php</code>. It is a simple table with radio buttons next to each title.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: xml; title: ; notranslate" title>&lt;/pre&gt;
+&lt;form id=&quot;radioform&quot;&gt;
+ &lt;table&gt;
+  &lt;tbody&gt;
+   &lt;tr&gt;
+    &lt;td&gt;&lt;input class=&quot;pref&quot; checked=&quot;checked&quot; name=&quot;book&quot; type=&quot;radio&quot; value=&quot;Sycamore Row&quot; /&gt;Sycamore Row&lt;/td&gt;
+    &lt;td&gt;John Grisham&lt;/td&gt;
+   &lt;/tr&gt;
+   &lt;tr&gt;
+    &lt;td&gt;&lt;input class=&quot;pref&quot; name=&quot;book&quot; type=&quot;radio&quot; value=&quot;Dark Witch&quot; /&gt;Dark Witch&lt;/td&gt;
+    &lt;td&gt;Nora Roberts&lt;/td&gt;
+   &lt;/tr&gt;
+  &lt;/tbody&gt;
+ &lt;/table&gt;
+&lt;/form&gt;
+&lt;pre&gt;</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p>The output could look something like this on your settings page.</p>
+<p><img class="alignleft size-full wp-image-2914" src="https://make.wordpress.org/docs/files/2013/11/pdh-ajax-example.png" alt="sample table" width="334" height="96"></p>
+<p>In the <a title="AJAX" href="https://developer.wordpress.org/plugin/javascript/ajax/">article on AJAX</a>, we will build an AJAX exchange that saves the user selection in usermeta and adds the number of posts tagged with the selected title. Not a very practical application, but it illustrates all the important steps. jQuery code can either reside in an external file or be output to the page inside a <tt>&lt;script&gt;</tt> block. We will focus on the external file variation because passing values from PHP requires special attention. The same code can be output to the page if that seems more expedient to you.</p>
+<h4 class="toc-heading" id="selector-and-event" tabindex="-1">Selector and Event <a href="#selector-and-event" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Selector and Event</span></a></h4>
+<p>The selector is the same form as CSS selectors: <tt>&quot;.class&quot;</tt> or <tt>&quot;#id&quot;</tt>. There&#x2019;s many <a title="jQuery Reference" href="http://api.jquery.com/category/selectors/">more forms</a>, but these are the two you will frequently use. In our example, we will use class <tt>&quot;.pref&quot;</tt>. There&#x2019;s also a slew of possible <a title="jQuery Reference" href="http://api.jquery.com/category/events/">events</a>, one you will likely use a lot is <em>&#x2018;click&#x2019;</em>. In our example we will use <em>&#x2018;change&#x2019;</em> to capture a radio button selection. Be aware that jQuery events are often named somewhat differently than those with JavaScript. So far, after we add in an empty anonymous function, our example statement looks like this:</p>
+<pre class="brush: jscript; title: ; notranslate" title>$.(&quot;.pref&quot;).change(function(){
+	/*do stuff*/
+});</pre>
+<p>This code will &#x201C;do stuff&#x201D; when any element of the &#x201C;pref&#x201D; class changes.</p>
+<div style="border: 1px solid #CCC;background: #F1F1F1;padding: 0.7em 1em"><strong>Note:</strong> This code snippet, and all examples on this page, are for illustrating the use of AJAX. The code is not suitable for production environments because related operations such as <a title="Handbook Chapter" href="../../plugin-security/securing-input/">sanitization</a>, <a title="Handbook Chapter" href="../../plugin-security/user-capabilities-nonces/#nonces">security</a>, <a title="External Site" href="http://www.sitepoint.com/error-handling-in-php/">error handling</a>, and <a title="Handbook Chapter" href="../internationalization/">internationalization</a> have been intentionally omitted. Be sure to always address these important operations in your production code.</div>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/javascript/" rel="previous"><span class="meta-nav">&#x2190;</span> JavaScript, Ajax, &amp; jQuery</a><a href="https://developer.wordpress.org/plugins/javascript/ajax/" rel="next">Ajax <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

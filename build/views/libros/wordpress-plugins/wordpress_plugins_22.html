@@ -1,0 +1,85 @@
+<main id="primary" class="site-main post-37617 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/privacy/" title="Privacy">Privacy</a></span> <span class="sep">/</span> <span class="trail-end">Suggesting text for the site privacy policy</span>
+		</div>
+		
+			
+<h1>Suggesting text for the site privacy policy</h1>
+
+
+<p>Every plugin that collects, uses, or stores user data, or passes it to an external source or third party, should add a section of suggested text to the privacy policy postbox. This is best done with<code> wp_add_privacy_policy_content( $plugin_name, $policy_text )</code>. This will allow site administrators to pull that information into their site&#x2019;s privacy policy.</p>
+<p>To make this simpler for the users, the text should address the questions provided in the default privacy policy:</p>
+<ul>
+<li>What personal data we collect and why we collect it
+<ul>
+<li>Their own manually input information</li>
+<li>WP: Contact forms</li>
+<li>WP: Comments</li>
+<li>WP: Cookies</li>
+<li>WP: Third party embeds</li>
+<li>Analytics</li>
+</ul>
+</li>
+<li>Who we share your data with</li>
+<li>How long we retain your data</li>
+<li>What rights you have over your data</li>
+<li>Where we send your data</li>
+<li>Your contact information</li>
+<li>How we protect your data</li>
+<li>What data breach procedures we have in place</li>
+<li>What third parties we receive data from</li>
+<li>What automated decision making and/or profiling we do with user data</li>
+<li>Any industry regulatory disclosure requirements</li>
+</ul>
+<p>While not all of these questions will be applicable to all plugins, we recommend taking care with the sections on data sharing.</p>
+<h2>Code Example</h2>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> It is recommended to call wp_add_privacy_policy_content during the admin_init action. Calling it outside of an action hook can lead to problems, see ticket #44142 for details.</p>
+</div>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>function my_example_plugin_add_privacy_policy_content() {
+	if ( ! function_exists( &apos;wp_add_privacy_policy_content&apos; ) ) {
+		return;
+	}
+
+	$content = sprintf(
+		__( &apos;When you leave a comment on this site, we send your name, email
+		address, IP address and comment text to example.com. Example.com does
+		not retain your personal data.
+
+		The example.com privacy policy is &lt;a href=&quot;%s&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&apos;,
+		&apos;my_plugin_textdomain&apos; ),
+		&apos;https://example.com/privacy-policy&apos;
+	);
+
+	wp_add_privacy_policy_content(
+		&apos;Example Plugin&apos;,
+		wp_kses_post( wpautop( $content, false ) )
+	);
+}
+add_action( &apos;admin_init&apos;, &apos;my_example_plugin_add_privacy_policy_content&apos; );
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/privacy/" rel="previous"><span class="meta-nav">&#x2190;</span> Privacy</a><a href="https://developer.wordpress.org/plugins/privacy/adding-the-personal-data-exporter-to-your-plugin/" rel="next">Personal Data Export <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

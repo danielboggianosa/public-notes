@@ -1,0 +1,89 @@
+<main id="primary" class="site-main post-11639 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/javascript/" title="JavaScript">JavaScript</a></span> <span class="sep">/</span> <span class="trail-end">Summary</span>
+		</div>
+		
+			
+<h1>Summary</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h4>Topics</h4><ul class="items"><li><a href="#php">PHP</a></li>
+<li><a href="#jquery">jQuery</a>
+</li></ul>
+<li><a href="#more-information">More Information</a>
+</li></div>
+<p>Here are all the example code snippets from the preceding discussion, assembled into two complete code pages: one for jQuery and the other for PHP.</p>
+<h4 class="toc-heading" id="php" tabindex="-1">PHP <a href="#php" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">PHP</span></a></h4>
+<p>This code resides on one of your plugin pages.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>&lt;?php add_action(&apos;admin_enqueue_scripts&apos;, &apos;my_enqueue&apos;);
+function my_enqueue($hook) {
+ 	if( &apos;myplugin_settings.php&apos; != $hook) return;
+ 	wp_enqueue_script( &apos;ajax-script&apos;,
+ 	 	plugins_url( &apos;/js/myjquery.js&apos;, __FILE__ ),
+ 		array(&apos;jquery&apos;)
+ 	);
+ 	$title_nonce = wp_create_nonce(&apos;title_example&apos;);
+ 	wp_localize_script(&apos;ajax-script&apos;, &apos;my_ajax_obj&apos;, array(
+ 	 	&apos;ajax_url&apos; =&gt; admin_url( &apos;admin-ajax.php&apos; ),
+ 	 	&apos;nonce&apos;    =&gt; $title_nonce,
+	));
+}
+
+add_action(&apos;wp_ajax_my_tag_count&apos;, &apos;my_ajax_handler&apos;);
+function my_ajax_handler() {
+	check_ajax_referer(&apos;title_example&apos;);
+	update_user_meta( get_current_user_id(), &apos;title_preference&apos;, $_POST[&apos;title&apos;]);
+	$args = array(
+	   &apos;tag&apos; =&gt; $_POST[&apos;title&apos;],
+	);
+	$the_query = new WP_Query( $args );
+	echo $_POST[&apos;title&apos;].&apos; (&apos;.$the_query-&gt;post_count.&apos;) &apos;;
+	wp_die(); // all ajax handlers should die when finished
+}</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="jquery" tabindex="-1">jQuery <a href="#jquery" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">jQuery</span></a></h4>
+<p>This code is in the file <code>js/myjquery.js</code> below your plugin folder.</p>
+<pre class="brush: jscript; title: ; notranslate" title>jQuery(document).ready(function($) { 	   //wrapper
+	$(&quot;.pref&quot;).change(function() { 		   //event
+		var this2 = this; 		           //use in callback
+		$.post(my_ajax_obj.ajax_url, { 	   //POST request
+	       _ajax_nonce: my_ajax_obj.nonce, //nonce
+			action: &quot;my_tag_count&quot;,        //action
+	  		title: this.value 	           //data
+  		}, function(data) {		           //callback
+			this2.nextSibling.remove();    //remove the current title
+			$(this2).after(data); 	       //insert server response
+		});
+	});
+});</pre>
+<p>And after storing the preference, the resulting post count is added to the selected title.</p>
+<h2 class="toc-heading" id="more-information" tabindex="-1">More Information <a href="#more-information" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">More Information</span></a></h2>
+<ul>
+<li><a title="External Site" href="http://wp.smashingmagazine.com/2011/10/18/how-to-use-ajax-in-wordpress/">How To Use AJAX In WordPress</a></li>
+<li><a title="External Site" href="http://www.glennmessersmith.com/pages/wpajax.html">AJAX for WordPress</a></li>
+</ul>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/javascript/heartbeat-api/" rel="previous"><span class="meta-nav">&#x2190;</span> Heartbeat API</a><a href="https://developer.wordpress.org/plugins/cron/" rel="next">Cron <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

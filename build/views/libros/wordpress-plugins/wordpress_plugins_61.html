@@ -1,0 +1,73 @@
+<main id="primary" class="site-main post-11159 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/cron/" title="Cron">Cron</a></span> <span class="sep">/</span> <span class="trail-end">Understanding WP-Cron Scheduling</span>
+		</div>
+		
+			
+<h1>Understanding WP-Cron Scheduling</h1>
+
+
+
+<p>Unlike a traditional system cron that schedules tasks for specific times (e.g. &#x201C;every hour at 5 minutes past the hour&#x201D;), WP-Cron uses intervals to simulate a system cron. </p>
+
+
+
+<p>WP-Cron is given two arguments: the time for the first task, and an interval (in seconds) after which the task should be repeated. For example, if you schedule a task to begin at 2:00PM with an interval of 300 seconds (five minutes), the task would first run at 2:00PM and then again at 2:05PM, then again at 2:10PM, and so on, every five minutes.</p>
+
+
+
+<p>To simplify scheduling tasks, WordPress offers three default intervals and an easy method for adding custom intervals.</p>
+
+
+
+<p>The default intervals provided by WordPress&#xA0;are:</p>
+
+
+
+<ul><li>hourly</li><li>twicedaily</li><li>daily</li></ul>
+
+
+
+<h2>Custom Intervals</h2>
+
+
+
+<p>To add a custom interval, you can create a filter, such as:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>add_filter( &apos;cron_schedules&apos;, &apos;example_add_cron_interval&apos; );
+function example_add_cron_interval( $schedules ) { 
+    $schedules[&apos;five_seconds&apos;] = array(
+        &apos;interval&apos; =&gt; 5,
+        &apos;display&apos;  =&gt; esc_html__( &apos;Every Five Seconds&apos; ), );
+    return $schedules;
+}
+</pre>
+
+
+<p>This filter function creates a new interval that will allow us to run a cron task every five seconds.</p>
+
+
+
+<p><strong>Note:</strong> All intervals are in seconds.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/cron/" rel="previous"><span class="meta-nav">&#x2190;</span> Cron</a><a href="https://developer.wordpress.org/plugins/cron/scheduling-wp-cron-events/" rel="next">Scheduling WP Cron Events <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

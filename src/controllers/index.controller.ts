@@ -6,43 +6,37 @@ class IndexController{
 
     //CREATE
     public async create(req:Request, res:Response): Promise<void>{
-        const {titulo, contenido} = req.body
-        let raw:any = fs.readFileSync('notes.json')
-        let json = JSON.parse(raw)
-        let notas = json.notas
-        json.lastId++
-        let newNote = {
-            id:json.lastId,
-            titulo: titulo,
-            contenido: contenido,
-            createdAt: new Date()
-        }
-        notas.push(newNote)
-        let write = JSON.stringify(json)
-        fs.writeFileSync('notes.json', write)
-        res.json({success:true,message:"Nota Creada"})
     }
     
     //READ
     public async read(req:Request, res:Response): Promise<void>{
-        let raw:any = fs.readFileSync('notes.json')
-        let json = JSON.parse(raw)
-        let notas = json.notas
-        notas.forEach((n:any, index:number)=>{
-            let creado = new Date(n.createdAt).getHours()
-            let now = new Date().getHours()
-            if((now - creado) > 24)
-                notas.splice(index, 1)
-        })
-        notas.reverse();
-        res.render('index',json)
+        res.render('index')
+    }
+    
+    //READ
+    public async libros(req:Request, res:Response): Promise<void>{
+        res.render('libros')
     }
 
     //READ
-    public async crearForm(req:Request, res:Response): Promise<void>{
-        let raw:any = fs.readFileSync('notes.json')
-        let notas = JSON.parse(raw)
-        res.render('crear',notas)
+    public async libro(req:Request, res:Response): Promise<void>{
+        const {id, pagina} = req.params
+        let raw:any = fs.readFileSync('data/libros.json')
+        let json = JSON.parse(raw)
+        let libros = json.libros;
+        for(let i=0;i<libros.length;i++){
+            let libro = libros[i]
+            if(libro['id'] == id){
+                let contenido = fs.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`,'utf8')
+                res.render(`libros/index`,{pagina:contenido})
+                break
+            }
+        }
+    }
+
+    //READ
+    public async crear(req:Request, res:Response): Promise<void>{
+        res.render('crear')
     }
     
     //UPDATE
@@ -53,7 +47,7 @@ class IndexController{
     //DELTE
     public async delete(req:Request, res:Response): Promise<void>{
         const {index} = req.params
-        let raw:any = fs.readFileSync('notes.json')
+        let raw:any = fs.readFileSync('data/notes.json')
         let json = JSON.parse(raw)
         let notas = json.notas;
         let end = false
@@ -62,7 +56,7 @@ class IndexController{
             if(notas[i]['id'] == index){
                 notas.splice(i,1)
                 let write = JSON.stringify(json)
-                fs.writeFileSync('notes.json', write)
+                fs.writeFileSync('data/notes.json', write)
                 res.json({success:true})
                 break
             }

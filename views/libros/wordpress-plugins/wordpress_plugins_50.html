@@ -1,0 +1,168 @@
+<main id="primary" class="site-main post-11086 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/users/" title="Users">Users</a></span> <span class="sep">/</span> <span class="trail-end">Working with Users</span>
+		</div>
+		
+			
+<h1>Working with Users</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#adding-users">Adding Users</a>
+<ul>
+<li><a href="#create-user">Create User</a>
+<ul>
+<li><a href="#example-create">Example Create</a>
+</li></ul></li>
+<li><a href="#insert-user">Insert User</a>
+<ul>
+<li><a href="#example-insert">Example Insert</a>
+</li></ul></li>
+<li><a href="#updating-users">Updating Users</a>
+<ul>
+<li><a href="#example-update">Example Update</a>
+</li></ul></li>
+<li><a href="#deleting-users">Deleting Users</a></li></ul>
+</li></ul></div>
+<h2 class="toc-heading" id="adding-users" tabindex="-1">Adding Users <a href="#adding-users" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Adding Users</span></a></h2>
+<p>To add a user you can use <a href="https://developer.wordpress.org/reference/functions/wp_create_user/">wp_create_user()</a> or <a href="https://developer.wordpress.org/reference/functions/wp_insert_user/">wp_insert_user()</a>.</p>
+<p><a href="https://developer.wordpress.org/reference/functions/wp_create_user/">wp_create_user()</a> creates a user using only the username, password and email parameters while while <a href="https://developer.wordpress.org/reference/functions/wp_insert_user/">wp_insert_user()</a> accepts an array or object describing the user and it&#x2019;s properties.</p>
+<h3 class="toc-heading" id="create-user" tabindex="-1">Create User <a href="#create-user" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Create User</span></a></h3>
+<pre class="brush: php; title: ; notranslate" title>wp_create_user(
+    string $username,
+    string $password,
+    string $email = &apos;&apos;
+);
+</pre>
+<p>Allows you to create a new WordPress user.</p>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+It uses <a href="https://developer.wordpress.org/reference/functions/wp_slash/">wp_slash()</a> to escape the values. The PHP compact() function to create an array with these values. The <a href="https://developer.wordpress.org/reference/functions/wp_insert_user/">wp_insert_user()</a> to perform the insert operation.</p>
+</div>
+<p>Please refer to the Function Reference about <a href="https://developer.wordpress.org/reference/functions/wp_create_user/">wp_create_user()</a> for full explanation about the used parameters.</p>
+<h4 class="toc-heading" id="example-create" tabindex="-1">Example Create <a href="#example-create" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example Create</span></a></h4>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>// check if the username is taken
+$user_id = username_exists($user_name);
+
+// check that the email address does not belong to a registered user
+if (!$user_id &amp;&amp; email_exists($user_email) === false) {
+// create a random password
+    $random_password = wp_generate_password(
+        $length = 12,
+        $include_standard_special_chars = false
+    );
+// create the user
+    $user_id = wp_create_user(
+        $user_name,
+        $random_password,
+        $user_email
+    );
+}
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="insert-user" tabindex="-1">Insert User <a href="#insert-user" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Insert User</span></a></h3>
+<pre class="brush: php; title: ; notranslate" title>wp_insert_user(
+    array|object|WP_User $userdata
+);
+</pre>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+The function calls a filter for most predefined properties.</p>
+<p>The function performs the action <code>user_register</code> when creating a user (user ID does not exist).</p>
+<p>The function performs the action <code>profile_update</code> when updating the user (user ID exists).</p>
+</div>
+<p>Please refer to the Function Reference about <a href="https://developer.wordpress.org/reference/functions/wp_insert_user/">wp_insert_user()</a> for full explanation about the used parameters.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="example-insert" tabindex="-1">Example Insert <a href="#example-insert" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example Insert</span></a></h4>
+<p>Below is an example showing how to insert a new user with the website profile field filled in.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>$username = $_POST[&apos;username&apos;];
+$password = $_POST[&apos;password&apos;];
+$website = $_POST[&apos;website&apos;];
+$user_data = [
+    &apos;user_login&apos; =&gt; $username,
+    &apos;user_pass&apos;  =&gt; $password,
+    &apos;user_url&apos;   =&gt; $website,
+];
+
+$user_id = wp_insert_user($user_data);
+
+// success
+if (!is_wp_error($user_id)) {
+    echo &apos;User created: &apos; . $user_id;
+}
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="updating-users" tabindex="-1">Updating Users <a href="#updating-users" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Updating Users</span></a></h2>
+<pre class="brush: php; title: ; notranslate" title>wp_update_user(
+    mixed $userdata
+);
+</pre>
+<p>Updates a single user in the database. The update data is passed along in the $userdata array/object.</p>
+<p>To update a single piece of user meta data, use <a href="https://developer.wordpress.org/reference/functions/update_user_meta/">update_user_meta()</a> instead.<br>
+To create a new user, use <a href="https://developer.wordpress.org/reference/functions/wp_insert_user/">wp_insert_user()</a> instead.</p>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+If current user&#x2019;s password is being updated, then the cookies will be cleared!</p>
+</div>
+<p>Please refer to the Function Reference about <a href="https://developer.wordpress.org/reference/functions/wp_update_user/">wp_update_user()</a> for full explanation about the used parameters.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="example-update" tabindex="-1">Example Update <a href="#example-update" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example Update</span></a></h4>
+<p>Below is an example showing how to update a user&#x2019;s website profile field.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>$user_id = 1;
+$website = &apos;https://wordpress.org&apos;;
+
+$user_id = wp_update_user(
+    [
+        &apos;ID&apos;       =&gt; $user_id,
+        &apos;user_url&apos; =&gt; $website,
+    ]
+);
+
+if (is_wp_error($user_id)) {
+    // error
+} else {
+    // success
+}
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="deleting-users" tabindex="-1">Deleting Users <a href="#deleting-users" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Deleting Users</span></a></h2>
+<pre class="brush: php; title: ; notranslate" title>wp_delete_user(
+    int $id,
+    int $reassign = null
+);
+</pre>
+<p>Delete the user and optionally reassign associated entities to another user ID.</p>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+The function performs the action <code>deleted_user</code> after the user have been deleted.</p>
+</div>
+<div class="callout callout-alert"><p><span class="screen-reader-text">Alert:</span> <br>
+If the $reassign parameter is not set to a valid user ID, then all entities belonging to the deleted user will be deleted!</p>
+</div>
+<p>Please refer to the Function Reference about <a href="https://developer.wordpress.org/reference/functions/wp_delete_user/">wp_delete_user()</a> for full explanation about the used parameters.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/users/" rel="previous"><span class="meta-nav">&#x2190;</span> Users</a><a href="https://developer.wordpress.org/plugins/users/working-with-user-metadata/" rel="next">Working with User Metadata <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

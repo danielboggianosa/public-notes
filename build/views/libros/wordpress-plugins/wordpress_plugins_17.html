@@ -1,0 +1,94 @@
+<main id="primary" class="site-main post-10940 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/hooks/" title="Hooks">Hooks</a></span> <span class="sep">/</span> <span class="trail-end">Actions</span>
+		</div>
+		
+			
+<h1>Actions</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#add-action">Add Action</a>
+<ul>
+<li><a href="#additional-parameters">Additional Parameters</a>
+<ul>
+<li><a href="#priority">Priority</a></li>
+<li><a href="#number-of-arguments">Number of Arguments</a>
+</li></ul></li>
+<li><a href="#example">Example</a></li></ul>
+</li></ul></div>
+<p><strong>Actions</strong> are one of the two types of <a href="https://developer.wordpress.org/plugins/hooks/">Hooks</a>.</p>
+<p>They provide a way for running a function at a specific point in the execution of WordPress Core, plugins, and themes. They are the counterpart to <a href="https://developer.wordpress.org/plugin/hooks/filters/">Filters</a>.</p>
+<h2 class="toc-heading" id="add-action" tabindex="-1">Add Action <a href="#add-action" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Add Action</span></a></h2>
+<p>The process of adding an action includes two steps.</p>
+<p>First, you need to create a Callback function which will be called when the action is run. Second, you need to add your Callback function to a hook which will perform the calling of the function.</p>
+<p>You will use the <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a> function, passing at least two parameters, <code>string $tag</code>, <code>callable $function_to_add</code>.</p>
+<p>The example below will run when the <code>init</code> hook is executed:</p>
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+function wporg_custom()
+{
+    // do something
+}
+add_action(&apos;init&apos;, &apos;wporg_custom&apos;);
+</pre>
+<p>You can refer to the <a href="https://developer.wordpress.org/plugins/hooks/">Hooks</a> chapter for a list of available hooks.</p>
+<p>As you gain more experience, looking through WordPress Core source code will allow you to find the most appropriate hook.</p>
+<h3 class="toc-heading" id="additional-parameters" tabindex="-1">Additional Parameters <a href="#additional-parameters" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Additional Parameters</span></a></h3>
+<p><a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a> can accept two additional parameters, <code>int $priority</code> for the priority given to the callback function, and <code>int $accepted_args</code> for the number of arguments that will be passed to the callback function.</p>
+<h4 class="toc-heading" id="priority" tabindex="-1">Priority <a href="#priority" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Priority</span></a></h4>
+<p>The priority determines when the callback function will be executed in relation to the other callback functions associated with a given hook.</p>
+<p>A function with a priority of 11 will run <em>after</em> a function with a priority of 10; and a function with a priority of 9 will run <em>before</em> a function with a priority of 10. Any positive integer is an acceptable value, and the default value is 10.</p>
+<p>If two callback functions are registered for the same hook with the same priority, then will be run in the order that they were registered to the hook.</p>
+<p>For example, the following callback functions are all registered to the<br>
+<code>init</code> hook, but with different priorities:</p>
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_action(&apos;init&apos;, &apos;run_me_early&apos;, 9);
+add_action(&apos;init&apos;, &apos;run_me_normal&apos;);    // default value of 10 is used since a priority wasn&apos;t specified
+add_action(&apos;init&apos;, &apos;run_me_late&apos;, 11);
+</pre>
+<p>The first function to run will be <code>run_me_early()</code>, followed by <code>run_me_normal(),</code> and finally the last one to run will be <code>run_me_late()</code>.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h4 class="toc-heading" id="number-of-arguments" tabindex="-1">Number of Arguments <a href="#number-of-arguments" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Number of Arguments</span></a></h4>
+<p>Sometimes it&#x2019;s desirable for a callback function to receive some extra data related to the function that it&#x2019;s hooking into.</p>
+<p>For example, when WordPress saves a post and runs the <code><a href="https://developer.wordpress.org/reference/hooks/save_post/">save_post</a></code> hook, it passes two parameters to the callback function: the ID of the post being saved, and the post object itself:</p>
+<pre class="brush: php; title: ; notranslate" title>do_action(&apos;save_post&apos;, $post-&gt;ID, $post);
+</pre>
+<p>So, when a callback function is registered for the <code><a href="https://developer.wordpress.org/reference/hooks/save_post/">save_post</a></code> hook, it can specify that it wants to receive those two arguments:</p>
+<pre class="brush: php; title: ; notranslate" title>add_action(&apos;save_post&apos;, &apos;wporg_custom&apos;, 10, 2);
+</pre>
+<p>&#x2026;and then it can register the arguments in the function definition:</p>
+<pre class="brush: php; title: ; notranslate" title>function wporg_custom($post_id, $post)
+{
+    // do something
+}
+</pre>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="example" tabindex="-1">Example <a href="#example" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example</span></a></h2>
+<p>If you wanted to modify the query that fetches search results during <a href="https://codex.wordpress.org/the_loop">The Loop</a> on the frontend, you could hook into the <code><a href="https://developer.wordpress.org/reference/hooks/pre_get_posts/">pre_get_posts</a></code> hook. </p>
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+function wporg_search($query)
+{
+    if (!is_admin() &amp;&amp; $query-&gt;is_main_query() &amp;&amp; $query-&gt;is_search) {
+        $query-&gt;set(&apos;post_type&apos;, [&apos;post&apos;, &apos;movie&apos;]);
+    }
+}
+add_action(&apos;pre_get_posts&apos;, &apos;wporg_search&apos;);
+</pre>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/hooks/" rel="previous"><span class="meta-nav">&#x2190;</span> Hooks</a><a href="https://developer.wordpress.org/plugins/hooks/filters/" rel="next">Filters <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

@@ -1,0 +1,69 @@
+<main id="primary" class="site-main post-10983 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> <span class="trail-end">Shortcodes</span>
+		</div>
+		
+			
+<h1>Shortcodes</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#why-shortcodes">Why Shortcodes?</a></li>
+<li><a href="#built-in-shortcodes">Built-in Shortcodes</a></li>
+<li><a href="#shortcode-best-practices">Shortcode Best Practices</a></li>
+<li><a href="#quick-reference">Quick Reference</a></li>
+<li><a href="#external-resources">External Resources</a></li></ul>
+</div>
+<p>As a security precaution, running PHP inside WordPress content is forbidden; to allow dynamic interactions with the content, Shortcodes were presented in WordPress version 2.5.</p>
+<p>Shortcodes are macros that can be used to perform dynamic interactions with the content. i.e creating a gallery from images attached to the post or rendering a video.</p>
+<h2 class="toc-heading" id="why-shortcodes" tabindex="-1">Why Shortcodes? <a href="#why-shortcodes" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why Shortcodes?</span></a></h2>
+<p>Shortcodes are a valuable way of keeping content clean and semantic while allowing end users some ability to programmatically alter the presentation of their content.</p>
+<p>When the end user adds a photo gallery to their post using a shortcode, they&#x2019;re using the least data possible to indicate how the gallery should be presented.</p>
+<p>Advantages:</p>
+<ul>
+<li>No markup is added to the post content, which means that markup and styling can easily be manipulated on the fly or at a later state.</li>
+<li>Shortcodes can also accept parameters, allowing users to modify how the shortcode behaves on an instance by instance basis.</li>
+</ul>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="built-in-shortcodes" tabindex="-1">Built-in Shortcodes <a href="#built-in-shortcodes" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Built-in Shortcodes</span></a></h2>
+<p>By default, WordPress includes the following shortcodes:</p>
+<ul>
+<li><code>[caption]</code> &#x2013; shortcode that allows you to wrap captions around content</li>
+<li><code>[gallery]</code> &#x2013; shortcode that allows you to show image galleries</li>
+<li><code>[audio]</code> &#x2013; shortcode that allows you to embed and play audio files</li>
+<li><code>[video]</code> &#x2013; shortcode that allows you to embed and play video files</li>
+<li><code>[playlist]</code> &#x2013; shortcode that allows you to display collection of audio or video files</li>
+<li><code>[embed]</code> &#x2013; shortcode that allows you to wrap embedded items</li>
+</ul>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="shortcode-best-practices" tabindex="-1">Shortcode Best Practices <a href="#shortcode-best-practices" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Shortcode Best Practices</span></a></h2>
+<p>Best practices for developing shortcodes include the <a href="https://developer.wordpress.org/plugins/the-basics/best-practices/">plugin development best practices</a> and the list below:</p>
+<ul>
+<li><strong>Always return!</strong><br> Shortcodes are essentially filters, so creating &#x201C;<a href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)" target="_blank">side effects</a>&#x201D; will lead to unexpected bugs.</li>
+<li>Prefix your shortcode names to avoid collisions with other plugins.</li>
+<li>Sanitize the input and escape the output.</li>
+<li>Provide users with clear documentation on all shortcode attributes.</li>
+</ul>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="quick-reference" tabindex="-1">Quick Reference <a href="#quick-reference" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Quick Reference</span></a></h2>
+<p>See the complete example of using a <a href="https://developer.wordpress.org/plugins/shortcodes/shortcodes-with-parameters/#complete-example">basic shortcode structure, taking care of self-closing and enclosing scenarios, shortcodes within shortcodes and securing output</a>.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="external-resources" tabindex="-1">External Resources <a href="#external-resources" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">External Resources</span></a></h2>
+<ul>
+<li><a href="http://generatewp.com/shortcodes/" target="_blank">WordPress Shortcodes Generator</a></li>
+</ul>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/administration-menus/sub-menus/" rel="previous"><span class="meta-nav">&#x2190;</span> Sub-Menus</a><a href="https://developer.wordpress.org/plugins/shortcodes/basic-shortcodes/" rel="next">Basic Shortcodes <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

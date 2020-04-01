@@ -1,0 +1,979 @@
+<main id="primary" class="site-main post-15282 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/wordpress-org/" title="The WordPress.org Plugin Directory">The WordPress.org Plugin Directory</a></span> <span class="sep">/</span> <span class="trail-end">Plugin Developer FAQ</span>
+		</div>
+		
+			
+<h1>Plugin Developer FAQ</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#how-do-i-contact-the-plugin-review-team">How do I contact the Plugin Review team?</a></li>
+<li><a href="#submissions-and-reviews">Submissions and Reviews</a>
+<ul>
+<li><a href="#where-do-i-submit-my-plugin">Where do I submit my plugin?</a></li>
+<li><a href="#what-happens-after-submission">What happens after submission?</a></li>
+<li><a href="#what-will-my-plugin-url-be">What will my plugin URL be?</a></li>
+<li><a href="#why-did-i-get-a-different-slug-than-i-was-told">Why did I get a different slug than I was told?</a></li>
+<li><a href="#how-do-i-submit-an-official-plugin">How do I submit an official plugin?</a></li>
+<li><a href="#what-if-i-submitted-the-plugin-with-the-wrong-user-id">What if I submitted the plugin with the wrong user ID?</a></li>
+<li><a href="#how-long-does-it-take-to-get-a-plugin-approved">How long does it take to get a plugin approved?</a></li>
+<li><a href="#if-my-plugin-has-a-problem-how-long-do-i-have-to-fix-it">If my plugin has a problem, how long do I have to fix it?</a></li>
+<li><a href="#why-was-my-plugin-rejected-after-six-months">Why was my plugin rejected after six months?</a></li>
+<li><a href="#i-finally-fixed-my-plugin-should-i-resubmit">I finally fixed my plugin. Should I resubmit?</a></li>
+<li><a href="#how-many-plugins-can-i-submit-for-review-at-a-time">How many plugins can I submit for review at a time?</a></li>
+<li><a href="#why-cant-i-submit-more-than-one-plugin-at-a-time">Why can&#x2019;t I submit more than one plugin at a time?</a></li>
+<li><a href="#can-i-submit-multiple-plugins-with-multiple-accounts">Can I submit multiple plugins with multiple accounts?</a></li>
+<li><a href="#i-need-my-plugin-approved-by-a-specific-date-what-should-i-do">I need my plugin approved by a specific date, what should I do?</a></li>
+<li><a href="#are-there-specific-things-that-i-should-avoid-doing">Are there specific things that I should avoid doing?</a></li>
+<li><a href="#are-there-plugins-you-dont-accept">Are there plugins you don&#x2019;t accept?</a></li>
+<li><a href="#i-want-to-redo-upgrade-or-rebrand-my-existing-plugin-i-just-submit-again-right">I want to redo, upgrade, or rebrand my existing plugin. I just submit again, right?</a></li>
+<li><a href="#i-made-a-mistake-with-my-submission-how-can-i-fix-it">I made a mistake with my submission. How can I fix it?</a></li>
+<li><a href="#are-there-things-i-cant-do-in-a-plugin-name">Are there things I can&#x2019;t do in a plugin name?</a>
+</li></ul></li>
+<li><a href="#using-the-svn-repository">Using The SVN Repository</a>
+<ul>
+<li><a href="#where-do-i-put-my-files">Where do I put my files?</a></li>
+<li><a href="#can-i-put-my-files-in-a-subdirectory-of-trunk">Can I put my files in a subdirectory of <code>trunk/</code>?</a></li>
+<li><a href="#how-should-i-name-my-tags-a-k-a-releases">How should I name my tags (a.k.a. releases)?</a></li>
+<li><a href="#how-many-old-releases-should-i-keep-in-svn">How many old releases should I keep in SVN?</a></li>
+<li><a href="#can-i-include-svn-externals-in-my-plugin">Can I include SVN externals in my plugin?</a></li>
+<li><a href="#can-i-put-zips-and-other-compressed-files-in-my-plugin">Can I put zips and other compressed files in my plugin?</a>
+</li></ul></li>
+<li><a href="#your-wordpress-org-page">Your WordPress.Org Page</a>
+<ul>
+<li><a href="#when-does-my-plugin-go-live">When does my plugin go &#x2018;live&#x2019;?</a></li>
+<li><a href="#where-does-the-wordpress-org-plugin-directory-get-its-data">Where does the WordPress.org Plugin Directory get its data?</a></li>
+<li><a href="#can-i-specify-what-version-of-my-plugin-the-wordpress-org-plugin-directory-should-use">Can I specify what version of my plugin the WordPress.org Plugin Directory should use?</a></li>
+<li><a href="#what-version-of-wordpress-should-the-%e2%80%9ctested-up-to%e2%80%9d-value-be">What version of WordPress should the &#x201C;Tested Up To&#x201D; value be?</a></li>
+<li><a href="#what-should-be-in-my-changelog">What should be in my changelog?</a></li>
+<li><a href="#how-many-versions-should-i-keep-in-my-changelog">How many versions should I keep in my changelog?</a></li>
+<li><a href="#how-do-i-include-videos-on-plugin-description-pages">How do I include videos on plugin description pages?</a></li>
+<li><a href="#why-does-my-plugin-say-its-not-been-tested-with-the-most-recent-wordpress-versions">Why does my plugin say it&#x2019;s not been tested with the most recent WordPress versions?</a></li>
+<li><a href="#how-long-does-it-take-for-the-plugin-directory-to-reflect-my-changes">How long does it take for the Plugin Directory to reflect my changes?</a></li>
+<li><a href="#how-do-i-make-one-of-those-cool-banners-for-my-plugin-page">How do I make one of those cool banners for my plugin page?</a></li>
+<li><a href="#how-do-i-make-a-plugin-icon">How do I make a plugin icon?</a></li>
+<li><a href="#can-i-use-official-logos-in-my-plugin">Can I use official logos in my plugin?</a></li>
+<li><a href="#how-many-tags-can-i-use-in-my-readme">How many tags can I use in my readme?</a>
+</li></ul></li>
+<li><a href="#plugin-names">Plugin Names</a>
+<ul>
+<li><a href="#can-i-change-my-plugins-name-after-its-approved">Can I change my plugin&#x2019;s name after it&#x2019;s approved?</a></li>
+<li><a href="#why-cant-i-use-someones-trademarkbrand-as-my-plugin-name">Why can&#x2019;t I use someone&#x2019;s trademark/brand as my plugin name?</a></li>
+<li><a href="#can-i-change-my-plugins-urlslug">Can I change my plugin&#x2019;s URL/slug?</a></li>
+<li><a href="#how-do-i-change-my-plugins-display-name">How do I change my plugin&#x2019;s display name?</a></li>
+<li><a href="#can-i-make-my-display-name-anything">Can I make my display name anything?</a></li>
+<li><a href="#can-i-use-wordpress-or-plugin-in-my-display-name">Can I use WordPress or Plugin in my display name?</a></li>
+<li><a href="#should-i-use-the-trademark-or-registered-symbol-in-my-plugin-name">Should I use the trademark or registered symbol in my plugin name?</a>
+</li></ul></li>
+<li><a href="#search">Search</a>
+<ul>
+<li><a href="#how-long-will-it-take-for-my-plugin-to-show-up-in-search">How long will it take for my plugin to show up in search?</a></li>
+<li><a href="#how-do-i-rank-higher">How do I rank higher?</a></li>
+<li><a href="#whats-weighted-more-my-url-or-my-display-name">What&#x2019;s weighted more, my URL or my display name?</a>
+</li></ul></li>
+<li><a href="#the-support-forums">The Support Forums</a>
+<ul>
+<li><a href="#how-do-i-get-notified-for-forums-posts">How do I get notified for forums posts?</a></li>
+<li><a href="#how-do-i-get-notified-for-all-my-plugins">How do I get notified for all my plugins?</a></li>
+<li><a href="#how-do-i-give-a-support-account-access-to-my-plugin">How do I give a support account access to my plugin?</a></li>
+<li><a href="#will-you-delete-bad-reviews-or-comments-on-my-plugin">Will you delete bad reviews or comments on my plugin?</a></li>
+<li><a href="#what-is-sockpuppeting">What is &#x2018;Sockpuppeting&#x2019;?</a>
+</li></ul></li>
+<li><a href="#closed-plugins">Closed Plugins</a>
+<ul>
+<li><a href="#how-do-i-close-my-plugin">How do I close my plugin?</a></li>
+<li><a href="#what-happens-when-a-plugin-is-closed">What happens when a plugin is closed?</a></li>
+<li><a href="#why-was-my-plugin-closed">Why was my plugin closed?</a></li>
+<li><a href="#why-was-someone-elses-plugin-closed">Why was someone else&#x2019;s plugin closed?</a></li>
+<li><a href="#can-i-get-someone-elses-plugin-closed">Can I get someone else&#x2019;s plugin closed?</a></li>
+<li><a href="#someone-posted-a-copy-of-my-plugin-what-do-i-do">Someone posted a copy of my plugin! What do I do?</a></li>
+<li><a href="#will-you-close-another-plugin-for-violating-my-brandtrademark">Will you close another plugin for violating my brand/trademark?</a></li>
+<li><a href="#how-can-i-send-a-security-report">How can I send a security report?</a></li>
+<li><a href="#do-you-provide-bounties-for-finding-bugs-in-a-plugin">Do you provide bounties for finding bugs in a plugin?</a></li>
+<li><a href="#do-you-help-file-or-provide-cves">Do you help file or provide CVEs?</a></li>
+<li><a href="#my-plugin-was-closed-can-i-reopen-it">My plugin was closed, can I reopen it?</a></li>
+<li><a href="#why-was-my-plugin-closed-when-it-was-my-employeeco-worker-who-violated-guidelines">Why was my plugin closed when it was my employee/co-worker who violated guidelines?</a></li>
+<li><a href="#all-my-plugins-were-closed-how-can-i-get-them-back"><em>All</em> my plugins were closed! How can I get them back?</a></li>
+<li><a href="#i-just-got-a-final-warning-what-do-i-do">I just got a final warning. What do I do?</a>
+</li></ul></li>
+<li><a href="#plugin-ownership">Plugin Ownership</a>
+<ul>
+<li><a href="#how-do-i-give-someone-else-access-to-my-plugin">How do I give someone else access to my plugin?</a></li>
+<li><a href="#how-do-i-remove-someones-access-from-my-plugin">How do I remove someone&#x2019;s access from my plugin?</a></li>
+<li><a href="#how-can-i-take-over-an-abandoned-plugin">How can I take over an abandoned plugin?</a></li>
+<li><a href="#are-these-offers-to-buy-my-plugin-legit">Are these offers to buy my plugin legit?</a></li>
+<li><a href="#what-happens-when-a-plugin-developer-dies">What happens when a plugin developer dies?</a></li></ul>
+</li></ul></div>
+
+<p>There are lot of ins and outs to hosting WordPress plugins. Please take a minute to see if your question is answered here before reaching out for assistance.</p>
+
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> Last Updated: 30 March 2020</div>
+
+
+
+<h2 class="toc-heading" id="how-do-i-contact-the-plugin-review-team" tabindex="-1">How do I contact the Plugin Review team? <a href="#how-do-i-contact-the-plugin-review-team" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I contact the Plugin Review team?</span></a></h2>
+
+
+
+<p>You can contact us by email at <code>plugins@wordpress.org</code> &#x2013; we reply to all emails within 7 business days.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="submissions-and-reviews" tabindex="-1">Submissions and Reviews <a href="#submissions-and-reviews" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Submissions and Reviews</span></a></h2>
+
+
+
+<h3 class="toc-heading" id="where-do-i-submit-my-plugin" tabindex="-1">Where do I submit my plugin? <a href="#where-do-i-submit-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Where do I submit my plugin?</span></a></h3>
+
+
+
+<p>Go to the <a href="https://wordpress.org/plugins/developers/add/">Add</a> page&#xA0;and upload your zip. Your file should be under <strong>10 megs</strong> and be a complete plugin. We do not accept placeholders or plugins that aren&#x2019;t ready to be used.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-happens-after-submission" tabindex="-1">What happens after submission? <a href="#what-happens-after-submission" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What happens after submission?</span></a></h3>
+
+
+
+<p>You will get an automated email telling you about the submission immediately. At that point, someone will manually download and review your code. If we find no issues with the security, documentation, or presentation, your plugin will be approved. If we determine there are issues, you will receive a second email with details explaining what needs to be fixed.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-will-my-plugin-url-be" tabindex="-1">What will my plugin URL be? <a href="#what-will-my-plugin-url-be" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What will my plugin URL be?</span></a></h3>
+
+
+
+<p>When you submit a plugin, you get an automated email telling you what the slug will be.&#xA0;This is populated based on the value of Plugin Name in your main plugin file (the one with the plugin headers). If you set yours as <code>Plugin Name: Boaty McBoatface</code> then your URL will be <code>wordpress.org/plugins/boaty-mcboatface</code> and your slug will be <code>boaty-mcboatface</code> for example. If there is an existing plugin with your name, then you&#x2019;ll get a warning on submission.</p>
+
+
+
+<p>This is&#xA0;<em>also</em> the folder name (in SVN and installed on WordPress) for your plugin and your text-domain, so pay attention carefully.</p>
+
+
+
+<p>Once your plugin is approved, this name&#xA0;<strong>cannot</strong> be renamed. Please chose wisely.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-did-i-get-a-different-slug-than-i-was-told" tabindex="-1">Why did I get a different slug than I was told? <a href="#why-did-i-get-a-different-slug-than-i-was-told" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why did I get a different slug than I was told?</span></a></h3>
+
+
+
+<p>Sometimes we notice typos and fix them for you. Other times, the name you chose has an obvious issue and cannot be used. For example, if you submit &#x201C;WooCommerce Tango Salsa Add-on&#x201D; that would make your slug <code>woocommerce-tango-salsa-add-on</code> by default. If you don&#x2019;t work for WooCommerce, we would just change that to <code>wc-tango-salsa-add-on</code> for you. If, however, your zip was named <code>wc-tango-salsa</code>, &#xA0;or you use a textdomain or class name with an intentional spelling, then we&#x2019;d likely use that.</p>
+
+
+
+<p>Basically we&#x2019;ll fix the stuff we know is wrong for you, and if we&#x2019;re ever not sure, we&#x2019;ll email you and ask. For the obvious errors, or ones we&#x2019;re required to make, we will fix that or you.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-submit-an-official-plugin" tabindex="-1">How do I submit an official plugin? <a href="#how-do-i-submit-an-official-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I submit an official plugin?</span></a></h3>
+
+
+
+<p>Log in as the official company user account and submit with that account&#xA0;<em>only</em>. We cannot accept plugins submitted by individual developer accounts, unless they&#x2019;re clearly company ones as well. For example, submitting your official Facerange plugin with a user that has a gmail address is likely to be flagged for trademark infringement.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-if-i-submitted-the-plugin-with-the-wrong-user-id" tabindex="-1">What if I submitted the plugin with the wrong user ID? <a href="#what-if-i-submitted-the-plugin-with-the-wrong-user-id" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What if I submitted the plugin with the wrong user ID?</span></a></h3>
+
+
+
+<p>Just reply to the email right away and let us know. We can transfer ownership for you. If you forget to do this, you can fix it yourself by <a href="#how-do-i-give-someone-else-access-to-my-plugin">adding the correct account as a committer</a> and then having that account remove your own.</p>
+
+
+
+<p><strong>DO NOT</strong>&#xA0;resubmit your plugin. Just tell us right away and we&#x2019;ll fix it.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-long-does-it-take-to-get-a-plugin-approved" tabindex="-1">How long does it take to get a plugin approved? <a href="#how-long-does-it-take-to-get-a-plugin-approved" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How long does it take to get a plugin approved?</span></a></h3>
+
+
+
+<p>There&#x2019;s no official average, as no two plugins are the same. If your plugin is small and all the code is correct, it should be approved within<strong> fourteen</strong> days. If your plugin has any code issues, it will take as long as it takes for you to correct the issues. Either way, you <em>will</em> get an email from <code>plugins@wordpress.org</code> with the status, so please add that to your email whitelist and patiently wait for our response.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="if-my-plugin-has-a-problem-how-long-do-i-have-to-fix-it" tabindex="-1">If my plugin has a problem, how long do I have to fix it? <a href="#if-my-plugin-has-a-problem-how-long-do-i-have-to-fix-it" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">If my plugin has a problem, how long do I have to fix it?</span></a></h3>
+
+
+
+<p>There&#x2019;s no timeline and as long as we know you&#x2019;re working on it and we feel you&#x2019;re making progress, we&#x2019;ll leave the review open.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-was-my-plugin-rejected-after-six-months" tabindex="-1">Why was my plugin rejected after six months? <a href="#why-was-my-plugin-rejected-after-six-months" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why was my plugin rejected after six months?</span></a></h3>
+
+
+
+<p>If you <strong>never</strong> reply to our review within 6 months, we may reject it, in order to keep the pending queue under 700. If you&#x2019;ve replied, even once, even to tell us you&#x2019;re working on the code, we won&#x2019;t reject until another 6 months has passed without reply, or your email bounces.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="i-finally-fixed-my-plugin-should-i-resubmit" tabindex="-1">I finally fixed my plugin. Should I resubmit? <a href="#i-finally-fixed-my-plugin-should-i-resubmit" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">I finally fixed my plugin. Should I resubmit?</span></a></h3>
+
+
+
+<p>No. Reply to the email. Even if it&#x2019;s been a year and a half.&#xA0;The longest time to date has been 3 years. We don&#x2019;t mind if it takes a while.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-many-plugins-can-i-submit-for-review-at-a-time" tabindex="-1">How many plugins can I submit for review at a time? <a href="#how-many-plugins-can-i-submit-for-review-at-a-time" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How many plugins can I submit for review at a time?</span></a></h3>
+
+
+
+<p>Just one.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-cant-i-submit-more-than-one-plugin-at-a-time" tabindex="-1">Why can&#x2019;t I submit more than one plugin at a time? <a href="#why-cant-i-submit-more-than-one-plugin-at-a-time" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why can&#x2019;t I submit more than one plugin at a time?</span></a></h3>
+
+
+
+<p>Allowing people to have multiple submissions at once was proven to be detrimental to the review process. Errors were regularly found in all the plugins, resulting in the same emails being sent multiple times. In addition, people often got confused as to which review they were working on, muddying the waters about what needed to be solved. By changing this to one-at-a-time, confusion in those matters dropped significantly.</p>
+
+
+
+<p>In addition, many new users don&#x2019;t know how to use SVN, and wound up submitting multiple plugins and never using any. That can be a drain on our resources, so we do limit people.</p>
+
+
+
+<p>Since all plugins get an initial review within two weeks, this should not be a hardship.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-submit-multiple-plugins-with-multiple-accounts" tabindex="-1">Can I submit multiple plugins with multiple accounts? <a href="#can-i-submit-multiple-plugins-with-multiple-accounts" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I submit multiple plugins with multiple accounts?</span></a></h3>
+
+
+
+<p>No. And if you do so, we will suspend all your secondary accounts. Don&#x2019;t try to get around the one-at-a-time rule please.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="i-need-my-plugin-approved-by-a-specific-date-what-should-i-do" tabindex="-1">I need my plugin approved by a specific date, what should I do? <a href="#i-need-my-plugin-approved-by-a-specific-date-what-should-i-do" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">I need my plugin approved by a specific date, what should I do?</span></a></h3>
+
+
+
+<p>Submit it as early as possible. Unless the plugin is meant to address a security or legal issue, we don&#x2019;t permit queue jumping. If it&#xA0;<em>is</em> related to one of those, please email <code>plugins@wordpress.org</code>&#xA0;and explain the situation.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="are-there-specific-things-that-i-should-avoid-doing" tabindex="-1">Are there specific things that I should avoid doing? <a href="#are-there-specific-things-that-i-should-avoid-doing" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Are there specific things that I should avoid doing?</span></a></h3>
+
+
+
+<p>We look for some pretty obvious things, all of which are listed <a href="https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/">in our guidelines</a>. Most can be summed up as &#x201C;Don&#x2019;t be a spammer,&#x201D; but to touch on the ones people do the most:</p>
+
+
+
+<ul><li>Not including a <code>readme.txt</code> file when acting as a service</li><li>Not testing the plugin with <code>WP_DEBUG</code></li><li>Including custom versions of packaged JavaScript libraries</li><li>Calling external files unnecessarily</li><li>&#x201C;Powered By&#x201D; links</li><li>Phoning home</li></ul>
+
+
+
+<p>Again, this is a brief overview. Please read the guidelines, as the full list is quite detailed.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="are-there-plugins-you-dont-accept" tabindex="-1">Are there plugins you don&#x2019;t accept? <a href="#are-there-plugins-you-dont-accept" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Are there plugins you don&#x2019;t accept?</span></a></h3>
+
+
+
+<p>We don&#x2019;t accept plugins that do &#x2018;nothing,&#x2019; are illegal, or encourage bad behavior. This includes black hat SEO spamming, content spinners, hate-plugins, and so on.</p>
+
+
+
+<p>Similarly we do not accept framework plugins or library plugins. If your plugin has to require other plugins or themes to edit themselves in order to use your plugin, it&#x2019;s a library. If your plugin is a template from which more code can be built by customizing the files directly, it&#x2019;s a framework or boilerplate. Frameworks and libraries should be packaged with each plugin (hopefully in a way that doesn&#x2019;t conflict with other plugins using the framework or libraries). At least until core supports plugin dependencies.</p>
+
+
+
+<p>We also don&#x2019;t accept 100% copies of other people&#x2019;s work or plugins that duplicate functionality found in WordPress Core. Basically, your plugin should do something new, or in a new way, or solve a specific issue.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="i-want-to-redo-upgrade-or-rebrand-my-existing-plugin-i-just-submit-again-right" tabindex="-1">I want to redo, upgrade, or rebrand my existing plugin. I just submit again, right? <a href="#i-want-to-redo-upgrade-or-rebrand-my-existing-plugin-i-just-submit-again-right" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">I want to redo, upgrade, or rebrand my existing plugin. I just submit again, right?</span></a></h3>
+
+
+
+<p>No. Instead, you should rewrite the existing plugin. Make it a major version release. We can&#x2019;t rename plugins or transfer users, so a new one wouldn&#x2019;t carry over any existing users, reviews, support topics, ratings, downloads, favorites, etc. Basically you&#x2019;d leave&#xA0;<em>all</em> your current users out in the cold, and that&#x2019;s mean.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="i-made-a-mistake-with-my-submission-how-can-i-fix-it" tabindex="-1">I made a mistake with my submission. How can I fix it? <a href="#i-made-a-mistake-with-my-submission-how-can-i-fix-it" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">I made a mistake with my submission. How can I fix it?</span></a></h3>
+
+
+
+<p>Every submission gets an automated reply with directions. Reply to that or email <code>plugins@wordpress.org</code> and explain the situation. </p>
+
+
+
+<p>We can correct plugin slugs before approval, so we are often able to fix that for you. If not, we&#x2019;ll let you know what to do. We try to catch typos in names before we approve anything, but we make mistakes too.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="are-there-things-i-cant-do-in-a-plugin-name" tabindex="-1">Are there things I can&#x2019;t do in a plugin name? <a href="#are-there-things-i-cant-do-in-a-plugin-name" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Are there things I can&#x2019;t do in a plugin name?</span></a></h3>
+
+
+
+<p>We have the following restrictions:</p>
+
+
+
+<ul><li>Plugins may not use vulgarities in the name or slug</li><li>Plugins may not&#xA0;use &#x2018;WordPress&#x2019; or &#x2018;Plugin&#x2019; in their slugs except under extreme situations</li><li>Plugins may not use&#xA0;version numbers in plugin slugs</li><li>Due to system limitations, only English letters and Arabic numbers are permitted in the slug</li><li>Plugins may not <strong>start</strong> with a trademarked term or name of a specific project/library/tool <em>unless</em> submitted by an official representative</li></ul>
+
+
+
+<p>We encourage everyone to be creative and come up with unique slugs. We automatically correct any plugin that has an unacceptable slug. If there&#x2019;s a question as to the best choice, we will contact you to be sure.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="using-the-svn-repository" tabindex="-1">Using The SVN Repository <a href="#using-the-svn-repository" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Using The SVN Repository</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="where-do-i-put-my-files" tabindex="-1">Where do I put my files? <a href="#where-do-i-put-my-files" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Where do I put my files?</span></a></h3>
+
+
+
+<p>Put your code files directly in the <code>trunk/</code> directory of your repository. Whenever you release a new version, <a href="https://developer.wordpress.org/plugins/wordpress-org/how-to-use-subversion/#task-3">tag that release</a> by copying the current trunk revision to a new subdirectory of the <code>tags/</code> directory.</p>
+
+
+
+<p>Make sure you update <a href="https://wordpress.org/plugins/developers/#readme"><code>trunk/readme.txt</code></a> to reflect the new stable tag.</p>
+
+
+
+<p>Images for the readme (such as <a href="https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/">screenshots, plugin headers, and plugin icons</a>), belong in the <code>assets/</code> directory (which you may need to create) in the root of your SVN checkout. This will be on the same level as <code>tags/</code> and <code>trunk/</code>, for example.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-put-my-files-in-a-subdirectory-of-trunk" tabindex="-1">Can I put my files in a subdirectory of <code>trunk/</code>? <a href="#can-i-put-my-files-in-a-subdirectory-of-trunk" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I put my files in a subdirectory of <code>trunk/</code>?</span></a></h3>
+
+
+
+<p>No. Doing that will cause the zip generator to break.</p>
+
+
+
+<p>If you have complicated plugin with lots of files, you can of course organize them into subdirectories, but the <a href="https://wordpress.org/plugins/developers/#readme">readme.txt file</a>&#xA0;and the root plugin file should go straight into <code>trunk/</code>.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-should-i-name-my-tags-a-k-a-releases" tabindex="-1">How should I name my tags (a.k.a. releases)? <a href="#how-should-i-name-my-tags-a-k-a-releases" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How should I name my tags (a.k.a. releases)?</span></a></h3>
+
+
+
+<p>Your Subversion tags should look like version numbers. Specifically, they should only contain <strong>numbers and periods</strong>. <code>2.8.4</code> is a good lookin&#x2019; tag, <code>my neato releaso</code> is a bad lookin&#x2019; tag. We recommend you use <a href="http://semver.org">Semantic Versioning</a> to keep track of releases, but we do not enforce this.</p>
+
+
+
+<p>Note that we&#x2019;re talking about <em>Subversion</em> tags here, not readme.txt search type tags.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-many-old-releases-should-i-keep-in-svn" tabindex="-1">How many old releases should I keep in SVN? <a href="#how-many-old-releases-should-i-keep-in-svn" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How many old releases should I keep in SVN?</span></a></h3>
+
+
+
+<p>As few as possible. Very rarely does anyone need your old code in the release repository. Remember, SVN is <strong>not</strong> meant for your code versioning. You can use Github for stuff like that. SVN should have your current release versions, but you don&#x2019;t need all the minor releases to all the previous versions. Just the last one or two for them is good.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-include-svn-externals-in-my-plugin" tabindex="-1">Can I include SVN externals in my plugin? <a href="#can-i-include-svn-externals-in-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I include SVN externals in my plugin?</span></a></h3>
+
+
+
+<p>No. You can add <a href="http://svnbook.red-bean.com/en/1.0/ch07s03.html">svn externals</a> to your repository, but they won&#x2019;t get added to the downloadable zip file.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-put-zips-and-other-compressed-files-in-my-plugin" tabindex="-1">Can I put zips and other compressed files in my plugin? <a href="#can-i-put-zips-and-other-compressed-files-in-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I put zips and other compressed files in my plugin?</span></a></h3>
+
+
+
+<p>No.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="your-wordpress-org-page" tabindex="-1">Your WordPress.Org Page <a href="#your-wordpress-org-page" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Your WordPress.Org Page</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="when-does-my-plugin-go-live" tabindex="-1">When does my plugin go &#x2018;live&#x2019;? <a href="#when-does-my-plugin-go-live" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">When does my plugin go &#x2018;live&#x2019;?</span></a></h3>
+
+
+
+<p>As soon as you push code to the SVN folders, your plugin will be live. <strong>DO NOT</strong>&#xA0;push code if you&#x2019;re not ready, as there&#x2019;s no &#x2018;off&#x2019; switch except to <a href="#closed-plugins">close the plugin</a>. As closing a plugin is permanent, we recommend you not push code until you&#x2019;re read to go live.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="where-does-the-wordpress-org-plugin-directory-get-its-data" tabindex="-1">Where does the WordPress.org Plugin Directory get its data? <a href="#where-does-the-wordpress-org-plugin-directory-get-its-data" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Where does the WordPress.org Plugin Directory get its data?</span></a></h3>
+
+
+
+<p>From the information you specify in the plugin file and in the <a href="https://wordpress.org/plugins/developers/#readme">readme.txt file</a>, and from the Subversion repository itself.&#xA0;Read <a href="https://developer.wordpress.org/plugins/wordpress-org/how-your-readme-txt-works/">about how the readme.txt works</a> for more information.</p>
+
+
+
+<p>You should also make full use of the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">Plugin Headers</a> in your main plugin file. Those will define how your username shows up on the WordPress.org hosting page, as well as in the WordPress Admin. We recommend using all those headers to fully document your plugin.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-specify-what-version-of-my-plugin-the-wordpress-org-plugin-directory-should-use" tabindex="-1">Can I specify what version of my plugin the WordPress.org Plugin Directory should use? <a href="#can-i-specify-what-version-of-my-plugin-the-wordpress-org-plugin-directory-should-use" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I specify what version of my plugin the WordPress.org Plugin Directory should use?</span></a></h3>
+
+
+
+<p>Yes, by specifying the <code>Stable Tag</code> field in your trunk directory&#x2019;s <a href="https://wordpress.org/plugins/developers/#readme">readme.txt file</a>.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-version-of-wordpress-should-the-%e2%80%9ctested-up-to%e2%80%9d-value-be" tabindex="-1">What version of WordPress should the &#x201C;Tested Up To&#x201D; value be? <a href="#what-version-of-wordpress-should-the-%e2%80%9ctested-up-to%e2%80%9d-value-be" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What version of WordPress should the &#x201C;Tested Up To&#x201D; value be?</span></a></h3>
+
+
+
+<p>Logically, whatever version you tested up to. However, never go above the current release candidate. If there is none, don&#x2019;t go above the active version. So if WordPress&#x2019; stable release is 6.0.9, you can use 6.0 to 6.0.9 and everything will be fine. If there is a release of 6.1-RC then you may use 6.1, however you can go no higher. Do not attempt to be clever and use 6.5 or 7. This will result in errors on your page.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-should-be-in-my-changelog" tabindex="-1">What should be in my changelog? <a href="#what-should-be-in-my-changelog" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What should be in my changelog?</span></a></h3>
+
+
+
+<p>A changelog is a log or record of all or all notable changes made to your plugin, including&#xA0;records of changes such as bug fixes, new features, etc. If you need help formatting your changelogs, we recommend <a href="http://keepachangelog.com/">Keep A Changelog</a> as &#xA0;that&#x2019;s the format used by many products out there.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-many-versions-should-i-keep-in-my-changelog" tabindex="-1">How many versions should I keep in my changelog? <a href="#how-many-versions-should-i-keep-in-my-changelog" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How many versions should I keep in my changelog?</span></a></h3>
+
+
+
+<p>Always keep the current major release in your change log. For example, if your current version is 3.9.1, you&#x2019;ll want that and 3.9 in the change log. Older versions should be removed and migrated to a <code>changelog.txt</code> file. That will allow them to be accessible to users, while keeping your readme shorter and more pertinent. At most, keep the most recent version of your plugin and one major version back in your readme&#x2019;s changelog. Your <code>changelog.txt</code> will <strong>not</strong> be visible within the WordPress.org Plugin Directory, but that&#x2019;s okay. Most users just want to know what&#x2019;s new.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-include-videos-on-plugin-description-pages" tabindex="-1">How do I include videos on plugin description pages? <a href="#how-do-i-include-videos-on-plugin-description-pages" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I include videos on plugin description pages?</span></a></h3>
+
+
+
+<p>For YouTube and Vimeo videos, simply paste the video link on a line by itself in your description. Note that the video must be set to allow embedding for the embed process to work.&#xA0;For videos hosted by the WordPress.com VideoPress service, use the <code>[wpvideo]</code> shortcode. Shortcodes can also be used for YouTube and Vimeo, if needed, just like in WordPress.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-does-my-plugin-say-its-not-been-tested-with-the-most-recent-wordpress-versions" tabindex="-1">Why does my plugin say it&#x2019;s not been tested with the most recent WordPress versions? <a href="#why-does-my-plugin-say-its-not-been-tested-with-the-most-recent-wordpress-versions" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why does my plugin say it&#x2019;s not been tested with the most recent WordPress versions?</span></a></h3>
+
+
+
+<p>That happens when you neglected to use a proper &#x2018;Tested Up To&#x2019; value in your header. That value should be the latest version of WordPress that you&#x2019;ve tested your plugin against. If the latest WordPress version is 4.9.1, then you should have the value <code>4.9.1</code> to indicate compatibility. Keep in mind, if you put in non-released versions of WordPress (like 6.0) you&#x2019;ll see the same message.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-long-does-it-take-for-the-plugin-directory-to-reflect-my-changes" tabindex="-1">How long does it take for the Plugin Directory to reflect my changes? <a href="#how-long-does-it-take-for-the-plugin-directory-to-reflect-my-changes" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How long does it take for the Plugin Directory to reflect my changes?</span></a></h3>
+
+
+
+<p>The WordPress.org Plugin Directory updates every few minutes. However, it may take longer for your changes to appear depending on the size of the update queue. Please give it at least <strong>6 hours</strong> before contacting us.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-make-one-of-those-cool-banners-for-my-plugin-page" tabindex="-1">How do I make one of those cool banners for my plugin page? <a href="#how-do-i-make-one-of-those-cool-banners-for-my-plugin-page" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I make one of those cool banners for my plugin page?</span></a></h3>
+
+
+
+<p>You can make your own <a href="https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/#plugin-headers">plugin headers</a> by uploading the correctly named files into the <code>assets</code> folder.&#xA0;Read <a href="https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/#plugin-headers">about plugin headers</a> for more information.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-make-a-plugin-icon" tabindex="-1">How do I make a plugin icon? <a href="#how-do-i-make-a-plugin-icon" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I make a plugin icon?</span></a></h3>
+
+
+
+<p>You can make your own <a href="https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/#plugin-icons">plugin icons</a> by uploading the correctly named files into the <code>assets</code> folder.&#xA0;Read <a href="https://developer.wordpress.org/plugins/wordpress-org/plugin-assets/#plugin-icons">about plugin icons</a> for more information.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-use-official-logos-in-my-plugin" tabindex="-1">Can I use official logos in my plugin? <a href="#can-i-use-official-logos-in-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I use official logos in my plugin?</span></a></h3>
+
+
+
+<p>Usually no. </p>
+
+
+
+<p>Your plugin icon should&#xA0;<em>never</em> be the unaltered, official logo of, say, Facerange. That would be infringing on their property. You can use an <strong>edited</strong> one in your header, or the official one in the plugin code itself, but don&#x2019;t use their logos for your branding here. Even if you have permission to do so on your site, <em>we</em> don&#x2019;t have that permission here.</p>
+
+
+
+<p>Much like your plugin name, we recommend your icons and headers be something unique to you. They tend to be more memorable that way.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-many-tags-can-i-use-in-my-readme" tabindex="-1">How many tags can I use in my readme? <a href="#how-many-tags-can-i-use-in-my-readme" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How many tags can I use in my readme?</span></a></h3>
+
+
+
+<p>Per the guidelines, <a href="https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/#12-public-facing-pages-on-wordpress-org-readmes-must-not-spam">plugins are limited to 12 tags in their readme</a>. This is to control spam. That said, only the first <strong>FIVE</strong> tags will display on WordPress.org, much for the same reason. The first 12 tags are used for searches, and the rest are ignored, so tag-stuffing won&#x2019;t help you at all.</p>
+
+
+
+<p>In addition, any tags where you are the only one who uses them won&#x2019;t show, becuase they&#x2019;re not going to help anyone find another, similar, plugin.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="plugin-names" tabindex="-1">Plugin Names <a href="#plugin-names" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Plugin Names</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-change-my-plugins-name-after-its-approved" tabindex="-1">Can I change my plugin&#x2019;s name after it&#x2019;s approved? <a href="#can-i-change-my-plugins-name-after-its-approved" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I change my plugin&#x2019;s name after it&#x2019;s approved?</span></a></h3>
+
+
+
+<p>Yes and no. You can change the display name, but the <em>slug</em> &#x2014; that part of the plugin URL that is yours &#x2014; cannot be changed once a plugin is approved. That&#x2019;s why we warn you, multiple times, upon submission.</p>
+
+
+
+<p>To change the display name, edit your main plugin file and change the value of &#x201C;Plugin Name:&#x201D; to the new name. You may also want to edit your header in your readme.txt</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-cant-i-use-someones-trademarkbrand-as-my-plugin-name" tabindex="-1">Why can&#x2019;t I use someone&#x2019;s trademark/brand as my plugin name? <a href="#why-cant-i-use-someones-trademarkbrand-as-my-plugin-name" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why can&#x2019;t I use someone&#x2019;s trademark/brand as my plugin name?</span></a></h3>
+
+
+
+<p>Simply put, because you&#x2019;re not them.<br></p>
+
+
+
+<p>If you have written an add-on plugin for BooCommerce, you may not name it &#x201C;BooCommerce Improved Product Search&#x201D; as that would generate the slug <code>boocommerce-improved-product-search</code> and that would conflict with the trademark of &#x2018;BooCommerce.&#x2019; That said, it would be acceptable to submit the name &#x201C;Boo Improved Product Search&#x201D; which would use the slug <code>boo-improved-product-search</code> (&#x201C;boo&#x201D; not being trademarked you see).</p>
+
+
+
+<p>As another example, if you have a plugin that integrates a service with a a popular cloud hosting company named Amazorn, you may call it &#x201C;My Service Integration for Amazorn&#x201D;, but you may <strong>not</strong> use &#x201C;Amazorn &#x2013; My Service Integration&#x201D;.&#xA0;</p>
+
+
+
+<p>Consider the real life example of Keurig. If you made an eco-friendly brew cup, you could market it &#x201C;EcoBrew Pod for Keurig&#x201D; but you could NOT attempt to market it as &#x201C;Keurig EcoBrew Pod.&#x201D; The latter implies a direct relationship to Keurig and is actually against the law in some countries. In order to protect you, we need you to tread lightly with recognized brand names and trademarks. Always err on the side of caution; if they come and tell us to close your plugin because you used their term as the <em>first</em>&#xA0;word in the display name, we have to do it.</p>
+
+
+
+<p><em>Note: We no longer have permission to permit new plugins to use <code>woo</code> as the start of their permalink, and are required to enforce the use of <code>wc</code> instead.</em></p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-change-my-plugins-urlslug" tabindex="-1">Can I change my plugin&#x2019;s URL/slug? <a href="#can-i-change-my-plugins-urlslug" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I change my plugin&#x2019;s URL/slug?</span></a></h3>
+
+
+
+<p>It&#x2019;s impossible to change a plugin&#x2019;s URL&#xA0;once it&#x2019;s approved and, because of that, we deny most requests for &#x2018;new&#x2019; plugins to replace old ones, just to get a better slug.</p>
+
+
+
+<p>This is because we cannot migrate&#xA0;users between plugins nor can we redirect traffic. This means that submitted a new plugin to change a slug is incredibly detrimental to the plugin&#x2019;s SEO and reputation, as users will be abandoned. The majority of plugins don&#x2019;t actually need a new URL, and instead just want to edit their display name.</p>
+
+
+
+<p>Unless there&#x2019;s an egregious typo, language, or legal issue related to your slug, we are <strong>unlikely</strong> to approve a new slug. If we do, we will flag your account to note that future rename requests are to be denied.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-change-my-plugins-display-name" tabindex="-1">How do I change my plugin&#x2019;s display name? <a href="#how-do-i-change-my-plugins-display-name" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I change my plugin&#x2019;s display name?</span></a></h3>
+
+
+
+<p>You&#x2019;ll need to change it in the readme <em>and</em>&#xA0;the plugin main file.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-make-my-display-name-anything" tabindex="-1">Can I make my display name anything? <a href="#can-i-make-my-display-name-anything" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I make my display name anything?</span></a></h3>
+
+
+
+<p>Don&#x2019;t use vulgarities or slurs or other intentionally abusive language. You cannot claim, or appear to claim, to be an official source if you&#x2019;re not. For example, if you&#x2019;ve made a plugin that connects to the Frozbaz Service, you should call your plugin &#x201C;Connector to Frozbaz Service&#x201D; &#x2013; in this way, you have made it clear you are making a plugin for a service, rather than being the service.</p>
+
+
+
+<p>If you&#x2019;re combining multiple services (a payment gateway to a popular ecommerce plugin, for example), we strongly recommend you come up with an original, unique, display name.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-use-wordpress-or-plugin-in-my-display-name" tabindex="-1">Can I use WordPress or Plugin in my display name? <a href="#can-i-use-wordpress-or-plugin-in-my-display-name" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I use WordPress or Plugin in my display name?</span></a></h3>
+
+
+
+<p>Yes, but we&#x2019;d rather you didn&#x2019;t. It&#x2019;s incredibly&#xA0;redundant and doesn&#x2019;t actually help your SEO in any way, shape, or form. We already put WordPress&#xA0;<em>and</em> Plugin in your page title.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="should-i-use-the-trademark-or-registered-symbol-in-my-plugin-name" tabindex="-1">Should I use the trademark or registered symbol in my plugin name? <a href="#should-i-use-the-trademark-or-registered-symbol-in-my-plugin-name" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Should I use the trademark or registered symbol in my plugin name?</span></a></h3>
+
+
+
+<p>Assuming you actually did apply for trademarks, you certainly&#xA0;<em>can</em> but it&#x2019;s not commonly done. Not even Google or Facebook do that. Simply by using your trademark term and having a log of it (like your SVN log), you have usually done the needed legal action required to protect your brand. Consult a lawyer for details.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="search" tabindex="-1">Search <a href="#search" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Search</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-long-will-it-take-for-my-plugin-to-show-up-in-search" tabindex="-1">How long will it take for my plugin to show up in search? <a href="#how-long-will-it-take-for-my-plugin-to-show-up-in-search" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How long will it take for my plugin to show up in search?</span></a></h3>
+
+
+
+<p>Usually 6 to 14 days after a plugin is committed to SVN. This is because we have to add your data, parse it, and share it to all of our&#xA0;<em>heavily</em> cached servers. It&#x2019;s not instantaneous. Also as a new plugin, we have no data on usage, so you may need to wait a bit.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-rank-higher" tabindex="-1">How do I rank higher? <a href="#how-do-i-rank-higher" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I rank higher?</span></a></h3>
+
+
+
+<p>Write a good readme for the language, answer support posts promptly, get good reviews.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="whats-weighted-more-my-url-or-my-display-name" tabindex="-1">What&#x2019;s weighted more, my URL or my display name? <a href="#whats-weighted-more-my-url-or-my-display-name" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What&#x2019;s weighted more, my URL or my display name?</span></a></h3>
+
+
+
+<p>Neither. Make your display name memorable and descriptive, while keeping it under 5 words, for maximum benefit.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="the-support-forums" tabindex="-1">The Support Forums <a href="#the-support-forums" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">The Support Forums</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-get-notified-for-forums-posts" tabindex="-1">How do I get notified for forums posts? <a href="#how-do-i-get-notified-for-forums-posts" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I get notified for forums posts?</span></a></h3>
+
+
+
+<p>Go to <code>https://wordpress.org/support/plugin/YOURPLUGIN</code>&#xA0;and scroll down to the bottom of the list of posts. There you will see an option for the RSS link, as well as a sign up for emails.</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><a href="https://developer.wordpress.org/files/2015/04/Screen-Shot-2016-06-20-at-9.58.21-AM.png"><img src="https://developer.wordpress.org/files/2015/04/Screen-Shot-2016-06-20-at-9.58.21-AM.png" alt="Signup links for email/rss " class="wp-image-21391" srcset="https://developer.wordpress.org/files/2015/04/Screen-Shot-2016-06-20-at-9.58.21-AM.png 808w, https://developer.wordpress.org/files/2015/04/Screen-Shot-2016-06-20-at-9.58.21-AM-300x27.png 300w, https://developer.wordpress.org/files/2015/04/Screen-Shot-2016-06-20-at-9.58.21-AM-768x70.png 768w" sizes="(max-width: 808px) 100vw, 808px"></a></figure></div>
+
+
+
+<p>Click the subscribe link for emails, or use the RSS link in your favorite reader.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-get-notified-for-all-my-plugins" tabindex="-1">How do I get notified for all my plugins? <a href="#how-do-i-get-notified-for-all-my-plugins" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I get notified for all my plugins?</span></a></h3>
+
+
+
+<p>If you&#x2019;re tracking the WordPress forums,&#xA0;<code>https://wordpress.org/support/view/plugin-committer/YOURID</code> will list all of the support requests and reviews for any plugin you have commit access.</p>
+
+
+
+<p>Not a comitter, just someone listed as an author? Use&#xA0;<code>https://wordpress.org/support/view/plugin-contributor/YOURID</code></p>
+
+
+
+<p>Those are RSS only. If you need email, go to <code>https://profiles.wordpress.org/YOURID/profile/notifications/</code>&#xA0;and put in the terms you want to be emailed for.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-give-a-support-account-access-to-my-plugin" tabindex="-1">How do I give a support account access to my plugin? <a href="#how-do-i-give-a-support-account-access-to-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I give a support account access to my plugin?</span></a></h3>
+
+
+
+<p>You can add Support Representatives to your plugin. Support representatives can mark forum topics as resolved or sticky (same as plugin authors and contributors), but don&#x2019;t have commit access to the plugin.</p>
+
+
+
+<p>The UI for managing plugin support reps can be found in Advanced View on the plugin page, next to managing committers.&#xA0;Once someone is added as a support rep, they will get a Plugin Support badge when replying to the plugin support topics or reviews.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="will-you-delete-bad-reviews-or-comments-on-my-plugin" tabindex="-1">Will you delete bad reviews or comments on my plugin? <a href="#will-you-delete-bad-reviews-or-comments-on-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Will you delete bad reviews or comments on my plugin?</span></a></h3>
+
+
+
+<p>Generally no. A review is a reflection of an individual&#x2019;s experience with your product. If they didn&#x2019;t like it, that&#x2019;s not for us to change. If you feel that a review is invalid (such as for a different plugin), use the&#xA0;<code>modlook</code>&#xA0;button on the post. A member of the <strong>forums</strong> team will investigate. Abuse of Modlook may result in suspension of your plugins. Please, use it wisely.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-is-sockpuppeting" tabindex="-1">What is &#x2018;Sockpuppeting&#x2019;? <a href="#what-is-sockpuppeting" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What is &#x2018;Sockpuppeting&#x2019;?</span></a></h3>
+
+
+
+<p>That&#x2019;s what happens when someone makes multiple accounts on the forums, usually to give themselves a number of 5-star reviews, or create fake support tickets to appear more responsive. Sockpuppeting is against our guidelines and will result in the reviews and posts being removed, but also may result in your account and all plugins being removed. Don&#x2019;t do it and don&#x2019;t flagrantly accuse others of doing it.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="closed-plugins" tabindex="-1">Closed Plugins <a href="#closed-plugins" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Closed Plugins</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-close-my-plugin" tabindex="-1">How do I close my plugin? <a href="#how-do-i-close-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I close my plugin?</span></a></h3>
+
+
+
+<p>If you ask for your plugin to be removed, you will not get it back unless you can justify your situation. Closing a plugin by request is intended to be <strong>permanent</strong>.</p>
+
+
+
+<p>Email <code>plugins@wordpress.org</code> from an account with commit access and link to your plugin. If your email does not match someone with commit access to the plugin, you will be asked to send from a different email.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-happens-when-a-plugin-is-closed" tabindex="-1">What happens when a plugin is closed? <a href="#what-happens-when-a-plugin-is-closed" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What happens when a plugin is closed?</span></a></h3>
+
+
+
+<p>When a plugin is closed, the page shows as closed and the zips are no longer generated. No one will be able to download the plugin via the website, nor will they be able to install it via the WordPress admin. The SVN repository will remain accessible to allow others to download and fork the code if desired, per the tenets of the directory. After 60 days, the closure message will change to alert people as to&#xA0;<em>why</em> it was closed.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-was-my-plugin-closed" tabindex="-1">Why was my plugin closed? <a href="#why-was-my-plugin-closed" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why was my plugin closed?</span></a></h3>
+
+
+
+<p>Plugins are closed for guideline violations, security issues, or by author requests. In the case of active issues (such as copyright infringement, abuse, and security), all accounts with commit access to a plugin are notified. If a plugin has never been used within 6 months (i.e. no code has been pushed to SVN), SVN is broken for upwards of 12 months, or a plugin&#x2019;s readme indicates it&#x2019;s deprecated, we may close without notification.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-was-someone-elses-plugin-closed" tabindex="-1">Why was someone else&#x2019;s plugin closed? <a href="#why-was-someone-elses-plugin-closed" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why was someone else&#x2019;s plugin closed?</span></a></h3>
+
+
+
+<p>As of 2017, plugin closure reasons are tracked in the plugin database. Sixty days after a plugin is closed, the reason for the closure will be made public:</p>
+
+
+
+<div class="wp-block-image"><figure class="aligncenter"><img src="https://developer.wordpress.org/files/2015/04/not-hello-dolly.jpg" alt="Example of a closed plugin with the reason &apos;Author Request&apos;" class="wp-image-37702" srcset="https://developer.wordpress.org/files/2015/04/not-hello-dolly.jpg 1058w, https://developer.wordpress.org/files/2015/04/not-hello-dolly-300x149.jpg 300w, https://developer.wordpress.org/files/2015/04/not-hello-dolly-768x382.jpg 768w, https://developer.wordpress.org/files/2015/04/not-hello-dolly-1024x509.jpg 1024w" sizes="(max-width: 1058px) 100vw, 1058px"></figure></div>
+
+
+
+<p>Please note: We do not publicly disclose the details on exactly why a plugin has been closed.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="can-i-get-someone-elses-plugin-closed" tabindex="-1">Can I get someone else&#x2019;s plugin closed? <a href="#can-i-get-someone-elses-plugin-closed" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Can I get someone else&#x2019;s plugin closed?</span></a></h3>
+
+
+
+<p>If you report an <a href="https://developer.wordpress.org/plugins/wordpress-org/plugin-security/reporting-plugin-security-issues/">security issue</a> or a <a href="https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/">guideline violation</a> in a plugin to <code>plugins@wordpress.org</code>, we will review and take appropriate action. Most of the time, this involves closing a plugin. Your name will not be disclosed unless you ask for it to be so, in order to protect you from backlash.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="someone-posted-a-copy-of-my-plugin-what-do-i-do" tabindex="-1">Someone posted a copy of my plugin! What do I do? <a href="#someone-posted-a-copy-of-my-plugin-what-do-i-do" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Someone posted a copy of my plugin! What do I do?</span></a></h3>
+
+
+
+<p>Email <code>plugins@wordpress.org</code>&#xA0;with a link to the stolen plugin. Include either a link to where we can download yours or attach the zip. We will compare the two files, as well as all the coding history we have, to determine if the plugin is, indeed, theft, or just an uncredited fork. Please keep in mind, if you licensed your plugin as GPLv2 or later, then it&#x2019;s perfectly permissible to fork your work, as long as copyright remains intact and you&#x2019;re credited.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="will-you-close-another-plugin-for-violating-my-brandtrademark" tabindex="-1">Will you close another plugin for violating my brand/trademark? <a href="#will-you-close-another-plugin-for-violating-my-brandtrademark" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Will you close another plugin for violating my brand/trademark?</span></a></h3>
+
+
+
+<p>We do our best to uphold copyright and trademark requirements, as well as prevent brand confusion. Before plugin are approved, we often require them to make some of the more obvious changes. That said, there is a limit to how &#x2018;different&#x2019; a URL or name can be when we have 60,000 plugins in the directory, and when some terms are quite common (like &#x2018;popup&#x2019; or &#x2018;all-in-one&#x2019;). Because of that, we&#xA0;require developers to change the plugin&#x2019;s&#xA0;<strong>display name</strong> to no longer cause conflict or confusion.</p>
+
+
+
+<p>If someone is clearly infringing on your copyright or trademark or existing brand, be it by display name or use of trademarked images, please email us at <code>plugins@wordpress.org</code>&#xA0;with some proof and we will contact the developer and require changes.</p>
+
+
+
+<p>We do expect these to be&#xA0;<em>reasonable</em> requests. That is, if you send us a complaint and list 12 plugins that all use the term &#x2018;best contact form&#x2019; because that&#x2019;s your plugin name, we will review the plugins and only close them if they&#x2019;re using the phrase excessively. If they use it once (i.e. &#x201C;This is the best contact form plugin in the Faroe Islands&#x201D;) then it&#x2019;s acceptable. If they&#x2019;re keyword stuffing the phrase, we&#x2019;re more likely to close them for keyword stuffing. Simply, if your plugin name is super generic, this is going to happen, and it&#x2019;s usually&#xA0;<strong>not</strong> an infringement case.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-can-i-send-a-security-report" tabindex="-1">How can I send a security report? <a href="#how-can-i-send-a-security-report" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How can I send a security report?</span></a></h3>
+
+
+
+<p>Email <code>plugins@wordpress.org</code> a clear and concise description of the issue. Make sure to explain how you verified this is an exploit (links to the plugin listing on sites like secunia.com are perfect). If you provide a link to your report, DO NOT delete it! We will passed it on directly to the developers of the plugin.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="do-you-provide-bounties-for-finding-bugs-in-a-plugin" tabindex="-1">Do you provide bounties for finding bugs in a plugin? <a href="#do-you-provide-bounties-for-finding-bugs-in-a-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Do you provide bounties for finding bugs in a plugin?</span></a></h3>
+
+
+
+<p>No.&#xA0;We have no relationship with any bug bounty programs, so we don&#x2019;t file your reports etc to them. The only one with which we work is <a href="https://hackerone.com/automattic">hackerone.com/automattic</a> and that&#x2019;s for bugs related to Automattic properties. Everything else is on your own, don&#x2019;t ask us to submit things.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="do-you-help-file-or-provide-cves" tabindex="-1">Do you help file or provide CVEs? <a href="#do-you-help-file-or-provide-cves" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Do you help file or provide CVEs?</span></a></h3>
+
+
+
+<p>No. We do not have the ability to assist with CVEs.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="my-plugin-was-closed-can-i-reopen-it" tabindex="-1">My plugin was closed, can I reopen it? <a href="#my-plugin-was-closed-can-i-reopen-it" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">My plugin was closed, can I reopen it?</span></a></h3>
+
+
+
+<p>Maybe. If it was closed for a security reason, fix the issue, reply to the email, and most of the time we&#x2019;ll reopen the plugin unless it has more security issues or severe guideline issues. If it was closed for guideline violations, it depends on the severity and nature of the violation. Repeat offenders are less likely to have a plugin reopened, for example, than first-timers.</p>
+
+
+
+<p>If you asked for the plugin to be closed, you will be expected to explain why&#xA0;the change of heart. Plugins are intended to remain closed when a developer requests it, and not reopened again a month later.</p>
+
+
+
+<p>Note:&#xA0;<em>All</em> plugins must pass a current standards and security review in order to be restored. This is not optional. Users will lose more faith in you for having your plugin closed multiple times than they would for one longer closure where you address all the potential issues.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="why-was-my-plugin-closed-when-it-was-my-employeeco-worker-who-violated-guidelines" tabindex="-1">Why was my plugin closed when it was my employee/co-worker who violated guidelines? <a href="#why-was-my-plugin-closed-when-it-was-my-employeeco-worker-who-violated-guidelines" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why was my plugin closed when it was my employee/co-worker who violated guidelines?</span></a></h3>
+
+
+
+<p>Everyone who represents a plugin, from support tech to developer, is the responsibility of the plugin owner. If they violate the guidelines egregiously, then the owners are expected to accept those consequences. We notify the plugin owners in these cases and explain why.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="all-my-plugins-were-closed-how-can-i-get-them-back" tabindex="-1"><em>All</em> my plugins were closed! How can I get them back? <a href="#all-my-plugins-were-closed-how-can-i-get-them-back" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text"><em>All</em> my plugins were closed! How can I get them back?</span></a></h3>
+
+
+
+<p>It&#x2019;s exceptionally rare that we close all of a developer&#x2019;s plugins. In general it happens because of the following:</p>
+
+
+
+<ol><li>You asked us to close all your plugins</li><li>Email issues
+<ol>
+<li>The email bounced and we were unable to get in touch</li>
+<li>The email sent us auto-replies and we&#x2019;d warned at least twice to fix that</li>
+</ol>
+</li><li>Guideline issues
+<ol>
+<li>Previous censuring for behaviour and/or a final warning was issued</li>
+<li>Delivering legal threats to the directory and/or the volunteers</li>
+<li>The violation was deemed &#x2018;egregious&#x2019; (death threats, hundreds of sock puppets, harassment, etc)</li>
+</ol>
+</li></ol>
+
+
+
+<p>If you asked us to close them, you have to explain&#xA0;<em>why</em> the change of heart.</p>
+
+
+
+<p>If you&#x2019;re having email issues, you have to resolve them.</p>
+
+
+
+<p>As for that last one&#x2026; Generally you don&#x2019;t get to come back from that. If we deliver you a final warning for your behaviour and, within less than a year, you start up again with the issues (or fail to resolve all the issues we mentioned), we&#x2019;re not going to reopen your plugins.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="i-just-got-a-final-warning-what-do-i-do" tabindex="-1">I just got a final warning. What do I do? <a href="#i-just-got-a-final-warning-what-do-i-do" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">I just got a final warning. What do I do?</span></a></h3>
+
+
+
+<p>First and foremost, take it seriously. The email will list exactly what the problems have been and why we&#x2019;ve chosen to escalate to a final warning. Plugin Owners are expected to resolve all the issues, to cease causing new guideline violations, and to closely monitor the actions of any coworkers. In short, stop breaking the guidelines, stop making excuses, apologize for any misbehaviour, and correct course.</p>
+
+
+
+<p>The last thing we want to do is ban someone and disable all their plugins. It&#x2019;s not healthy for the community. At the same time, if a developer is unable or unwilling to play by the same rules as everyone else, it&#x2019;s detrimental to keep then in the directory and disrespectful to everyone else.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="plugin-ownership" tabindex="-1">Plugin Ownership <a href="#plugin-ownership" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Plugin Ownership</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-give-someone-else-access-to-my-plugin" tabindex="-1">How do I give someone else access to my plugin? <a href="#how-do-i-give-someone-else-access-to-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I give someone else access to my plugin?</span></a></h3>
+
+
+
+<p>To add users as committers, that is give them access to update code, go to <code>https://wordpress.org/plugins/YOURPLUGIN/advanced</code>&#xA0;and add their username in as a committer.</p>
+
+
+
+<p>To have them show up as an author, add their username to the <code>readme.txt</code>&#xA0;file.</p>
+
+
+
+<p><em>Do not add regular users as authors.</em> It&#x2019;s meant for people who help with development only.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-do-i-remove-someones-access-from-my-plugin" tabindex="-1">How do I remove someone&#x2019;s access from my plugin? <a href="#how-do-i-remove-someones-access-from-my-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How do I remove someone&#x2019;s access from my plugin?</span></a></h3>
+
+
+
+<p>Anyone with commit access can do this. Go to <code>https://wordpress.org/plugins/YOURPLUGIN/advanced</code> and hover over their ID. A delete link will appear. Click on it.</p>
+
+
+
+<p>Please don&#x2019;t delete yourself.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="how-can-i-take-over-an-abandoned-plugin" tabindex="-1">How can I take over an abandoned plugin? <a href="#how-can-i-take-over-an-abandoned-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How can I take over an abandoned plugin?</span></a></h3>
+
+
+
+<p><a href="https://developer.wordpress.org/plugins/wordpress-org/take-over-an-existing-plugin/">We permit users to adopt existing plugins that are no longer currently developed</a>.</p>
+
+
+
+<p>We ask you try to connect with the original developers first, so they can add you. In some case, that&#x2019;s not possible and you should start with fixing the plugin. Make sure it meets coding standards, is secure, and update the copyright information to include yourself. Then you can contact us regarding <a href="https://developer.wordpress.org/plugins/wordpress-org/take-over-an-existing-plugin/">plugin adoption</a>.</p>
+
+
+
+<p>We offer <strong>no</strong> guarantee&#xA0;that you will be given anyone&#x2019;s plugin.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="are-these-offers-to-buy-my-plugin-legit" tabindex="-1">Are these offers to buy my plugin legit? <a href="#are-these-offers-to-buy-my-plugin-legit" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Are these offers to buy my plugin legit?</span></a></h3>
+
+
+
+<p>Short answer: Probably not.</p>
+
+
+
+<p>Many developers receive unsolicited emails or offers to purchase their plugin. We have found the vast majority of these to be fraudulent and do&#xA0;<em>not</em> recommend you follow up with them.</p>
+
+
+
+<p>While legitimate offers do come, they&#x2019;re usually from the official company to whom a plugin is related, or from a well established plugin company. The ones that start &#x201C;We&#x2019;re reaching out to the WordPress community &#x2026;&#x201D; or &#x201C;We are&#xA0;looking to acquire existing WordPress plugins &#x2026;&#x201D; should not be trusted. Such purchases have often destroyed the reputation of the plugin (and the original developer) by engaging in sleazy tactics such as tracking users or other serious guideline violations.</p>
+
+
+
+<p>If you do choose to sell your plugin (or give it away to someone else), please make sure the new owners understand all the <a href="https://developer.wordpress.org/plugins/wordpress-org/detailed-plugin-guidelines/">guidelines of the repository</a>. Should they violate our terms the plugin will be removed, and we may not give it back depending on the level of the violation. Whomever has commit access to a plugin has the ownership and responsibility of it&#x2019;s behavior for users. Spamming, inserting tracking data, and adding junk features are the fastest way to ruin your plugin.</p>
+
+
+
+<p>We advocate only giving your plugin to people you <em>personally</em> have vetted, and that you trust with being responsible with your code and your users.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="what-happens-when-a-plugin-developer-dies" tabindex="-1">What happens when a plugin developer dies? <a href="#what-happens-when-a-plugin-developer-dies" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What happens when a plugin developer dies?</span></a></h3>
+
+
+
+<p>When a developer is determined to have died, they are removed from their own plugins in order to prevent the unethical from gaining access and harming users. If they are the only developer, the plugin may be closed. All attempts are made to find their friends and coworkers, to offer them a chance to adopt the code first, but if no one reliable or willing&#xA0;can be found the plugin is closed.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/wordpress-org/alerts-and-warnings/" rel="previous"><span class="meta-nav">&#x2190;</span> Alerts and Warnings</a><a href="https://developer.wordpress.org/plugins/developer-tools/" rel="next">Developer Tools <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

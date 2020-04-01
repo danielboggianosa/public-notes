@@ -1,0 +1,172 @@
+<main id="primary" class="site-main post-10961 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/administration-menus/" title="Administration Menus">Administration Menus</a></span> <span class="sep">/</span> <span class="trail-end">Sub-Menus</span>
+		</div>
+		
+			
+<h1>Sub-Menus</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#add-a-sub-menu">Add a Sub-Menu</a>
+<ul>
+<li><a href="#example">Example</a>
+</li></ul></li>
+<li><a href="#predefined-sub-menus">Predefined Sub-Menus</a></li>
+<li><a href="#remove-a-sub-menu">Remove a Sub-Menu</a></li>
+<li><a href="#submitting-forms">Submitting forms</a></li></ul>
+</div>
+
+<h2 class="toc-heading" id="add-a-sub-menu" tabindex="-1">Add a Sub-Menu <a href="#add-a-sub-menu" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Add a Sub-Menu</span></a></h2>
+
+
+
+<p>To add a new Sub-menu to WordPress Administration, use the <code>add_submenu_page()</code> function.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>add_submenu_page(
+	string $parent_slug,
+	string $page_title,
+	string $menu_title,
+	string $capability,
+	string $menu_slug,
+	callable $function = &apos;&apos;
+);
+</pre>
+
+
+<h3 class="toc-heading" id="example" tabindex="-1">Example <a href="#example" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example</span></a></h3>
+
+
+
+<p>Lets say we want to add a Sub-menu &#x201C;WPOrg Options&#x201D; to the &#x201C;Tools&#x201D; Top-level menu.</p>
+
+
+
+<p><strong>The first step</strong> will be creating a function which will output the HTML. In this function we will perform the necessary security checks and render the options we&#x2019;ve registered using the <a href="https://developer.wordpress.org/plugins/settings/">Settings API</a>.</p>
+
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> We recommend wrapping your HTML using a <code>&lt;div&gt;</code> with a class of <code>wrap</code>.</div>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>function wporg_options_page_html()
+{
+	// check user capabilities
+	if (!current_user_can(&apos;manage_options&apos;)) {
+		return;
+	}
+	?&gt;
+	&lt;div class=&quot;wrap&quot;&gt;
+		&lt;h1&gt;&lt;?= esc_html(get_admin_page_title()); ?&gt;&lt;/h1&gt;
+		&lt;form action=&quot;options.php&quot; method=&quot;post&quot;&gt;
+			&lt;?php
+			// output security fields for the registered setting &quot;wporg_options&quot;
+			settings_fields(&apos;wporg_options&apos;);
+			// output setting sections and their fields
+			// (sections are registered for &quot;wporg&quot;, each field is registered to a specific section)
+			do_settings_sections(&apos;wporg&apos;);
+			// output save settings button
+			submit_button(&apos;Save Settings&apos;);
+			?&gt;
+		&lt;/form&gt;
+	&lt;/div&gt;
+	&lt;?php
+}
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p><strong>The second step</strong> will be registering our WPOrg Options Sub-menu. The registration needs to occur during the <code>admin_menu</code> action hook.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>function wporg_options_page()
+{
+	add_submenu_page(
+		&apos;tools.php&apos;,
+		&apos;WPOrg Options&apos;,
+		&apos;WPOrg Options&apos;,
+		&apos;manage_options&apos;,
+		&apos;wporg&apos;,
+		&apos;wporg_options_page_html&apos;
+	);
+}
+add_action(&apos;admin_menu&apos;, &apos;wporg_options_page&apos;);
+</pre>
+
+
+<p>For a list of parameters and what each do please see the <a href="https://developer.wordpress.org/reference/functions/add_submenu_page/">add_submenu_page()</a> in the reference.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="predefined-sub-menus" tabindex="-1">Predefined Sub-Menus <a href="#predefined-sub-menus" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Predefined Sub-Menus</span></a></h2>
+
+
+
+<p>Wouldn&#x2019;t it be nice if we had helper functions that define the <code>$parent_slug</code> for WordPress built-in Top-level menus and save us from manually searching it through the source code?</p>
+
+
+
+<p>Below is a list of parent slugs and their helper functions:</p>
+
+
+
+<ul><li><a href="https://developer.wordpress.org/reference/functions/add_dashboard_page/">add_dashboard_page()</a> &#x2013; <code>index.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_posts_page/">add_posts_page()</a> &#x2013; <code>edit.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_media_page/">add_media_page()</a> &#x2013; <code>upload.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_pages_page/">add_pages_page()</a> &#x2013; <code>edit.php?post_type=page</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_comments_page/">add_comments_page()</a> &#x2013; <code>edit-comments.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_theme_page/">add_theme_page()</a> &#x2013; <code>themes.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_plugins_page/">add_plugins_page()</a> &#x2013; <code>plugins.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_users_page/">add_users_page()</a> &#x2013; <code>users.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_management_page/">add_management_page()</a> &#x2013; <code>tools.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_options_page/">add_options_page()</a> &#x2013; <code>options-general.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_options_page/">add_options_page()</a> &#x2013; <code>settings.php</code></li><li><a href="https://developer.wordpress.org/reference/functions/add_links_page/">add_links_page()</a> &#x2013; <code>link-manager.php</code> &#x2013; requires a plugin since WP 3.5+</li><li>Custom Post Type &#x2013; <code>edit.php?post_type=wporg_post_type</code></li><li>Network Admin &#x2013; <code>settings.php</code></li></ul>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="remove-a-sub-menu" tabindex="-1">Remove a Sub-Menu <a href="#remove-a-sub-menu" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Remove a Sub-Menu</span></a></h2>
+
+
+
+<p>The process of removing Sub-menus is exactly the same as <a href="https://developer.wordpress.org/plugins/administration-menus/top-level-menus/#remove-a-top-level-menu">removing Top-level menus</a>.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="submitting-forms" tabindex="-1">Submitting forms <a href="#submitting-forms" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Submitting forms</span></a></h2>
+
+
+
+<p>The process of handling form submissions within Sub-menus is exactly the same as <a href="https://developer.wordpress.org/plugins/administration-menus/top-level-menus/#submitting-forms">Submitting forms within Top-Level Menus</a>.</p>
+
+
+
+<p><code>add_submenu_page()</code> along with all functions for pre-defined sub-menus (<code>add_dashboard_page</code>, <code>add_posts_page</code>, etc.) will return a <code>$hookname</code>, which you can use as the first parameter of <code>add_action</code> in order to handle the submission of forms within custom pages:</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>function wporg_options_page() {
+	$hookname = add_submenu_page(
+		&apos;tools.php&apos;,
+		&apos;WPOrg Options&apos;,
+		&apos;WPOrg Options&apos;,
+		&apos;manage_options&apos;,
+		&apos;wporg&apos;,
+		&apos;wporg_options_page_html&apos;
+	);
+
+	add_action( &apos;load-&apos; . $hookname, &apos;wporg_options_page_html_submit&apos; );
+}
+
+add_action(&apos;admin_menu&apos;, &apos;wporg_options_page&apos;);
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p>As always, do not forget to check whether the form is being submitted,  do CSRF verification, <a href="https://developer.wordpress.org/plugins/security/data-validation/">validation</a>, and sanitization.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/administration-menus/top-level-menus/" rel="previous"><span class="meta-nav">&#x2190;</span> Top-Level Menus</a><a href="https://developer.wordpress.org/plugins/shortcodes/" rel="next">Shortcodes <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

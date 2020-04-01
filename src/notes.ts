@@ -3,7 +3,9 @@ import {Application} from 'express-serve-static-core'
 import morgan from 'morgan';
 import cors from 'cors';
 import indexRoutes from './routes/index.routes';
-// import notes from ('./notes.json');
+import notasRoutes from './routes/notas.routes';
+import librosRoutes from './routes/libros.routes';
+// import notes from ('./data/notes.json');
 
 class Server {
 
@@ -27,6 +29,8 @@ class Server {
 
     routes():void{
         this.app.use('/', indexRoutes)
+        this.app.use('/api/notas/', notasRoutes)
+        this.app.use('/api/libros/', librosRoutes)
     }
 
     start():void{
