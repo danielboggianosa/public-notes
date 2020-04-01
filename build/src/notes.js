@@ -8,7 +8,7 @@ const express_2 = require("express");
 const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
-// import notes from ('./notes.json');
+// import notes from ('./data/notes.json');
 class Server {
     constructor() {
         this.router = express_2.Router();

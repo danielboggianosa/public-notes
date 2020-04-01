@@ -7,7 +7,7 @@ class NotasController{
     //CREATE
     public async create(req:Request, res:Response): Promise<void>{
         const {titulo, contenido} = req.body
-        let raw:any = fs.readFileSync('notes.json')
+        let raw:any = fs.readFileSync('data/notes.json')
         let json = JSON.parse(raw)
         let notas = json.notas
         json.lastId++
@@ -19,14 +19,14 @@ class NotasController{
         }
         notas.push(newNote)
         let write = JSON.stringify(json,null,"\t")
-        fs.writeFileSync('notes.json', write)
+        fs.writeFileSync('data/notes.json', write)
         res.json({success:true,message:"Nota Creada"})
     }
     
     //READ
     public async read(req:Request, res:Response): Promise<void>{
         const { buscar } = req.params
-        let raw:any = fs.readFileSync('notes.json')
+        let raw:any = fs.readFileSync('data/notes.json')
         let json = JSON.parse(raw)
         let notas = json.notas
         json.notas.forEach((n:any, notas:number)=>{
@@ -48,7 +48,7 @@ class NotasController{
     //DELTE
     public async delete(req:Request, res:Response): Promise<void>{
         const {index} = req.params
-        let raw:any = fs.readFileSync('notes.json')
+        let raw:any = fs.readFileSync('data/notes.json')
         let json = JSON.parse(raw)
         let notas = json.notas;
         for(let i=0;i<notas.length;i++){
@@ -56,7 +56,7 @@ class NotasController{
             if(notas[i]['id'] == index){
                 notas.splice(i,1)
                 let write = JSON.stringify(json, null, "\t")
-                fs.writeFileSync('notes.json', write)
+                fs.writeFileSync('data/notes.json', write)
                 res.json({success:true, notas:json.notas})
                 break
             }

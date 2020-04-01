@@ -5,7 +5,7 @@ import cors from 'cors';
 import indexRoutes from './routes/index.routes';
 import notasRoutes from './routes/notas.routes';
 import librosRoutes from './routes/libros.routes';
-// import notes from ('./notes.json');
+// import notes from ('./data/notes.json');
 
 class Server {
 

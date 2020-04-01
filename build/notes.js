@@ -9,7 +9,7 @@ const cors_1 = __importDefault(require("cors"));
 const index_routes_1 = __importDefault(require("./routes/index.routes"));
 const notas_routes_1 = __importDefault(require("./routes/notas.routes"));
 const libros_routes_1 = __importDefault(require("./routes/libros.routes"));
-// import notes from ('./notes.json');
+// import notes from ('./data/notes.json');
 class Server {
     constructor() {
         this.app = express_1.default();

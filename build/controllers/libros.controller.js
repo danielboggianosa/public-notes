@@ -18,7 +18,7 @@ class LibrosController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { titulo, contenido } = req.body;
-            let raw = fs_1.default.readFileSync('libros.json');
+            let raw = fs_1.default.readFileSync('data/libros.json');
             let json = JSON.parse(raw);
             let libros = json.libros;
             json.lastId++;
@@ -30,7 +30,7 @@ class LibrosController {
             };
             libros.push(newNote);
             let write = JSON.stringify(json, null, "\t");
-            fs_1.default.writeFileSync('libros.json', write);
+            fs_1.default.writeFileSync('data/libros.json', write);
             res.json({ success: true, message: "Nota Creada" });
         });
     }
@@ -38,7 +38,7 @@ class LibrosController {
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { buscar } = req.params;
-            let raw = fs_1.default.readFileSync('libros.json');
+            let raw = fs_1.default.readFileSync('data/libros.json');
             let json = JSON.parse(raw);
             let libros = json.libros;
             json.libros.forEach((n, libros) => {
@@ -62,14 +62,14 @@ class LibrosController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { index } = req.params;
-            let raw = fs_1.default.readFileSync('libros.json');
+            let raw = fs_1.default.readFileSync('data/libros.json');
             let json = JSON.parse(raw);
             let libros = json.libros;
             for (let i = 0; i < libros.length; i++) {
                 if (libros[i]['id'] == index) {
                     libros.splice(i, 1);
                     let write = JSON.stringify(json, null, "\t");
-                    fs_1.default.writeFileSync('libros.json', write);
+                    fs_1.default.writeFileSync('data/libros.json', write);
                     res.json({ success: true, libros: json.libros });
                     break;
                 }

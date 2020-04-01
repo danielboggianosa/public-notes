@@ -1,0 +1,22 @@
+extends ../templates/libro
+block content
+    textarea#contenido.d-none=pagina
+    div#page
+    .row
+        .col-sm-6
+            a#anterior.btn.btn-secondary
+                i.fa.fa-angle-left 
+                |&nbsp;Anterior
+        .col-sm-6
+            a#siguiente.float-right.btn.btn-secondary Siguiente 
+                i.fa.fa-angle-right
+
+    script.
+        $(document).ready(()=>{
+            let server = window.location.origin
+            let libro  = window.location.href.split('/')[4]
+            let actual = +window.location.href.split('/')[5]
+            $("#page").html($("#contenido").val())
+            $("#anterior").attr('href', `${server}/libros/${libro}/${actual-1}`)
+            $("#siguiente").attr('href', `${server}/libros/${libro}/${(actual+1)}`)
+        })
