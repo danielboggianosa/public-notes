@@ -11,6 +11,8 @@ class IndexRoutes{
     config(){
         this.router.get('/', indexController.read)
         this.router.get('/crear', indexController.crear)
+        this.router.get('/libros', indexController.libros)
+        this.router.get('/libros/:id/:pagina', indexController.libro)
     }
 }
 const indexRoutes = new IndexRoutes();

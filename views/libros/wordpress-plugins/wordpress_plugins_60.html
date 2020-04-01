@@ -1,0 +1,57 @@
+<main id="primary" class="site-main post-11157 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> <span class="trail-end">Cron</span>
+		</div>
+		
+			
+<h1>Cron</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#what-is-wp-cron">What is WP-Cron</a></li>
+<li><a href="#why-use-wp-cron">Why use WP-Cron</a></li></ul>
+</div>
+
+<h2 class="toc-heading" id="what-is-wp-cron" tabindex="-1">What is WP-Cron <a href="#what-is-wp-cron" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">What is WP-Cron</span></a></h2>
+
+
+
+<p>WP-Cron is how WordPress handles scheduling time-based tasks in WordPress. Several WordPress core features, such as checking for updates and publishing scheduled post, utilize WP-Cron. The &#x201C;Cron&#x201D; part of the name comes from the cron time-based task scheduling system that is available on UNIX systems.</p>
+
+
+
+<p>WP-Cron works by checking, on every page load, a list of scheduled tasks to see what needs to be run. Any tasks due to run will be called during that page load. </p>
+
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> WP-Cron does not run constantly as the system cron does; it is only triggered on page load.</div>
+
+
+
+<p>Scheduling errors could occur if you schedule a task for 2:00PM and no page loads&#xA0;occur until 5:00PM.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="why-use-wp-cron" tabindex="-1">Why use WP-Cron <a href="#why-use-wp-cron" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why use WP-Cron</span></a></h2>
+
+
+
+<ul><li>WordPress core and many plugins need a scheduling system to perform time-based tasks. However, many&#xA0;hosting services are shared and do not provide&#xA0;access to the system scheduler.</li><li>Using the WordPress API is a simpler method for setting scheduled tasks than going outside of WordPress to the system scheduler.</li><li>With the system scheduler, if the time passes and the task did not run, it will not be re-attempted. With WP-Cron, all scheduled tasks are put into a queue and will run at the next opportunity (meaning the next page load). So while you can&#x2019;t be 100% sure <em>when</em> your task will run, you can be 100% sure that it will run <em>eventually</em>.</li></ul>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/javascript/summary/" rel="previous"><span class="meta-nav">&#x2190;</span> Summary</a><a href="https://developer.wordpress.org/plugins/cron/understanding-wp-cron-scheduling/" rel="next">Understanding WP-Cron Scheduling <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

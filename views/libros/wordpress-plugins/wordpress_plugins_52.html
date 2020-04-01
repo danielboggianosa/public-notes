@@ -1,0 +1,298 @@
+<main id="primary" class="site-main post-11090 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/users/" title="Users">Users</a></span> <span class="sep">/</span> <span class="trail-end">Roles and Capabilities</span>
+		</div>
+		
+			
+<h1>Roles and Capabilities</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#roles">Roles</a>
+<ul>
+<li><a href="#adding-roles">Adding Roles</a></li>
+<li><a href="#removing-roles">Removing Roles</a>
+</li></ul></li>
+<li><a href="#capabilities">Capabilities</a>
+<ul>
+<li><a href="#adding-capabilities">Adding Capabilities</a></li>
+<li><a href="#removing-capabilities">Removing Capabilities</a>
+</li></ul></li>
+<li><a href="#using-roles-and-capabilities">Using Roles and Capabilities</a>
+<ul>
+<li><a href="#get-role">Get Role</a></li>
+<li><a href="#user-can">User Can</a></li>
+<li><a href="#current-user-can">Current User Can</a></li>
+<li><a href="#example">Example</a>
+</li></ul></li>
+<li><a href="#multisite">Multisite</a></li>
+<li><a href="#reference">Reference</a></li></ul>
+</div>
+
+<p>Roles and capabilities are two important aspects of WordPress that allow you to control user privileges.</p>
+
+
+
+<p>WordPress stores the Roles and their Capabilities in the <code>options</code> table under the <code>user_roles</code> key.</p>
+
+
+
+<h2 class="toc-heading" id="roles" tabindex="-1">Roles <a href="#roles" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Roles</span></a></h2>
+
+
+
+<p>A role defines a set of capabilities for a user. For example, what the user may see and do in his dashboard.</p>
+
+
+
+<p><strong>By default, WordPress have six roles:</strong></p>
+
+
+
+<ul><li>Super Admin</li><li>Administrator</li><li>Editor</li><li>Author</li><li>Contributor</li><li>Subscriber</li></ul>
+
+
+
+<p>More roles can be added and the default roles can be removed.</p>
+
+
+
+<figure class="wp-block-image"><img src="https://developer.wordpress.org/files/2014/09/wp-roles.png" alt class="wp-image-26187" srcset="https://developer.wordpress.org/files/2014/09/wp-roles.png 405w, https://developer.wordpress.org/files/2014/09/wp-roles-300x105.png 300w" sizes="(max-width: 405px) 100vw, 405px"></figure>
+
+
+
+<h3 class="toc-heading" id="adding-roles" tabindex="-1">Adding Roles <a href="#adding-roles" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Adding Roles</span></a></h3>
+
+
+
+<p>Add new roles and assign capabilities to them with <a href="https://developer.wordpress.org/reference/functions/add_role/">add_role()</a>.</p>
+
+
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>function wporg_simple_role() {
+    add_role(
+        &apos;simple_role&apos;,
+        &apos;Simple Role&apos;,
+        [
+            &apos;read&apos;         =&gt; true,
+            &apos;edit_posts&apos;   =&gt; true,
+            &apos;upload_files&apos; =&gt; true,
+        ]
+    );
+}
+
+// Add the simple_role.
+add_action(&apos;init&apos;, &apos;wporg_simple_role&apos;);
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+
+
+<div class="callout callout-alert"><span class="screen-reader-text">Alert:</span> <br>
+After the first call to <a href="https://developer.wordpress.org/reference/functions/add_role/">add_role()</a>, the Role and it&#x2019;s Capabilities will be stored in the database!<p></p>
+<p>Sequential calls will do nothing: including altering the capabilities list, which might not be the behavior that you&#x2019;re expecting.<br>
+</p></div>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+To alter the capabilities list in bulk: remove the role using <a href="https://developer.wordpress.org/reference/functions/remove_role/">remove_role()</a> and add it again using <a href="https://developer.wordpress.org/reference/functions/add_role/">add_role()</a> with the new capabilities.</p>
+<p>Make sure to do it only if the capabilities differ from what you&#x2019;re expecting (i.e. condition this) or you&#x2019;ll degrade performance considerably!</p>
+</div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="removing-roles" tabindex="-1">Removing Roles <a href="#removing-roles" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Removing Roles</span></a></h3>
+
+
+
+<p>Remove roles with <a href="https://developer.wordpress.org/reference/functions/remove_role/">remove_role()</a>.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>function wporg_simple_role_remove() {
+    remove_role( &apos;simple_role&apos; );
+}
+
+// Remove the simple_role.
+add_action( &apos;init&apos;, &apos;wporg_simple_role_remove&apos; );
+</pre>
+
+
+<div class="callout callout-alert"><p><span class="screen-reader-text">Alert:</span> <br>
+After the first call to <a href="https://developer.wordpress.org/reference/functions/remove_role/">remove_role()</a>, the Role and it&#x2019;s Capabilities will be removed from the database!</p>
+<p>Sequential calls will do nothing.</p>
+</div>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+If you&#x2019;re removing the default roles:</p>
+<ul>
+<li>We advise <strong>against</strong> removing the Administrator and Super Admin roles!</li>
+<li>Make sure to keep the code in your plugin/theme as future WordPress updates may add these roles again.</li>
+<li>Run<br>
+<code>update_option(&apos;default_role&apos;, YOUR_NEW_DEFAULT_ROLE)</code><br>
+since you&#x2019;ll be deleting <code>subscriber</code> which is WP&#x2019;s default role.</li>
+</ul>
+<p>
+</p></div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="capabilities" tabindex="-1">Capabilities <a href="#capabilities" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Capabilities</span></a></h2>
+
+
+
+<p>Capabilities define what a <strong>role</strong> can and can not do: edit posts, publish posts, etc.</p>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+Custom post types can require a certain set of Capabilities.</p>
+</div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="adding-capabilities" tabindex="-1">Adding Capabilities <a href="#adding-capabilities" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Adding Capabilities</span></a></h3>
+
+
+
+<p>You may define new capabilities for a role.</p>
+
+
+
+<p>Use <a href="https://developer.wordpress.org/reference/functions/get_role/">get_role()</a> to get the role object, then use the <code>add_cap()</code> method of that object to add a new capability.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>function wporg_simple_role_caps() {
+    // Gets the simple_role role object.
+    $role = get_role( &apos;simple_role&apos; );
+
+    // Add a new capability.
+    $role-&gt;add_cap( &apos;edit_others_posts&apos;, true );
+}
+
+// Add simple_role capabilities, priority must be after the initial role definition.
+add_action( &apos;init&apos;, &apos;wporg_simple_role_caps&apos;, 11 );
+</pre>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+It&#x2019;s possible to add custom capabilities to any role.</p>
+<p>Under the default WordPress admin, they would have no effect, but they can be used for custom admin screen and front-end areas.</p>
+</div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="removing-capabilities" tabindex="-1">Removing Capabilities <a href="#removing-capabilities" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Removing Capabilities</span></a></h3>
+
+
+
+<p>You may remove capabilities from a role.</p>
+
+
+
+<p>The implementation is similar to Adding Capabilities with the difference being the use of <code>remove_cap()</code> method for the role object.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="using-roles-and-capabilities" tabindex="-1">Using Roles and Capabilities <a href="#using-roles-and-capabilities" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Using Roles and Capabilities</span></a></h2>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="get-role" tabindex="-1">Get Role <a href="#get-role" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Get Role</span></a></h3>
+
+
+
+<p>Get the role object including all of it&#x2019;s capabilities with <a href="https://developer.wordpress.org/reference/functions/get_role/">get_role()</a>.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>get_role( $role );
+</pre>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="user-can" tabindex="-1">User Can <a href="#user-can" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">User Can</span></a></h3>
+
+
+
+<p>Check if a user have a specified <strong>role</strong> or <strong>capability</strong> with <a href="https://developer.wordpress.org/reference/functions/user_can/">user_can()</a>.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>user_can( $user, $capability );
+</pre>
+
+
+<div class="callout callout-warning"><p><span class="screen-reader-text">Warning:</span> <br>
+There is an undocumented, third argument, $args, that may include the object against which the test should be performed.</p>
+<p>E.g. Pass a post ID to test for the capability of that specific post.</p>
+</div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="current-user-can" tabindex="-1">Current User Can <a href="#current-user-can" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Current User Can</span></a></h3>
+
+
+
+<p><a href="https://developer.wordpress.org/reference/functions/current_user_can/">current_user_can()</a> is a wrapper function for <a href="https://developer.wordpress.org/reference/functions/user_can/">user_can()</a> using the current user object as the <code>$user</code> parameter.</p>
+
+
+
+<p>Use this in scenarios where back-end and front-end areas should require a certain level of privileges to access and/or modify.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>current_user_can( $capability );
+</pre>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="example" tabindex="-1">Example <a href="#example" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example</span></a></h3>
+
+
+
+<p>Here&#x2019;s a practical example of adding an Edit link on the in a template file if the user has the proper capability:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>if ( current_user_can( &apos;edit_posts&apos; ) ) {
+    edit_post_link( esc_html__( &apos;Edit&apos;, &apos;wporg&apos; ), &apos;&lt;p&gt;&apos;, &apos;&lt;/p&gt;&apos;);
+}
+</pre>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="multisite" tabindex="-1">Multisite <a href="#multisite" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Multisite</span></a></h2>
+
+
+
+<p>The <a href="https://developer.wordpress.org/reference/functions/current_user_can_for_blog/">current_user_can_for_blog()</a> function is used to test if the current user has a certain <strong>role</strong> or <strong>capability</strong> on a specific blog.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>current_user_can_for_blog( $blog_id, $capability );
+</pre>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="reference" tabindex="-1">Reference <a href="#reference" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Reference</span></a></h2>
+
+
+
+<p>Codex Reference for <a href="https://wordpress.org/support/article/roles-and-capabilities/" target="_blank" rel="noopener noreferrer">User Roles and Capabilities</a>.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/users/working-with-user-metadata/" rel="previous"><span class="meta-nav">&#x2190;</span> Working with User Metadata</a><a href="https://developer.wordpress.org/plugins/http-api/" rel="next">HTTP API <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

@@ -69,7 +69,7 @@ class NotasController {
                 // console.log(notas[i].id,i,notas)
                 if (notas[i]['id'] == index) {
                     notas.splice(i, 1);
-                    let write = JSON.stringify(json);
+                    let write = JSON.stringify(json, null, "\t");
                     fs_1.default.writeFileSync('notes.json', write);
                     res.json({ success: true, notas: json.notas });
                     break;

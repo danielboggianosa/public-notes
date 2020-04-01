@@ -1,11 +1,7 @@
 extends templates/public
 block content
     h1 Notas
-    .input-group.mb-2.row
-        .input-group.prepend
-            .input-group-text
-                i.fa.fa-search
-        input.form-control#buscar(type="search", name="buscar", placeholder="Filtrar", onkeyup="notas.obtener(this.value)")
+    input.form-control.mb-4#buscar(type="search", name="buscar", placeholder="Filtrar", onkeyup="notas.obtener(this.value)")
             
     .row#notas
 

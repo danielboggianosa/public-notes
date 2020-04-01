@@ -12,12 +12,31 @@ class IndexController{
     public async read(req:Request, res:Response): Promise<void>{
         res.render('index')
     }
+    
+    //READ
+    public async libros(req:Request, res:Response): Promise<void>{
+        res.render('libros')
+    }
+
+    //READ
+    public async libro(req:Request, res:Response): Promise<void>{
+        const {id, pagina} = req.params
+        let raw:any = fs.readFileSync('libros.json')
+        let json = JSON.parse(raw)
+        let libros = json.libros;
+        for(let i=0;i<libros.length;i++){
+            let libro = libros[i]
+            if(libro['id'] == id){
+                let contenido = fs.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`,'utf8')
+                res.render(`libros/${libro.slug}/index`,{pagina:contenido})
+                break
+            }
+        }
+    }
 
     //READ
     public async crear(req:Request, res:Response): Promise<void>{
-        let raw:any = fs.readFileSync('notes.json')
-        let notas = JSON.parse(raw)
-        res.render('crear', notas)
+        res.render('crear')
     }
     
     //UPDATE

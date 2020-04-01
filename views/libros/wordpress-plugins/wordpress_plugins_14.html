@@ -1,0 +1,84 @@
+<main id="primary" class="site-main post-11556 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/security/" title="Plugin Security">Plugin Security</a></span> <span class="sep">/</span> <span class="trail-end">Securing Output</span>
+		</div>
+		
+			
+<h1>Securing Output</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#escaping">Escaping</a></li>
+<li><a href="#escaping-with-localization">Escaping with Localization</a></li>
+<li><a href="#custom-escaping">Custom Escaping</a></li></ul>
+</div>
+<p>Securing output is the process of escaping output data.</p>
+<p>Escaping means stripping out unwanted data, like malformed HTML or script tags.</p>
+<p><strong>Whenever you&#x2019;re rendering data, make sure to properly escape it. Escaping output prevents XSS (Cross-site scripting) attacks.</strong></p>
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+<a href="https://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank" rel="noopener noreferrer">Cross-site scripting (XSS)</a> is a type of computer security vulnerability typically found in web applications. XSS enables attackers to inject client-side scripts into web pages viewed by other users. A cross-site scripting vulnerability may be used by attackers to bypass access controls such as the same-origin policy.</p>
+</div>
+<h2 class="toc-heading" id="escaping" tabindex="-1">Escaping <a href="#escaping" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Escaping</span></a></h2>
+<p>Escaping&#xA0;helps securing your data&#xA0;prior to rendering it for the end user. WordPress has a few helper functions&#xA0;you can use for most common scenarios.</p>
+<ul>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_html/">esc_html()</a> &#x2013; Use this function anytime an HTML element encloses a section of data being displayed.</li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_url/">esc_url()</a> &#x2013; Use this function on all URLs, including those in the <code>src</code> and <code>href</code> attributes of an HTML element.</li>
+<li><code>esc_js()</code>&#x2013; Use this function for inline Javascript.</li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_attr/">esc_attr()</a> &#x2013; Use this function on everything else that&#x2019;s printed into an HTML element&#x2019;s attribute.</li>
+</ul>
+<div class="callout callout-alert"><p><span class="screen-reader-text">Alert:</span> <br>
+Most WordPress functions properly prepare data for output, so you don&#x2019;t need to escape the data again. For example, you can safely call <a href="https://developer.wordpress.org/reference/functions/the_title/">the_title()</a> without escaping.</p>
+</div>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="escaping-with-localization" tabindex="-1">Escaping with Localization <a href="#escaping-with-localization" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Escaping with Localization</span></a></h2>
+<p>Rather than using <code>echo</code> to output data, it&#x2019;s common to use the WordPress localization functions, such as <a href="https://developer.wordpress.org/reference/functions/_e/">_e()</a> or <a href="https://developer.wordpress.org/reference/functions/__/">__()</a>.</p>
+<p>These functions simply wrap a localization function inside an escaping function:</p>
+<pre class="brush: php; title: ; notranslate" title>esc_html_e( &apos;Hello World&apos;, &apos;text_domain&apos; );
+// same as
+echo esc_html( __( &apos;Hello World&apos;, &apos;text_domain&apos; ) );
+</pre>
+<p>These helper functions combine localization and escaping:</p>
+<ul>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_html__/">esc_html__()</a></li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_html_e/">esc_html_e()</a></li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_html_x/">esc_html_x()</a></li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_attr__/">esc_attr__()</a></li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_attr_e/">esc_attr_e()</a></li>
+<li><a href="https://developer.wordpress.org/reference/functions/esc_attr_x/">esc_attr_x()</a></li>
+</ul>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="custom-escaping" tabindex="-1">Custom Escaping <a href="#custom-escaping" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Custom Escaping</span></a></h2>
+<p>In the case that you need to escape your output in a specific way, the function <a href="https://developer.wordpress.org/reference/functions/wp_kses/">wp_kses()</a> (pronounced &#x201C;kisses&#x201D;) will come in handy.</p>
+<p>This function makes sure that only the specified HTML elements, attributes, and attribute values will occur in your output, and normalizes&#xA0;HTML entities.</p>
+<pre class="brush: php; title: ; notranslate" title>$allowed_html = [
+&apos;a&apos;      =&gt; [
+&apos;href&apos;  =&gt; [],
+&apos;title&apos; =&gt; [],
+],
+&apos;br&apos;     =&gt; [],
+&apos;em&apos;     =&gt; [],
+&apos;strong&apos; =&gt; [],
+];
+echo wp_kses( $custom_content, $allowed_html );
+</pre>
+<p><a href="https://developer.wordpress.org/reference/functions/wp_kses_post/">wp_kses_post()</a> is a wrapper function for wp_kses where <code>$allowed_html</code> is a set of rules used by post content.</p>
+<pre class="brush: php; title: ; notranslate" title>echo wp_kses_post( $post_content );
+</pre>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/security/securing-input/" rel="previous"><span class="meta-nav">&#x2190;</span> Securing Input</a><a href="https://developer.wordpress.org/plugins/security/nonces/" rel="next">Nonces <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

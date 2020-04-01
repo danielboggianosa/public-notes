@@ -1,0 +1,93 @@
+<main id="primary" class="site-main post-10987 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/shortcodes/" title="Shortcodes">Shortcodes</a></span> <span class="sep">/</span> <span class="trail-end">Basic Shortcodes</span>
+		</div>
+		
+			
+<h1>Basic Shortcodes</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#add-a-shortcode">Add a Shortcode</a></li>
+<li><a href="#remove-a-shortcode">Remove a Shortcode</a></li>
+<li><a href="#check-if-a-shortcode-exists">Check if a Shortcode Exists</a></li></ul>
+</div>
+
+<h2 class="toc-heading" id="add-a-shortcode" tabindex="-1">Add a Shortcode <a href="#add-a-shortcode" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Add a Shortcode</span></a></h2>
+
+
+
+<p>It is possible to add your own shortcodes by using the Shortcode API. The process involves registering a callback <code>$func</code> to a shortcode <code>$tag</code> using <code>add_shortcode()</code>.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_shortcode(
+    string $tag,
+    callable $func
+);
+?&gt;
+</pre>
+
+
+<p><code>[wporg]</code> is your new shortcode. The use of the shortcode will trigger the <code>wporg_shortcode</code> callback function.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_shortcode(&apos;wporg&apos;, &apos;wporg_shortcode&apos;);
+function wporg_shortcode( $atts = [], $content = null) {
+    // do something to $content
+    // always return
+    return $content;
+}
+?&gt;
+</pre>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="remove-a-shortcode" tabindex="-1">Remove a Shortcode <a href="#remove-a-shortcode" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Remove a Shortcode</span></a></h2>
+
+
+
+<p>It is possible to remove shortcodes by using the Shortcode API. The process involves removing a registered <code>$tag</code> using <a href="https://developer.wordpress.org/reference/functions/remove_shortcode/">remove_shortcode()</a>.</p>
+
+
+
+<pre class="wp-block-preformatted"></pre>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+remove_shortcode(
+    string $tag
+);
+?&gt;
+</pre>
+
+
+<p>Make sure that the shortcode have been registered before attempting to remove. Specify a higher priority number for <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a> or hook into an action hook that is run later.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="check-if-a-shortcode-exists" tabindex="-1">Check if a Shortcode Exists <a href="#check-if-a-shortcode-exists" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Check if a Shortcode Exists</span></a></h2>
+
+
+
+<p>To check whether a shortcode has been registered use <code>shortcode_exists()</code>.</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/shortcodes/" rel="previous"><span class="meta-nav">&#x2190;</span> Shortcodes</a><a href="https://developer.wordpress.org/plugins/shortcodes/enclosing-shortcodes/" rel="next">Enclosing Shortcodes <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

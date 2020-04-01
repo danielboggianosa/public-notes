@@ -26,11 +26,32 @@ class IndexController {
         });
     }
     //READ
+    libros(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            res.render('libros');
+        });
+    }
+    //READ
+    libro(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, pagina } = req.params;
+            let raw = fs_1.default.readFileSync('libros.json');
+            let json = JSON.parse(raw);
+            let libros = json.libros;
+            for (let i = 0; i < libros.length; i++) {
+                let libro = libros[i];
+                if (libro['id'] == id) {
+                    let contenido = fs_1.default.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`, 'utf8');
+                    res.render(`libros/${libro.slug}/index`, { pagina: contenido });
+                    break;
+                }
+            }
+        });
+    }
+    //READ
     crear(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            let raw = fs_1.default.readFileSync('notes.json');
-            let notas = JSON.parse(raw);
-            res.render('crear', notas);
+            res.render('crear');
         });
     }
     //UPDATE

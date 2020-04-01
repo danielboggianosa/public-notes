@@ -1,0 +1,174 @@
+<main id="primary" class="site-main post-10903 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> <span class="trail-end">Plugin Basics</span>
+		</div>
+		
+			
+<h1>Plugin Basics</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#hooks-actions-and-filters">Hooks: Actions and Filters</a>
+<ul>
+<li><a href="#basic-hooks">Basic Hooks</a></li>
+<li><a href="#adding-hooks">Adding Hooks</a></li>
+<li><a href="#removing-hooks">Removing Hooks</a>
+</li></ul></li>
+<li><a href="#wordpress-apis">WordPress APIs</a></li>
+<li><a href="#how-wordpress-loads-plugins">How WordPress Loads Plugins</a></li>
+<li><a href="#sharing-your-plugin">Sharing your Plugin</a></li></ul>
+</div>
+
+<h2 class="toc-heading" id="getting-started" tabindex="-1">Getting Started <a href="#getting-started" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Getting Started</span></a></h2>
+
+
+
+<p>At its simplest, a WordPress plugin is a PHP file with a WordPress plugin header comment. It&#x2019;s highly recommended that you create a directory to hold your plugin so that all of your plugin&#x2019;s files are neatly organized in one place.</p>
+
+
+
+<p>To get started creating a new plugin, follow the steps below.</p>
+
+
+
+<ol><li>Navigate to the WordPress installation&#x2019;s&#xA0;<strong>wp-content</strong> directory.</li><li>Open&#xA0;the <strong>plugins</strong> directory.</li><li>Create a new directory and name it after the plugin (e.g. <code>plugin-name</code>).</li><li>Open&#xA0;the new plugin&#x2019;s directory.</li><li>Create a new PHP file (it&#x2019;s also good to name this file after your plugin, e.g. <code>plugin-name.php</code>).</li></ol>
+
+
+
+<p>Here&#x2019;s what the process looks like on the Unix command line:</p>
+
+
+
+<pre class="wp-block-preformatted">wordpress$ cd wp-content<br>wp-content$ cd plugins<br>plugins$ mkdir plugin-name<br>plugins$ cd plugin-name<br>plugin-name$ vi plugin-name.php<br></pre>
+
+
+
+<p>In the example above, &#x201C;vi&#x201D; is the name of the text editor. Use whichever editor that is comfortable for you.</p>
+
+
+
+<p>Now that you&#x2019;re editing your new plugin&#x2019;s PHP file, you&#x2019;ll need to add a <strong>plugin header comment</strong>. This is a specially formatted PHP block comment that contains metadata about the plugin, such as its name, author, version, license, etc. The plugin header comment must comply with the&#xA0;<a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">header requirements</a>, and at the very least, contain the <strong>name</strong> of the plugin.</p>
+
+
+
+<p>Only <strong>one file</strong> in the plugin&#x2019;s folder should have the header comment &#x2014; if the plugin has multiple PHP files, only one of those files should have the header comment.</p>
+
+
+
+<pre class="wp-block-preformatted">&lt;?php<br>/**<br> * Plugin Name: YOUR PLUGIN NAME<br> */<br></pre>
+
+
+
+<p>After you save the file, you should be able to see your plugin listed in your WordPress site. Log in to your WordPress site, and click <strong>Plugins</strong> on the left navigation pane of your WordPress Admin. This page displays a listing of all the plugins your WordPress site has. Your new plugin should now be in that list!</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="hooks-actions-and-filters" tabindex="-1">Hooks: Actions and Filters <a href="#hooks-actions-and-filters" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Hooks: Actions and Filters</span></a></h2>
+
+
+
+<p>WordPress hooks allow you to tap into WordPress at specific points to change how WordPress behaves without editing any core files.</p>
+
+
+
+<p>There are two types of hooks within WordPress: <em>actions</em> and <em>filters</em>. Actions allow you to add or change WordPress functionality, while filters allow you to alter content as it is loaded and displayed to the website user.</p>
+
+
+
+<p>Hooks are not just for plugin developers; hooks are used extensively to provide default functionality by WordPress core itself. Other hooks are unused place holders that are simply available for you to tap into when you need to alter how WordPress works. This is what makes WordPress so flexible.</p>
+
+
+
+<h3 class="toc-heading" id="basic-hooks" tabindex="-1">Basic Hooks <a href="#basic-hooks" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Basic Hooks</span></a></h3>
+
+
+
+<p>The 3 basic hooks you&#x2019;ll need when creating a plugin are the <a href="https://developer.wordpress.org/reference/functions/register_activation_hook/">register_activation_hook()</a>, the <a href="https://developer.wordpress.org/reference/functions/register_deactivation_hook/">register_deactivation_hook()</a>, and the <a href="https://developer.wordpress.org/reference/functions/register_uninstall_hook/">register_uninstall_hook()</a>.</p>
+
+
+
+<p>The <a href="https://developer.wordpress.org/plugins/the-basics/activation-deactivation-hooks/">activation hook</a> is run when you <em>activate</em> your plugin. You would use this to provide a function to set up your plugin &#x2014; for example, creating some default settings in the <code>options</code> table.</p>
+
+
+
+<p>The <a href="https://developer.wordpress.org/plugins/the-basics/activation-deactivation-hooks/">deactivation hook</a> is run when you <em>deactivate</em> your plugin. You would use this to provide a function that clears any temporary data stored by your plugin.</p>
+
+
+
+<p>These <a href="https://developer.wordpress.org/plugins/the-basics/uninstall-methods/">uninstall methods</a> are used to clean up after your plugin is <em>deleted</em> using the WordPress Admin. You would use this to delete all data created by your plugin, such as any options that were added to the <code>options</code> table.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="adding-hooks" tabindex="-1">Adding Hooks <a href="#adding-hooks" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Adding Hooks</span></a></h3>
+
+
+
+<p>You can add your own, custom hooks with <a href="https://developer.wordpress.org/reference/functions/do_action/">do_action()</a>, which will enable developers to extend your plugin by passing functions through your hooks.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="removing-hooks" tabindex="-1">Removing Hooks <a href="#removing-hooks" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Removing Hooks</span></a></h3>
+
+
+
+<p>You can also use invoke <a href="https://developer.wordpress.org/reference/functions/remove_action/">remove_action()</a> to remove a function that was defined earlier. For example, if your plugin is an add-on to another plugin, you can use <a href="https://developer.wordpress.org/reference/functions/remove_action/">remove_action()</a> with the same function callback that was added by the previous plugin with <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a>. The priority of actions is important in these situations, as <a href="https://developer.wordpress.org/reference/functions/remove_action/">remove_action()</a> would need to run after the initial <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a>.</p>
+
+
+
+<p>You should be careful when removing an action from a hook, as well as when altering priorities, because it can be difficult to see how these changes will affect other interactions with the same hook. We highly recommend testing frequently.</p>
+
+
+
+<p>You can learn more about creating hooks and interacting with them in the <a href="https://developer.wordpress.org/plugin/hooks/">Hooks</a> section of this handbook.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="wordpress-apis" tabindex="-1">WordPress APIs <a href="#wordpress-apis" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">WordPress APIs</span></a></h2>
+
+
+
+<p>Did you know that WordPress provides a number of <a href="https://make.wordpress.org/core/handbook/core-apis/">Application Programming Interfaces (APIs)</a>? These APIs can greatly simplify the code you need to write in your plugins. You don&#x2019;t want to reinvent the wheel, especially when so many people have done a lot of the work and testing for you.</p>
+
+
+
+<p>The most common one is the <a href="https://codex.wordpress.org/Options_API">Options API</a>, which makes it easy to store data in the database for your plugin. If you&#x2019;re thinking of using <a href="https://en.wikipedia.org/wiki/CURL" target="_blank" rel="noopener noreferrer">cURL</a> in your plugin, the <a href="https://codex.wordpress.org/HTTP_API">HTTP API</a> might be of interest to you.</p>
+
+
+
+<p>Since we&#x2019;re talking about plugins, you&#x2019;ll want to study the <a href="https://codex.wordpress.org/Plugin_API">Plugin API</a>. It has a variety of functions that will assist you in developing plugins.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="how-wordpress-loads-plugins" tabindex="-1">How WordPress Loads Plugins <a href="#how-wordpress-loads-plugins" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">How WordPress Loads Plugins</span></a></h2>
+
+
+
+<p>When WordPress loads the list of installed plugins on the Plugins page of the WordPress Admin, it searches through the <code>plugins</code> folder (and its sub-folders) to find PHP files with WordPress plugin header comments. If your entire plugin consists of just a single PHP file, like <a title="Hello Dolly" href="https://wordpress.org/plugins/hello-dolly/">Hello Dolly</a>, the file could be located directly inside the root of the <code>plugins</code> folder. But more commonly, plugin files will reside in their own folder, named after the plugin.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="sharing-your-plugin" tabindex="-1">Sharing your Plugin <a href="#sharing-your-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Sharing your Plugin</span></a></h2>
+
+
+
+<p>Sometimes a plugin you create is just for your site. But many people like to share their plugins with the rest of the WordPress community. Before sharing your plugin, one thing you need to do is <a href="https://opensource.org/licenses/category">choose a license</a>. This lets the user of your plugin know how they are allowed to use your code. To maintain compatibility with WordPress core, it is recommended that you pick a license that works with GNU General Public License (GPLv2+).</p>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/intro/what-is-a-plugin/" rel="previous"><span class="meta-nav">&#x2190;</span> What is a Plugin?</a><a href="https://developer.wordpress.org/plugins/plugin-basics/header-requirements/" rel="next">Header Requirements <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

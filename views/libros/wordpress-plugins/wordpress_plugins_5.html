@@ -1,0 +1,85 @@
+<main id="primary" class="site-main post-10912 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/plugin-basics/" title="Plugin Basics">Plugin Basics</a></span> <span class="sep">/</span> <span class="trail-end">Including a Software License</span>
+		</div>
+		
+			
+<h1>Including a Software License</h1>
+
+
+<p>Most WordPress plugins are released under the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GPL</a>, which is the same license that&#xA0;WordPress itself uses. However, there are other options available. It is always best to clearly indicate the license your plugin uses.</p>
+<p>In the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">Header Requirements</a> section, we briefly mentioned how you can indicate your&#xA0;plugin&#x2019;s license within the plugin header comment. Another common, and encouraged, practice is to place a license block comment near the top of your main plugin file (the same one that has the plugin header comment).</p>
+<p>This license block comment usually looks something like this:</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>/*
+{Plugin Name} is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+
+{Plugin Name} is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with {Plugin Name}. If not, see {URI to Plugin License}.
+*/
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p>When combined with the plugin header comment:</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+/*
+Plugin Name: WordPress.org Plugin
+Plugin URI:  https://developer.wordpress.org/plugins/the-basics/
+Description: Basic WordPress Plugin Header Comment
+Version:     20160911
+Author:      WordPress.org
+Author URI:  https://developer.wordpress.org/
+Text Domain: wporg
+Domain Path: /languages
+License:     GPL2
+
+{Plugin Name} is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+
+{Plugin Name} is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with {Plugin Name}. If not, see {License URI}.
+*/
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/plugin-basics/header-requirements/" rel="previous"><span class="meta-nav">&#x2190;</span> Header Requirements</a><a href="https://developer.wordpress.org/plugins/plugin-basics/activation-deactivation-hooks/" rel="next">Activation / Deactivation Hooks <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

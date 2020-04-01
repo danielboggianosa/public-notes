@@ -1,0 +1,266 @@
+<main id="primary" class="site-main post-10957 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/administration-menus/" title="Administration Menus">Administration Menus</a></span> <span class="sep">/</span> <span class="trail-end">Top-Level Menus</span>
+		</div>
+		
+			
+<h1>Top-Level Menus</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#add-a-top-level-menu">Add a Top-Level Menu</a>
+<ul>
+<li><a href="#example">Example</a></li>
+<li><a href="#using-a-php-file-for-html">Using a PHP File for HTML</a>
+</li></ul></li>
+<li><a href="#remove-a-top-level-menu">Remove a Top-Level Menu</a>
+<ul>
+<li><a href="#example-2">Example</a>
+</li></ul></li>
+<li><a href="#submitting-forms">Submitting forms</a>
+<ul>
+<li><a href="#form-action-attribute">Form action attribute</a></li>
+<li><a href="#processing-the-form">Processing the form</a></li></ul>
+</li></ul></div>
+
+<h2 class="toc-heading" id="add-a-top-level-menu" tabindex="-1">Add a Top-Level Menu <a href="#add-a-top-level-menu" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Add a Top-Level Menu</span></a></h2>
+
+
+
+<p>To add a new Top-level menu to WordPress Administration, use the <a href="https://developer.wordpress.org/reference/functions/add_menu_page/">add_menu_page()</a> function.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_menu_page(
+    string $page_title,
+    string $menu_title,
+    string $capability,
+    string $menu_slug,
+    callable $function = &apos;&apos;,
+    string $icon_url = &apos;&apos;,
+    int $position = null
+);
+</pre>
+
+
+<h3 class="toc-heading" id="example" tabindex="-1">Example <a href="#example" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example</span></a></h3>
+
+
+
+<p>Lets say we want to add a new Top-level menu called &#x201C;WPOrg&#x201D;.</p>
+
+
+
+<p><strong>The first step</strong> will be creating a function which will output the HTML. In this function we will perform the necessary security checks and render the options we&#x2019;ve registered using the <a href="https://developer.wordpress.org/plugins/settings/">Settings API</a>.</p>
+
+
+<div class="callout callout-info"><span class="screen-reader-text">Note:</span> <p></p>
+<p>We recommend wrapping your HTML using a <code>&lt;div&gt;</code> with a class of <code>wrap</code>.</p>
+<p></p></div>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>&lt;?php
+function wporg_options_page_html() {
+    ?&gt;
+    &lt;div class=&quot;wrap&quot;&gt;
+      &lt;h1&gt;&lt;?php esc_html( get_admin_page_title() ); ?&gt;&lt;/h1&gt;
+      &lt;form action=&quot;options.php&quot; method=&quot;post&quot;&gt;
+        &lt;?php
+        // output security fields for the registered setting &quot;wporg_options&quot;
+        settings_fields( &apos;wporg_options&apos; );
+        // output setting sections and their fields
+        // (sections are registered for &quot;wporg&quot;, each field is registered to a specific section)
+        do_settings_sections( &apos;wporg&apos; );
+        // output save settings button
+        submit_button( &apos;Save Settings&apos; );
+        ?&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+    &lt;?php
+}
+?&gt;
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p><strong>The second step</strong> will be registering our WPOrg menu. The registration needs to occur during the <code>admin_menu</code> action hook.</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_action( &apos;admin_menu&apos;, &apos;wporg_options_page&apos; );
+function wporg_options_page() {
+    add_menu_page(
+        &apos;WPOrg&apos;,
+        &apos;WPOrg Options&apos;,
+        &apos;manage_options&apos;,
+        &apos;wporg&apos;,
+        &apos;wporg_options_page_html&apos;,
+        plugin_dir_url(__FILE__) . &apos;images/icon_wporg.png&apos;,
+        20
+    );
+}
+?&gt;
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p>For a list of parameters and what each do please see the <a href="https://developer.wordpress.org/reference/functions/add_menu_page/">add_menu_page()</a> in the reference.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="using-a-php-file-for-html" tabindex="-1">Using a PHP File for HTML <a href="#using-a-php-file-for-html" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Using a PHP File for HTML</span></a></h3>
+
+
+
+<p>The best practice for portable code would be to create a Callback that requires/includes your PHP file.</p>
+
+
+
+<p>For the sake of completeness and helping you understand legacy code, we will show another way: passing a <code>PHP file path</code> as the <code>$menu_slug</code> parameter with an <code>null</code> <code>$function</code> parameter.</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_action( &apos;admin_menu&apos;, &apos;wporg_options_page&apos; );
+function wporg_options_page() {
+    add_menu_page(
+        &apos;WPOrg&apos;,
+        &apos;WPOrg Options&apos;,
+        &apos;manage_options&apos;,
+        plugin_dir_path(__FILE__) . &apos;admin/view.php&apos;,
+        null,
+        plugin_dir_url(__FILE__) . &apos;images/icon_wporg.png&apos;,
+        20
+    );
+}
+?&gt;
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="remove-a-top-level-menu" tabindex="-1">Remove a Top-Level Menu <a href="#remove-a-top-level-menu" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Remove a Top-Level Menu</span></a></h2>
+
+
+
+<p>To remove a registered menu from WordPress Administration, use the <a href="https://developer.wordpress.org/reference/functions/remove_menu_page/">remove_menu_page()</a> function.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+remove_menu_page(
+    string $menu_slug
+);
+?&gt;
+</pre>
+
+<div class="callout callout-warning"><p><span class="screen-reader-text">Warning:</span> <br>
+Removing menus won&#x2019;t prevent users accessing them directly.<br>This should never be used as a way to restrict <a href="https://developer.wordpress.org/plugins/users/roles-and-capabilities/">user capabilities</a>.</p>
+</div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="example-2" tabindex="-1">Example <a href="#example-2" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example</span></a></h3>
+
+
+
+<p>Lets say we want to remove the &#x201C;Tools&#x201D; menu from.</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+add_action( &apos;admin_menu&apos;, &apos;wporg_remove_options_page&apos;, 99 );
+function wporg_remove_options_page() {
+    remove_menu_page( &apos;tools.php&apos; );
+}
+?&gt;
+</pre>
+
+
+<p>Make sure that the menu have been registered with the <code>admin_menu</code> hook before attempting to remove, specify a higher priority number for <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a>.</p>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="submitting-forms" tabindex="-1">Submitting forms <a href="#submitting-forms" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Submitting forms</span></a></h2>
+
+
+
+<p>To process the submissions of forms on options pages, you will need two things:</p>
+
+
+
+<ol><li>Use the URL of the page as the <code>action</code> attribute of the form.</li><li>Add a hook with the slug, returned by <code>add_menu_page</code>.</li></ol>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+You only need to follow those steps if you are manually creating forms in the back-end. The <a href="https://developer.wordpress.org/plugins/settings/">Settings API</a> is the recommended way to do this.</p>
+</div>
+
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="form-action-attribute" tabindex="-1">Form action attribute <a href="#form-action-attribute" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Form action attribute</span></a></h3>
+
+
+
+<p>Use the <code>$menu_slug</code> parameter of the options page as the first parameter of  <code><a href="https://developer.wordpress.org/reference/functions/menu_page_url/">menu_page_url()</a></code>. By the function will automatically escape URL and echo it by default, so you can directly use it within the <code>&lt;form&gt;</code> tag:</p>
+
+
+<pre class="brush: php; title: ; notranslate" title>&lt;form action=&quot;&lt;?php menu_page_url( &apos;wporg&apos; ) ?&gt;&quot; method=&quot;post&quot;&gt;
+</pre>
+
+
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="processing-the-form" tabindex="-1">Processing the form <a href="#processing-the-form" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Processing the form</span></a></h3>
+
+
+
+<p>The <code>$function</code> you specify while adding the page will only be called once it is time to display the page, which makes it inappropriate if you need to send headers (ex. redirects) back to the browser.</p>
+
+
+
+<p><code>add_menu_page</code> returns a <code>$hookname</code>, and WordPress triggers the <code>&quot;load-$hookname&quot;</code> action before any HTML output. You can use this to assign a function, which could process the form.</p>
+
+
+<div class="callout callout-info"><p><span class="screen-reader-text">Note:</span> <br>
+<code>&quot;load-$hookname&quot;</code> will be executed every time before an options page will be displayed, even when the form is not being submitted.</p>
+</div>
+
+
+
+<p>With the return parameter and action in mind, the example from above would like this:</p>
+
+
+<section class="source-content"><div class="source-code-container"><pre class="brush: php; title: ; notranslate" title>add_action( &apos;admin_menu&apos;, &apos;wporg_options_page&apos; );
+function wporg_options_page() {
+	$hookname = add_menu_page(
+		&apos;WPOrg&apos;,
+		&apos;WPOrg Options&apos;,
+		&apos;manage_options&apos;,
+		&apos;wporg&apos;,
+		&apos;wporg_options_page_html&apos;,
+		plugin_dir_url(__FILE__) . &apos;images/icon_wporg.png&apos;,
+		20
+	);
+
+	add_action( &apos;load-&apos; . $hookname, &apos;wporg_options_page_submit&apos; );
+}
+</pre></div><p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p></section>
+
+
+<p>You can program <code>wporg_options_page_submit</code> according to your needs, but keep in mind that you must manually perform all necessary checks, including:</p>
+
+
+
+<ol><li>Whether the form is being submitted (<code>&apos;POST&apos; === $_SERVER[&apos;REQUEST_METHOD&apos;]</code>).</li><li><a href="https://developer.wordpress.org/plugins/security/nonces/">CSRF verification</a></li><li>Validation</li><li>Sanitization</li></ol>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/administration-menus/" rel="previous"><span class="meta-nav">&#x2190;</span> Administration Menus</a><a href="https://developer.wordpress.org/plugins/administration-menus/sub-menus/" rel="next">Sub-Menus <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

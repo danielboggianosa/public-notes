@@ -1,0 +1,14 @@
+{
+	"lastId": 1,
+	"libros": [
+		{
+            "id": 1,
+			"titulo": "Wordpress Plugin Handbook",
+            "slug":"wordpress-plugins",
+            "contenido": "Libro de plugins oficial para wordpress",
+            "ubicacion":"libros/wordpress_plugins/index",
+            "imagen":"https://images-na.ssl-images-amazon.com/images/I/51WurYl%2BRlL._SX331_BO1,204,203,200_.jpg",
+			"createdAt": "2020-03-26T07:15:47.524Z"
+		}
+	]
+}

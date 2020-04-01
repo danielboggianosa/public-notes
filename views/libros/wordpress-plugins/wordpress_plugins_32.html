@@ -1,0 +1,108 @@
+<main id="primary" class="site-main post-10991 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/shortcodes/" title="Shortcodes">Shortcodes</a></span> <span class="sep">/</span> <span class="trail-end">Shortcodes with Parameters</span>
+		</div>
+		
+			
+<h1>Shortcodes with Parameters</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#parsing-attributes">Parsing Attributes</a></li>
+<li><a href="#complete-example">Complete Example</a></li></ul>
+</div>
+<p>Now that we know how to create a <a href="https://developer.wordpress.org/plugins/shortcodes/basic-shortcodes/">basic shortcode</a> and how to use it as <a href="https://developer.wordpress.org/plugins/shortcodes/enclosing-shortcodes/">self-closing and enclosing</a>, we will look at using parameters in shortcode <code>[$tag]</code> and handler function.</p>
+<p>Shortcode <code>[$tag]</code> can accept parameters, known as attributes:</p>
+<pre class="brush: php; title: ; notranslate" title>[wporg title=&quot;WordPress.org&quot;]
+Having fun with WordPress.org shortcodes.
+[/wporg]
+</pre>
+<p>Shortcode handler function can accept 3 parameters:</p>
+<ul>
+<li><code>$atts</code> &#x2013; array &#x2013; [$tag] attributes</li>
+<li><code>$content</code> &#x2013; string &#x2013; post content</li>
+<li><code>$tag</code> &#x2013; string &#x2013; the name of the [$tag] (i.e. the name of the shortcode)</li>
+</ul>
+<pre class="brush: php; title: ; notranslate" title>function wporg_shortcode($atts = [], $content = null, $tag = &apos;&apos;) {}
+</pre>
+<h2 class="toc-heading" id="parsing-attributes" tabindex="-1">Parsing Attributes <a href="#parsing-attributes" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Parsing Attributes</span></a></h2>
+<p>For the user, shortcodes are just strings with square brackets inside the post content. The user have no idea which attributes are available and what happens behind the scenes.</p>
+<p>For plugin developers, there is no way to enforce a policy on the use of attributes. The user may include one attribute, two or none at all.</p>
+<p>To gain control of how the shortcodes are used:</p>
+<ul>
+<li>Declare default parameters for the handler function</li>
+<li>Performing normalization of the key case for the attributes array with <a href="http://php.net/manual/en/function.array-change-key-case.php">array_change_key_case()</a></li>
+<li>Parse attributes using <a href="https://developer.wordpress.org/reference/functions/shortcode_atts/">shortcode_atts()</a> providing default values array and user <code>$atts</code></li>
+<li><a href="https://developer.wordpress.org/plugins/security/securing-output/">Secure the output</a> before returning it</li>
+</ul>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="complete-example" tabindex="-1">Complete Example <a href="#complete-example" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Complete Example</span></a></h2>
+<p>Complete example using a basic shortcode structure, taking care of self-closing and enclosing scenarios, shortcodes within shortcodes and securing output.</p>
+<p>A [wporg] shortcode that will accept a title and will display a box that we can style with CSS.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+function wporg_shortcode($atts = [], $content = null, $tag = &apos;&apos;)
+{
+    // normalize attribute keys, lowercase
+    $atts = array_change_key_case((array)$atts, CASE_LOWER);
+
+    // override default attributes with user attributes
+    $wporg_atts = shortcode_atts([
+                                     &apos;title&apos; =&gt; &apos;WordPress.org&apos;,
+                                 ], $atts, $tag);
+
+    // start output
+    $o = &apos;&apos;;
+
+    // start box
+    $o .= &apos;&lt;div class=&quot;wporg-box&quot;&gt;&apos;;
+
+    // title
+    $o .= &apos;&lt;h2&gt;&apos; . esc_html__($wporg_atts[&apos;title&apos;], &apos;wporg&apos;) . &apos;&lt;/h2&gt;&apos;;
+
+    // enclosing tags
+    if (!is_null($content)) {
+        // secure output by executing the_content filter hook on $content
+        $o .= apply_filters(&apos;the_content&apos;, $content);
+
+        // run shortcode parser recursively
+        $o .= do_shortcode($content);
+    }
+
+    // end box
+    $o .= &apos;&lt;/div&gt;&apos;;
+
+    // return output
+    return $o;
+}
+
+function wporg_shortcodes_init()
+{
+    add_shortcode(&apos;wporg&apos;, &apos;wporg_shortcode&apos;);
+}
+
+add_action(&apos;init&apos;, &apos;wporg_shortcodes_init&apos;);
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/shortcodes/enclosing-shortcodes/" rel="previous"><span class="meta-nav">&#x2190;</span> Enclosing Shortcodes</a><a href="https://developer.wordpress.org/plugins/shortcodes/tinymce-enhanced-shortcodes/" rel="next">TinyMCE Enhanced Shortcodes <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

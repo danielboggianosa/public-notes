@@ -1,0 +1,133 @@
+<main id="primary" class="site-main post-11073 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/taxonomies/" title="Taxonomies">Taxonomies</a></span> <span class="sep">/</span> <span class="trail-end">Working with Custom Taxonomies</span>
+		</div>
+		
+			
+<h1>Working with Custom Taxonomies</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#introduction-to-taxonomies">Introduction to Taxonomies</a></li>
+<li><a href="#custom-taxonomies">Custom Taxonomies</a></li>
+<li><a href="#why-use-custom-taxonomies">Why Use Custom Taxonomies?</a></li>
+<li><a href="#example-courses-taxonomy">Example: Courses Taxonomy</a>
+<ul>
+<li><a href="#step-1-before-you-begin">Step 1: Before You Begin</a></li>
+<li><a href="#step-2-creating-a-new-plugin">Step 2: Creating a New Plugin</a></li>
+<li><a href="#step-3-review-the-result">Step 3: Review the Result</a></li>
+<li><a href="#code-breakdown">Code Breakdown</a>
+<ul>
+<li><a href="#args">$args</a>
+</li></ul></li>
+<li><a href="#summary">Summary</a>
+</li></ul></li>
+<li><a href="#using-your-taxonomy">Using Your Taxonomy</a></li></ul>
+</div>
+<h2 class="toc-heading" id="introduction-to-taxonomies" tabindex="-1">Introduction to Taxonomies <a href="#introduction-to-taxonomies" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Introduction to Taxonomies</span></a></h2>
+<p>To understand what Taxonomies are and what they do please read the <a href="https://developer.wordpress.org/plugins/taxonomy/">Taxonomy</a> introduction.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="custom-taxonomies" tabindex="-1">Custom Taxonomies <a href="#custom-taxonomies" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Custom Taxonomies</span></a></h2>
+<p>As classification systems go, &#x201C;Categories&#x201D; and &#x201C;Tags&#x201D; aren&#x2019;t very structured, so it may be beneficial for a developer to create their own.</p>
+<p>WordPress allows developers to create <strong>Custom Taxonomies</strong>. Custom Taxonomies are useful when one wants to create distinct naming systems and make them accessible behind the scenes in a predictable way.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="why-use-custom-taxonomies" tabindex="-1">Why Use Custom Taxonomies? <a href="#why-use-custom-taxonomies" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Why Use Custom Taxonomies?</span></a></h2>
+<p>You might ask, &#x201C;Why bother creating a Custom Taxonomy, when I can organize by Categories and Tags?&#x201D;</p>
+<p>Well&#x2026; let&#x2019;s use an example. Suppose we have a client that is a chef who wants you to create a website where she&#x2019;ll feature original recipes.</p>
+<p>One way to organize the website might be to create a Custom Post Type called &#x201C;Recipes&#x201D; to store her recipes. Then create a Taxonomy &#x201C;Courses&#x201D; to separate &#x201C;Appetizers&#x201D; from &#x201C;Desserts&#x201D;, and finally a Taxonomy &#x201C;Ingredients&#x201D; to separate &#x201C;Chicken&#x201D; from &#x201C;Chocolate&#x201D; dishes.</p>
+<p>These groups <em>could</em> be defined using Categories or Tags, you could have a &#x201C;Courses&#x201D; Category with Subcategories for &#x201C;Appetizers&#x201D; and &#x201C;Desserts&#x201D;, and an &#x201C;Ingredients&#x201D; Category with Subcategories for each ingredient.</p>
+<p>The main advantage of using Custom Taxonomies is that you can reference &#x201C;Courses&#x201D; and &#x201C;Ingredients&#x201D; independently of Categories and Tags. They even get their own menus in the Administration area.</p>
+<p>In addition, creating Custom Taxonomies allows you to build custom interfaces which will ease the life of your client and make the process of inserting data intuitive to their business nature.</p>
+<p>Now imagine that these Custom Taxonomies and the interface is implemented inside a plugin; you&#x2019;ve just built your own Recipes plugin that can be reused on any WordPress website.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="example-courses-taxonomy" tabindex="-1">Example: Courses Taxonomy <a href="#example-courses-taxonomy" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example: Courses Taxonomy</span></a></h2>
+<p>The following example will show you how to create a plugin which adds a Custom Taxonomy &#x201C;Courses&#x201D; to the default <code>post</code> Post Type.</p>
+<p>Please make sure to read the <a title="Plugin Basics" href="https://developer.wordpress.org/plugin/the-basics/">Plugin Basics</a> chapter before attempting to create your own plugin.</p>
+<h3 class="toc-heading" id="step-1-before-you-begin" tabindex="-1">Step 1: Before You Begin <a href="#step-1-before-you-begin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Step 1: Before You Begin</span></a></h3>
+<p>Go to <strong>Posts &gt; Add New</strong> page. You will notice that you only have Categories and Tags.</p>
+<p><a href="https://make.wordpress.org/docs/files/2014/02/no-custom-taxonomy-meta-box.png"><img class="aligncenter size-full wp-image-4951" src="https://make.wordpress.org/docs/files/2014/02/no-custom-taxonomy-meta-box.png" alt="No Custom Taxonomy Meta Box (Yet)"></a></p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="step-2-creating-a-new-plugin" tabindex="-1">Step 2: Creating a New Plugin <a href="#step-2-creating-a-new-plugin" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Step 2: Creating a New Plugin</span></a></h3>
+<p>Register the Taxonomy &#x201C;course&#x201D; for the post type &#x201C;post&#x201D; using the <code>init</code> action hook.</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>&lt;?php
+/*
+* Plugin Name: Course Taxonomy
+* Description: A short example showing how to add a taxonomy called Course.
+* Version: 1.0
+* Author: developer.wordpress.org
+* Author URI: https://codex.wordpress.org/User:Aternus
+*/
+
+function wporg_register_taxonomy_course()
+{
+    $labels = [
+        &apos;name&apos;              =&gt; _x(&apos;Courses&apos;, &apos;taxonomy general name&apos;),
+&apos;singular_name&apos;     =&gt; _x(&apos;Course&apos;, &apos;taxonomy singular name&apos;),
+&apos;search_items&apos;      =&gt; __(&apos;Search Courses&apos;),
+&apos;all_items&apos;         =&gt; __(&apos;All Courses&apos;),
+&apos;parent_item&apos;       =&gt; __(&apos;Parent Course&apos;),
+&apos;parent_item_colon&apos; =&gt; __(&apos;Parent Course:&apos;),
+&apos;edit_item&apos;         =&gt; __(&apos;Edit Course&apos;),
+&apos;update_item&apos;       =&gt; __(&apos;Update Course&apos;),
+&apos;add_new_item&apos;      =&gt; __(&apos;Add New Course&apos;),
+&apos;new_item_name&apos;     =&gt; __(&apos;New Course Name&apos;),
+&apos;menu_name&apos;         =&gt; __(&apos;Course&apos;),
+];
+$args = [
+&apos;hierarchical&apos;      =&gt; true, // make it hierarchical (like categories)
+&apos;labels&apos;            =&gt; $labels,
+&apos;show_ui&apos;           =&gt; true,
+&apos;show_admin_column&apos; =&gt; true,
+&apos;query_var&apos;         =&gt; true,
+&apos;rewrite&apos;           =&gt; [&apos;slug&apos; =&gt; &apos;course&apos;],
+];
+register_taxonomy(&apos;course&apos;, [&apos;post&apos;], $args);
+}
+add_action(&apos;init&apos;, &apos;wporg_register_taxonomy_course&apos;);
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="step-3-review-the-result" tabindex="-1">Step 3: Review the Result <a href="#step-3-review-the-result" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Step 3: Review the Result</span></a></h3>
+<p>Activate your plugin, then go to <strong>Posts &gt; Add New</strong>. You should see a new meta box for your &#x201C;Courses&#x201D; Taxonomy.</p>
+<p><a href="https://make.wordpress.org/docs/files/2014/02/courses_taxonomy_post_screen.png"><img class="aligncenter wp-image-6278 size-large" src="https://make.wordpress.org/docs/files/2014/02/courses_taxonomy_post_screen-1024x545.png" alt="courses_taxonomy_post_screen" width="632" height="336"></a></p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="code-breakdown" tabindex="-1">Code Breakdown <a href="#code-breakdown" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Code Breakdown</span></a></h3>
+<p>The following discussion breaks down the code used above describing the functions and parameters.</p>
+<p>The function <code>wporg_register_taxonomy_course</code> contains all the steps necessary for registering a Custom Taxonomy.</p>
+<p>The <code>$labels</code> array holds the labels for the Custom Taxonomy.<br>
+These labels will be used for displaying various information about the Taxonomy in the Administration area.</p>
+<p>The <code>$args</code> array holds the configuration options that will be used when creating our Custom Taxonomy.</p>
+<p>The function <a href="https://developer.wordpress.org/reference/functions/register_taxonomy/">register_taxonomy()</a> creates a new Taxonomy with the identifier <code>course</code> for the <code>post</code> Post Type using the <code>$args</code> array for configuration.</p>
+<p>The function <a href="https://developer.wordpress.org/reference/functions/add_action/">add_action()</a> ties the <code>wporg_register_taxonomy_course</code> function execution to the <code>init</code> action hook.</p>
+<h4 class="toc-heading" id="args" tabindex="-1">$args <a href="#args" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">$args</span></a></h4>
+<p>The $args array holds important configuration for the Custom Taxonomy, it instructs WordPress how the Taxonomy should work.</p>
+<p>Take a look at <a href="https://developer.wordpress.org/reference/functions/register_taxonomy/">register_taxonomy()</a> function for a full list of accepted parameters and what each of these do.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h3 class="toc-heading" id="summary" tabindex="-1">Summary <a href="#summary" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Summary</span></a></h3>
+<p>With our Courses Taxonomy example, WordPress will automatically create an archive page and child pages for the <code>course</code> Taxonomy.</p>
+<p>The archive page will be at <code>/course/</code> with child pages spawning under it using the Term&#x2019;s slug (<code>/course/%%term-slug%%/</code>).</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="using-your-taxonomy" tabindex="-1">Using Your Taxonomy <a href="#using-your-taxonomy" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Using Your Taxonomy</span></a></h2>
+<p>WordPress has <strong>many</strong> functions for interacting with your Custom Taxonomy and the Terms within it.</p>
+<p>Here are some examples:</p>
+<ul>
+<li><code>the_terms</code>: Takes a Taxonomy argument and renders the terms in a list.</li>
+<li><code>wp_tag_cloud</code>: Takes a Taxonomy argument and renders a tag cloud of the terms.</li>
+<li><code>is_taxonomy</code>: Allows you to determine if a given taxonomy exists.</li>
+</ul>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/taxonomies/" rel="previous"><span class="meta-nav">&#x2190;</span> Taxonomies</a><a href="https://developer.wordpress.org/plugins/taxonomies/split-terms-wp-4-2/" rel="next">Split Terms (WP 4.2+) <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>

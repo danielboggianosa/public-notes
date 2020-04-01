@@ -1,0 +1,85 @@
+<main id="primary" class="site-main post-10917 plugin-handbook type-plugin-handbook status-publish hentry type-handbook" role="main">
+
+		
+		<div class="breadcrumb-trail breadcrumbs" itemprop="breadcrumb">
+			<span class="trail-browse">Browse:</span> 
+			<span class="trail-begin"><a href="https://developer.wordpress.org" title="WordPress Developer Resources" rel="home">Home</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/">Plugin Handbook</a></span> <span class="sep">/</span> 
+			<span class="trail-inner"><a href="https://developer.wordpress.org/plugins/plugin-basics/" title="Plugin Basics">Plugin Basics</a></span> <span class="sep">/</span> <span class="trail-end">Activation / Deactivation Hooks</span>
+		</div>
+		
+			
+<h1>Activation / Deactivation Hooks</h1>
+
+
+<style> .toc-jump { text-align: right; font-size: 12px; } .page .toc-heading { margin-top: -50px; padding-top: 50px !important; }</style><div class="table-of-contents"><h2>Topics</h2><ul class="items"><li><a href="#activation">Activation</a></li>
+<li><a href="#deactivation">Deactivation</a></li>
+<li><a href="#example">Example</a></li></ul>
+</div>
+<p>Activation and deactivation hooks provide ways to perform actions when plugins are&#xA0;activated or deactivated.</p>
+<p>On activation, plugins can run a routine to add&#xA0;rewrite rules, add custom database tables, or set default option values.</p>
+<p>On deactivation, plugins can run a routine to remove temporary data such as cache and temp files and directories.</p>
+<div class="callout callout-alert"><p><span class="screen-reader-text">Alert:</span> <br>
+The deactivation hook is sometimes confused with the <a href="https://developer.wordpress.org/plugins/the-basics/uninstall-methods/">uninstall hook</a>. The uninstall hook is best suited to <strong>delete all data permanently</strong> such as deleting plugin options and custom tables, etc.</p>
+</div>
+<h2 class="toc-heading" id="activation" tabindex="-1">Activation <a href="#activation" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Activation</span></a></h2>
+<p>To set up an activation hook, use the <a href="https://developer.wordpress.org/reference/functions/register_activation_hook/">register_activation_hook()</a> function:</p>
+<pre class="brush: php; title: ; notranslate" title>register_activation_hook( __FILE__, &apos;pluginprefix_function_to_run&apos; );</pre>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="deactivation" tabindex="-1">Deactivation <a href="#deactivation" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Deactivation</span></a></h2>
+<p>To set up a deactivation hook, use the <a href="https://developer.wordpress.org/reference/functions/register_deactivation_hook/">register_deactivation_hook()</a> function:</p>
+<pre class="brush: php; title: ; notranslate" title>register_deactivation_hook( __FILE__, &apos;pluginprefix_function_to_run&apos; );</pre>
+<p>The first parameter in each of these functions refers to your main plugin file, which is the file in which you have placed the <a href="https://developer.wordpress.org/plugins/the-basics/header-requirements/">plugin header comment</a>. Usually these two functions will be triggered from within the main plugin file; however, if the functions are placed in any other file, you must update the first parameter to correctly point to the main plugin file.</p>
+<p class="toc-jump"><a href="#top">Top &#x2191;</a></p><h2 class="toc-heading" id="example" tabindex="-1">Example <a href="#example" class="anchor"><span aria-hidden="true">#</span><span class="screen-reader-text">Example</span></a></h2>
+<p>One of the most common uses for an activation hook is to refresh&#xA0;WordPress permalinks when a plugin registers a custom post type. This gets rid of the nasty 404 errors.</p>
+<p>Let&#x2019;s look at an example of how to do this:</p>
+<section class="source-content">
+<div class="source-code-container">
+<pre class="brush: php; title: ; notranslate" title>function pluginprefix_setup_post_type() {
+    // register the &quot;book&quot; custom post type
+    register_post_type( &apos;book&apos;, [&apos;public&apos; =&gt; &apos;true&apos;] );
+}
+add_action( &apos;init&apos;, &apos;pluginprefix_setup_post_type&apos; );
+
+function pluginprefix_install() {
+    // trigger our function that registers the custom post type
+    pluginprefix_setup_post_type();
+
+    // clear the permalinks after the post type has been registered
+    flush_rewrite_rules();
+}
+register_activation_hook( __FILE__, &apos;pluginprefix_install&apos; );
+</pre>
+</div>
+<p class="source-code-links"><span><a href="#" class="show-complete-source">Expand full source code</a><a href="#" class="less-complete-source">Collapse full source code</a></span></p>
+</section>
+<p>If you are unfamiliar with registering custom post types, don&#x2019;t worry &#x2013; this will be covered later. This example is used simply because it&#x2019;s very common.</p>
+<p>Using the example from above, the following is how to reverse this process and deactivate a plugin:</p>
+<pre class="brush: php; title: ; notranslate" title>function pluginprefix_deactivation() {
+    // unregister the post type, so the rules are no longer in memory
+    unregister_post_type( &apos;book&apos; );
+    // clear the permalinks to remove our post type&apos;s rules from the database
+    flush_rewrite_rules();
+}
+register_deactivation_hook( __FILE__, &apos;pluginprefix_deactivation&apos; );
+</pre>
+<p>For further information regarding activation and deactivation hooks, here are some excellent resources:</p>
+<ul>
+<li><a href="https://developer.wordpress.org/reference/functions/register_activation_hook/">register_activation_hook()</a> in the WordPress function reference.</li>
+<li><a href="https://developer.wordpress.org/reference/functions/register_deactivation_hook/">register_deactivation_hook()</a> in the WordPress function reference.</li>
+</ul>
+
+
+<div class="bottom-of-entry">&#xA0;</div>
+
+			
+		<nav class="handbook-navigation" role="navigation">
+			<h1 class="screen-reader-text">Handbook navigation</h1>
+			<div class="nav-links">
+
+			<a href="https://developer.wordpress.org/plugins/plugin-basics/including-a-software-license/" rel="previous"><span class="meta-nav">&#x2190;</span> Including a Software License</a><a href="https://developer.wordpress.org/plugins/plugin-basics/uninstall-methods/" rel="next">Uninstall Methods <span class="meta-nav">&#x2192;</span></a>
+			</div>
+			<!-- .nav-links -->
+		</nav><!-- .navigation -->
+	
+		
+		</main>
