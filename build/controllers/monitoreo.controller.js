@@ -8,11 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
 class MonitoreoController {
     //CREATE
     create(req, res) {
@@ -25,35 +21,6 @@ class MonitoreoController {
             res.render('monitoreo');
         });
     }
-    //READ
-    libros(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            res.render('monitoreo');
-        });
-    }
-    //READ
-    libro(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id, pagina } = req.params;
-            let raw = fs_1.default.readFileSync('libros.json');
-            let json = JSON.parse(raw);
-            let libros = json.libros;
-            for (let i = 0; i < libros.length; i++) {
-                let libro = libros[i];
-                if (libro['id'] == id) {
-                    let contenido = fs_1.default.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`, 'utf8');
-                    res.render(`libros/${libro.slug}/monitoreo`, { pagina: contenido });
-                    break;
-                }
-            }
-        });
-    }
-    //READ
-    crear(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            res.render('crear');
-        });
-    }
     //UPDATE
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -63,21 +30,6 @@ class MonitoreoController {
     //DELTE
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { monitoreo } = req.params;
-            let raw = fs_1.default.readFileSync('notes.json');
-            let json = JSON.parse(raw);
-            let notas = json.notas;
-            let end = false;
-            for (let i = 0; i < notas.length; i++) {
-                // console.log(notas[i].id,i,monitoreo)
-                if (notas[i]['id'] == monitoreo) {
-                    notas.splice(i, 1);
-                    let write = JSON.stringify(json);
-                    fs_1.default.writeFileSync('notes.json', write);
-                    res.json({ success: true });
-                    break;
-                }
-            }
         });
     }
 }

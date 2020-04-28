@@ -5,12 +5,8 @@ import cors from 'cors';
 import indexRoutes from './routes/index.routes';
 import notasRoutes from './routes/notas.routes';
 import librosRoutes from './routes/libros.routes';
-<<<<<<< HEAD
 import monitoreoRoutes from './routes/monitoreo.routes';
 // import notes from ('./notes.json');
-=======
-// import notes from ('./data/notes.json');
->>>>>>> 816483171486208ee623bdf9c574729f138c3906
 
 class Server {
 

@@ -14,29 +14,25 @@ class IndexController{
     }
     
     //READ
-    public async monitoreo(req:Request, res:Response): Promise<void>{
-        res.render('admin/monitoreo')
+    public async libros(req:Request, res:Response): Promise<void>{
+        res.render('libros')
     }
 
     //READ
-<<<<<<< HEAD
-    
-=======
     public async libro(req:Request, res:Response): Promise<void>{
         const {id, pagina} = req.params
-        let raw:any = fs.readFileSync('data/libros.json')
+        let raw:any = fs.readFileSync('libros.json')
         let json = JSON.parse(raw)
         let libros = json.libros;
         for(let i=0;i<libros.length;i++){
             let libro = libros[i]
             if(libro['id'] == id){
                 let contenido = fs.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`,'utf8')
-                res.render(`libros/index`,{pagina:contenido})
+                res.render(`libros/${libro.slug}/index`,{pagina:contenido})
                 break
             }
         }
     }
->>>>>>> 816483171486208ee623bdf9c574729f138c3906
 
     //READ
     public async crear(req:Request, res:Response): Promise<void>{
@@ -51,7 +47,7 @@ class IndexController{
     //DELTE
     public async delete(req:Request, res:Response): Promise<void>{
         const {index} = req.params
-        let raw:any = fs.readFileSync('data/notes.json')
+        let raw:any = fs.readFileSync('notes.json')
         let json = JSON.parse(raw)
         let notas = json.notas;
         let end = false
@@ -60,7 +56,7 @@ class IndexController{
             if(notas[i]['id'] == index){
                 notas.splice(i,1)
                 let write = JSON.stringify(json)
-                fs.writeFileSync('data/notes.json', write)
+                fs.writeFileSync('notes.json', write)
                 res.json({success:true})
                 break
             }

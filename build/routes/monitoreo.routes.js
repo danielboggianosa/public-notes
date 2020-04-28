@@ -12,9 +12,6 @@ class MonitoreoRoutes {
     }
     config() {
         this.router.get('/', monitoreo_controller_1.default.read);
-        this.router.get('/crear', monitoreo_controller_1.default.crear);
-        this.router.get('/libros', monitoreo_controller_1.default.libros);
-        this.router.get('/libros/:id/:pagina', monitoreo_controller_1.default.libro);
     }
 }
 const monitoreoRoutes = new MonitoreoRoutes();

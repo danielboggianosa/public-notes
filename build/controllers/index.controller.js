@@ -26,9 +26,26 @@ class IndexController {
         });
     }
     //READ
-    monitoreo(req, res) {
+    libros(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.render('admin/monitoreo');
+            res.render('libros');
+        });
+    }
+    //READ
+    libro(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id, pagina } = req.params;
+            let raw = fs_1.default.readFileSync('libros.json');
+            let json = JSON.parse(raw);
+            let libros = json.libros;
+            for (let i = 0; i < libros.length; i++) {
+                let libro = libros[i];
+                if (libro['id'] == id) {
+                    let contenido = fs_1.default.readFileSync(`views/libros/${libro.slug}/${libro.slug.split('-').join('_')}_${pagina}.html`, 'utf8');
+                    res.render(`libros/${libro.slug}/index`, { pagina: contenido });
+                    break;
+                }
+            }
         });
     }
     //READ
@@ -47,7 +64,7 @@ class IndexController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { index } = req.params;
-            let raw = fs_1.default.readFileSync('data/notes.json');
+            let raw = fs_1.default.readFileSync('notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
             let end = false;
@@ -56,7 +73,7 @@ class IndexController {
                 if (notas[i]['id'] == index) {
                     notas.splice(i, 1);
                     let write = JSON.stringify(json);
-                    fs_1.default.writeFileSync('data/notes.json', write);
+                    fs_1.default.writeFileSync('notes.json', write);
                     res.json({ success: true });
                     break;
                 }
