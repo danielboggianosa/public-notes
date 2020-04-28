@@ -5,6 +5,7 @@ import cors from 'cors';
 import indexRoutes from './routes/index.routes';
 import notasRoutes from './routes/notas.routes';
 import librosRoutes from './routes/libros.routes';
+import monitoreoRoutes from './routes/monitoreo.routes';
 // import notes from ('./notes.json');
 
 class Server {
@@ -31,6 +32,7 @@ class Server {
         this.app.use('/', indexRoutes)
         this.app.use('/api/notas/', notasRoutes)
         this.app.use('/api/libros/', librosRoutes)
+        this.app.use('/api/monitoreo/', monitoreoRoutes)
     }
 
     start():void{
