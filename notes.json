@@ -1,29 +1,5 @@
-{
-	"lastId": 32,
-	"notas": [
-		{
-			"id": 22,
-			"titulo": "Nueva lista",
-			"contenido": "li::Mantequilla\nli::Algodon\nli::azucar",
-			"createdAt": "2020-03-26T07:15:47.524Z"
-		},
-		{
-			"id": 28,
-			"titulo": "Prueba de Lista",
-			"contenido": "li::Nueva Lista li::otraLista li::sublista li::pan a::http://pan.com",
-			"createdAt": "2020-03-31T23:43:52.027Z"
-		},
-		{
-			"id": 31,
-			"titulo": "",
-			"contenido": "li::Nueva Lista li::otraLista li::sublista li::pan\nli::a::http://pan.com",
-			"createdAt": "2020-03-31T23:49:02.582Z"
-		},
-		{
-			"id": 32,
-			"titulo": "Otra",
-			"contenido": "Nota de prueba",
-			"createdAt": "2020-04-01T01:10:45.281Z"
-		}
-	]
-}
+<<<<<<< HEAD
+{"lastId":23,"notas":[{"id":22,"titulo":"Nota 1","contenido":"Hola Mi mundo","createdAt":"2020-03-26T06:35:43.982Z"},{"id":23,"titulo":"Hola Mundo","contenido":"Desde mi servidor","createdAt":"2020-03-26T06:41:05.124Z"}]}
+=======
+{"lastId":22,"notas":[{"id":22,"titulo":"Nueva lista","contenido":"li::Mantequilla\nli::Algodon\nli::azucar","createdAt":"2020-03-26T07:15:47.524Z"}]}
+>>>>>>> c502648f254c325431d193efbb3e08346196d1ab

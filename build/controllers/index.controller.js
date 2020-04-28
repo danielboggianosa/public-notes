@@ -32,7 +32,6 @@ class IndexController {
         });
     }
     //READ
-    //READ
     crear(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             res.render('crear');
@@ -48,7 +47,7 @@ class IndexController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { index } = req.params;
-            let raw = fs_1.default.readFileSync('notes.json');
+            let raw = fs_1.default.readFileSync('data/notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
             let end = false;
@@ -57,7 +56,7 @@ class IndexController {
                 if (notas[i]['id'] == index) {
                     notas.splice(i, 1);
                     let write = JSON.stringify(json);
-                    fs_1.default.writeFileSync('notes.json', write);
+                    fs_1.default.writeFileSync('data/notes.json', write);
                     res.json({ success: true });
                     break;
                 }

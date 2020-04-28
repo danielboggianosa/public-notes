@@ -18,7 +18,7 @@ class NotasController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { titulo, contenido } = req.body;
-            let raw = fs_1.default.readFileSync('notes.json');
+            let raw = fs_1.default.readFileSync('data/notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
             json.lastId++;
@@ -30,7 +30,7 @@ class NotasController {
             };
             notas.push(newNote);
             let write = JSON.stringify(json, null, "\t");
-            fs_1.default.writeFileSync('notes.json', write);
+            fs_1.default.writeFileSync('data/notes.json', write);
             res.json({ success: true, message: "Nota Creada" });
         });
     }
@@ -38,7 +38,7 @@ class NotasController {
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { buscar } = req.params;
-            let raw = fs_1.default.readFileSync('notes.json');
+            let raw = fs_1.default.readFileSync('data/notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
             json.notas.forEach((n, notas) => {
@@ -62,7 +62,7 @@ class NotasController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { index } = req.params;
-            let raw = fs_1.default.readFileSync('notes.json');
+            let raw = fs_1.default.readFileSync('data/notes.json');
             let json = JSON.parse(raw);
             let notas = json.notas;
             for (let i = 0; i < notas.length; i++) {
@@ -70,7 +70,7 @@ class NotasController {
                 if (notas[i]['id'] == index) {
                     notas.splice(i, 1);
                     let write = JSON.stringify(json, null, "\t");
-                    fs_1.default.writeFileSync('notes.json', write);
+                    fs_1.default.writeFileSync('data/notes.json', write);
                     res.json({ success: true, notas: json.notas });
                     break;
                 }
