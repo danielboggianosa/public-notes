@@ -54,6 +54,12 @@ class IndexController {
             res.render('crear');
         });
     }
+    //READ
+    monitoreo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            res.render('admin/monitoreo');
+        });
+    }
     //UPDATE
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {

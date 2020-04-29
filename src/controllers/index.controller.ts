@@ -38,6 +38,11 @@ class IndexController{
     public async crear(req:Request, res:Response): Promise<void>{
         res.render('crear')
     }
+
+    //READ
+    public async monitoreo(req:Request, res:Response): Promise<void>{
+        res.render('admin/monitoreo')
+    }
     
     //UPDATE
     public async update(req:Request, res:Response): Promise<void>{

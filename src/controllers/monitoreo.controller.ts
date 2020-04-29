@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
-import fs from 'fs'
+import https from 'https';
+import fs from 'fs';
 
 class MonitoreoController{
     
@@ -10,7 +11,13 @@ class MonitoreoController{
     
     //READ
     public async read(req:Request, res:Response): Promise<void>{
-        res.render('monitoreo')
+        https.get('https://tienda.danielboggiano.xyz/', (resp) => {      
+            res.json({
+                success: true,
+                status: resp.statusCode,
+                header: resp.headers
+            });   
+        })
     }
     
         

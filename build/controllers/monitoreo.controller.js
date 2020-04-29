@@ -8,7 +8,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const https_1 = __importDefault(require("https"));
 class MonitoreoController {
     //CREATE
     create(req, res) {
@@ -18,7 +22,13 @@ class MonitoreoController {
     //READ
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.render('monitoreo');
+            https_1.default.get('https://tienda.danielboggiano.xyz/', (resp) => {
+                res.json({
+                    success: true,
+                    status: resp.statusCode,
+                    header: resp.headers
+                });
+            });
         });
     }
     //UPDATE
