@@ -1,4 +1,81 @@
 extends ../templates/public
 block content
     h1 Monitoreo de Páginas Web
+    h6 Total de páginas: 
+        span#total
+    .card.shadow
+        .card-header
+            .row.fix
+                .col-md-2.text-center
+                    h4 N°
+                .col-md-6
+                    h4 Página
+                .col-md-2.text-center
+                    h4 Estado
+                .col-md-2.text-center
+                    h4 Tiempo(ms)
+        .card-body.row#paginas
     
+    script.
+        var paginas=[
+            'http://developer.danielboggiano.com',
+            'http://crm.danielboggiano.com',
+            'http://cuentas.danielboggiano.com',
+            'https://www.danielboggiano.com',
+            'https://www.pasajerosdelmundo.com',
+            'http://mansano.pe',
+            'https://rompetusmiedos.com',
+            'https://elabcdelinversionista.com',
+            'https://tienda.danielboggiano.xyz',
+            'http://www.danielboggiano.xyz',
+            'https://frutamania.pe',
+            'https://elmundodeangelica.com',
+            'https://immunocalenperu.com',
+            'https://immunotecmundialtatytaporto.com',
+            'https://immunotecoportunidadmundialsinlimites.com',
+            'https://immunotecoportunidadperu.com',
+            'https://immunotecsaludyoportunidadyakar.com',
+            'https://legertextil.com',
+            'https://martinaragones.com',
+            'http://plasticosolani.com',
+            'https://server.globala1.com:8080',
+            'http://sathadministradores.com',
+            'https://ops-server.com'
+        ];
+        $("#total").html(paginas.length);
+        let i=1;
+        //- data = {url:paginas.map()};
+        //- $.ajax({
+        //-     url:'/api/monitoreo/',
+        //-     type:'POST',
+        //-     data: data,
+        //-     success: res=>{
+        //-         console.log(res)
+        //-     }
+        //- })
+        paginas.map((pagina)=>{
+            let data = {url: pagina, protocol: pagina.split(':')[0]};
+            $.ajax({
+                url:'/api/monitoreo/',
+                type:'POST',
+                data: data,
+                success: res=>{
+                    console.log(res);
+                    let color = (res.status <= 200) ? 'success' : (res.status <= 500) ? 'warning' : 'danger';
+                    $("#paginas").append(`
+                    <div class="col-sm-2 text-center">
+                        <p class="m-2">${i++}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="m-2" text-${color}><a href="${pagina}" target="_blank">${pagina}</a></p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="m-2 text-center bg-${color}">${res.status}</p>
+                    </div>
+                    <div class="col-sm-2">
+                        <p class="m-2 text-center ">${res.time}</p>
+                    </div>
+                    `);
+                }
+            })
+        })
