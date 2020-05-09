@@ -16,6 +16,7 @@ class IndexRoutes {
         this.router.get('/libros', index_controller_1.default.libros);
         this.router.get('/libros/:id/:pagina', index_controller_1.default.libro);
         this.router.get('/monitoreo', index_controller_1.default.monitoreo);
+        this.router.get('/videos', index_controller_1.default.videos);
     }
 }
 const indexRoutes = new IndexRoutes();

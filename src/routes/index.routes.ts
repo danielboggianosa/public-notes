@@ -14,6 +14,7 @@ class IndexRoutes{
         this.router.get('/libros', indexController.libros)
         this.router.get('/libros/:id/:pagina', indexController.libro)
         this.router.get('/monitoreo', indexController.monitoreo)
+        this.router.get('/videos', indexController.videos)
     }
 }
 const indexRoutes = new IndexRoutes();

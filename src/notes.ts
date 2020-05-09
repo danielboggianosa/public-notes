@@ -36,7 +36,7 @@ class Server {
     }
 
     start():void{
-        this.app.listen(this.app.get('port'), ()=>console.log('Servidor en el puerto', this.app.get('port')))
+        this.app.listen(this.app.get('port'), ()=>console.log('Servidor iniciado en http://localhost:' + this.app.get('port')))
     }
 
 }

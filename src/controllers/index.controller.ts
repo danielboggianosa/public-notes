@@ -43,6 +43,11 @@ class IndexController{
     public async monitoreo(req:Request, res:Response): Promise<void>{
         res.render('admin/monitoreo')
     }
+
+    //READ
+    public async videos(req:Request, res:Response): Promise<void>{
+        res.render('videos')
+    }
     
     //UPDATE
     public async update(req:Request, res:Response): Promise<void>{

@@ -33,7 +33,7 @@ class Server {
         this.app.use('/api/monitoreo/', monitoreo_routes_1.default);
     }
     start() {
-        this.app.listen(this.app.get('port'), () => console.log('Servidor en el puerto', this.app.get('port')));
+        this.app.listen(this.app.get('port'), () => console.log('Servidor iniciado en http://localhost:' + this.app.get('port')));
     }
 }
 const server = new Server();

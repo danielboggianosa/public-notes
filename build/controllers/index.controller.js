@@ -60,6 +60,12 @@ class IndexController {
             res.render('admin/monitoreo');
         });
     }
+    //READ
+    videos(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            res.render('videos');
+        });
+    }
     //UPDATE
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
