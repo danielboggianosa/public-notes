@@ -1,0 +1,30 @@
+POST http://localhost:4600/api/monitoreo
+content-type: application/json
+
+{
+    "urls": [
+            "http://developer.danielboggiano.com",
+            "http://crm.danielboggiano.com",
+            "http://cuentas.danielboggiano.com",
+            "https://www.danielboggiano.com",
+            "https://www.pasajerosdelmundo.com",
+            "http://mansano.pe",
+            "https://rompetusmiedos.com",
+            "https://elabcdelinversionista.com",
+            "https://tienda.danielboggiano.xyz",
+            "http://www.danielboggiano.xyz",
+            "https://frutamania.pe",
+            "https://elmundodeangelica.com",
+            "https://immunocalenperu.com",
+            "https://immunotecmundialtatytaporto.com",
+            "https://immunotecoportunidadmundialsinlimites.com",
+            "https://immunotecoportunidadperu.com",
+            "https://immunotecsaludyoportunidadyakar.com",
+            "https://legertextil.com",
+            "https://martinaragones.com",
+            "http://plasticosolani.com",
+            "https://server.globala1.com:8080",
+            "http://sathadministradores.com",
+            "https://ops-server.com"
+        ]
+}

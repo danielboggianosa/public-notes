@@ -11,7 +11,7 @@ class MonitoreoRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', monitoreo_controller_1.default.read);
+        this.router.post('/', monitoreo_controller_1.default.read);
     }
 }
 const monitoreoRoutes = new MonitoreoRoutes();

@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const https_1 = __importDefault(require("https"));
+const http_1 = __importDefault(require("http"));
 class MonitoreoController {
     //CREATE
     create(req, res) {
@@ -22,11 +23,26 @@ class MonitoreoController {
     //READ
     read(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            https_1.default.get('https://tienda.danielboggiano.xyz/', (resp) => {
+            const { url, protocol } = req.body;
+            let result = [];
+            let run = (protocol == "https") ? https_1.default : http_1.default;
+            let start = Date.now();
+            run.get(url, (resp) => {
                 res.json({
+                    url: url,
                     success: true,
                     status: resp.statusCode,
-                    header: resp.headers
+                    header: resp.headers,
+                    time: Date.now() - start
+                });
+            }).on('error', (e) => {
+                console.log(e);
+                res.json({
+                    url: url,
+                    success: false,
+                    status: e.code,
+                    error: e,
+                    time: Date.now() - start
                 });
             });
         });

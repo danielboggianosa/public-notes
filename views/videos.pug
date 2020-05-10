@@ -1,4 +1,11 @@
 extends templates/public
 block content
     h1 Videos
-    iframe(src="https://onedrive.live.com/embed?cid=834108A915F29FAC&resid=834108A915F29FAC%2134684&authkey=AI5dgvykhHh-jCg" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen)
+    iframe.mx-auto(src="https://onedrive.live.com/embed?cid=834108A915F29FAC&resid=834108A915F29FAC%2134684&authkey=AI5dgvykhHh-jCg" width="640" height="360" frameborder="0" scrolling="no" allowfullscreen)
+
+    iframe.mx-auto(src="https://drive.google.com/file/d/1SpMR7lcBmmokBg1UEw8YKSK6yTskI_Fa/preview" width="640" height="480" allowfullscreen)
+
+    script.
+        $(document).ready(
+            $("#ImageButton-7_0").remove()
+        )

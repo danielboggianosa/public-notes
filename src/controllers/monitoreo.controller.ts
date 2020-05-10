@@ -1,6 +1,6 @@
 import {Request, Response} from 'express';
 import https from 'https';
-import fs from 'fs';
+import http from 'http';
 
 class MonitoreoController{
     
@@ -11,11 +11,26 @@ class MonitoreoController{
     
     //READ
     public async read(req:Request, res:Response): Promise<void>{
-        https.get('https://tienda.danielboggiano.xyz/', (resp) => {      
+        const {url, protocol} = req.body;
+        let result:any = []         
+        let run = (protocol == "https") ? https : http;
+        let start = Date.now();
+        run.get(url, (resp) => {      
             res.json({
+                url: url,
                 success: true,
                 status: resp.statusCode,
-                header: resp.headers
+                header: resp.headers,
+                time: Date.now() - start
+            })   
+        }).on('error',(e:any)=>{
+            console.log(e)
+            res.json({
+                url: url,
+                success: false,
+                status: e.code,
+                error: e,
+                time: Date.now() - start
             });   
         })
     }
